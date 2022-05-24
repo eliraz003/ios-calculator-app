@@ -7,6 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FF1A156428368F8600A763DA /* click-sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FF1A156328368F8500A763DA /* click-sound.mp3 */; };
+		FF1A1567283D410200A763DA /* UIInterfaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A1566283D410200A763DA /* UIInterfaceDelegate.swift */; };
+		FF1A1569283D410C00A763DA /* UIControlDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A1568283D410C00A763DA /* UIControlDelegate.swift */; };
+		FF1A156C283D419A00A763DA /* HeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A156B283D419A00A763DA /* HeaderViewController.swift */; };
+		FF1A156E283D41BB00A763DA /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A156D283D41BB00A763DA /* MenuViewController.swift */; };
+		FF1A1570283D41E200A763DA /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A156F283D41E200A763DA /* Theme.swift */; };
+		FF1A1576283D422F00A763DA /* Unit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A1575283D422F00A763DA /* Unit.swift */; };
+		FF1A1578283D42AB00A763DA /* UnitContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A1577283D42AB00A763DA /* UnitContainer.swift */; };
+		FF1A157A283D436300A763DA /* Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A1579283D436300A763DA /* Themes.swift */; };
+		FF1A157C283D437E00A763DA /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A157B283D437E00A763DA /* Device.swift */; };
+		FF1A157E283D438500A763DA /* Dimensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A157D283D438500A763DA /* Dimensions.swift */; };
+		FF1A1580283D441000A763DA /* ColorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A157F283D441000A763DA /* ColorController.swift */; };
+		FF1A1584283D4DF300A763DA /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A1583283D4DF300A763DA /* Currency.swift */; };
+		FF1A1586283D4E4A00A763DA /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A1585283D4E4A00A763DA /* Time.swift */; };
+		FF1A1588283D4E6800A763DA /* Length.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A1587283D4E6800A763DA /* Length.swift */; };
+		FF1A158A283D4E7200A763DA /* Mass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A1589283D4E7200A763DA /* Mass.swift */; };
+		FF1A158C283D4F2200A763DA /* UIMenuActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A158B283D4F2200A763DA /* UIMenuActionButton.swift */; };
+		FF1A158E283D4F3500A763DA /* UIThemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A158D283D4F3500A763DA /* UIThemeView.swift */; };
+		FF1A1590283D4F7200A763DA /* UICurrencyTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A158F283D4F7200A763DA /* UICurrencyTableCell.swift */; };
+		FF1A1593283D53F300A763DA /* CurrencyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A1592283D53F300A763DA /* CurrencyController.swift */; };
+		FF1A1595283D544700A763DA /* TimeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A1594283D544700A763DA /* TimeController.swift */; };
+		FF1A1597283D544D00A763DA /* LengthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A1596283D544D00A763DA /* LengthController.swift */; };
+		FF1A1599283D545800A763DA /* MassController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A1598283D545800A763DA /* MassController.swift */; };
+		FF1A159B283D547E00A763DA /* CalculatorEntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A159A283D547E00A763DA /* CalculatorEntryController.swift */; };
+		FF1A159D283D571E00A763DA /* SavedCurrencyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A159C283D571E00A763DA /* SavedCurrencyController.swift */; };
+		FF1A159F283D599000A763DA /* UIkeypadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A159E283D599000A763DA /* UIkeypadButton.swift */; };
+		FF1A15A1283D59AC00A763DA /* UIKeypadRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A15A0283D59AC00A763DA /* UIKeypadRow.swift */; };
 		FF48485227F09C2E002CD220 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF48485127F09C2E002CD220 /* AppDelegate.swift */; };
 		FF48485427F09C2E002CD220 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF48485327F09C2E002CD220 /* SceneDelegate.swift */; };
 		FF48485627F09C2E002CD220 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF48485527F09C2E002CD220 /* ViewController.swift */; };
@@ -16,6 +43,14 @@
 		FF48486927F09C36002CD220 /* calcTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF48486827F09C36002CD220 /* calcTests.swift */; };
 		FF48487327F09C36002CD220 /* calcUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF48487227F09C36002CD220 /* calcUITests.swift */; };
 		FF48487527F09C36002CD220 /* calcUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF48487427F09C36002CD220 /* calcUITestsLaunchTests.swift */; };
+		FF48488227F472F3002CD220 /* UIkeypadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF48488127F472F3002CD220 /* UIkeypadView.swift */; };
+		FF48488427FF5C76002CD220 /* Currency-list.txt in Resources */ = {isa = PBXBuildFile; fileRef = FF48488327FF0CF9002CD220 /* Currency-list.txt */; };
+		FF930DC228140716000ED6A7 /* SearchUnitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF930DC128140716000ED6A7 /* SearchUnitViewController.swift */; };
+		FF930DC42814073F000ED6A7 /* ThemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF930DC32814073F000ED6A7 /* ThemeViewController.swift */; };
+		FF930DC6282583D3000ED6A7 /* CalculatorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF930DC5282583D3000ED6A7 /* CalculatorHandler.swift */; };
+		FF930DC828258409000ED6A7 /* UICalculationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF930DC728258409000ED6A7 /* UICalculationRow.swift */; };
+		FF930DCA28258414000ED6A7 /* UICalculationRowsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF930DC928258414000ED6A7 /* UICalculationRowsController.swift */; };
+		FF930DCC28258459000ED6A7 /* Units.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF930DCB28258459000ED6A7 /* Units.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,10 +71,37 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FF1A156328368F8500A763DA /* click-sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "click-sound.mp3"; sourceTree = "<group>"; };
+		FF1A1566283D410200A763DA /* UIInterfaceDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIInterfaceDelegate.swift; sourceTree = "<group>"; };
+		FF1A1568283D410C00A763DA /* UIControlDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIControlDelegate.swift; sourceTree = "<group>"; };
+		FF1A156B283D419A00A763DA /* HeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderViewController.swift; sourceTree = "<group>"; };
+		FF1A156D283D41BB00A763DA /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		FF1A156F283D41E200A763DA /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		FF1A1575283D422F00A763DA /* Unit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unit.swift; sourceTree = "<group>"; };
+		FF1A1577283D42AB00A763DA /* UnitContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitContainer.swift; sourceTree = "<group>"; };
+		FF1A1579283D436300A763DA /* Themes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
+		FF1A157B283D437E00A763DA /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		FF1A157D283D438500A763DA /* Dimensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dimensions.swift; sourceTree = "<group>"; };
+		FF1A157F283D441000A763DA /* ColorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorController.swift; sourceTree = "<group>"; };
+		FF1A1583283D4DF300A763DA /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		FF1A1585283D4E4A00A763DA /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
+		FF1A1587283D4E6800A763DA /* Length.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Length.swift; sourceTree = "<group>"; };
+		FF1A1589283D4E7200A763DA /* Mass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mass.swift; sourceTree = "<group>"; };
+		FF1A158B283D4F2200A763DA /* UIMenuActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIMenuActionButton.swift; sourceTree = "<group>"; };
+		FF1A158D283D4F3500A763DA /* UIThemeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIThemeView.swift; sourceTree = "<group>"; };
+		FF1A158F283D4F7200A763DA /* UICurrencyTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICurrencyTableCell.swift; sourceTree = "<group>"; };
+		FF1A1592283D53F300A763DA /* CurrencyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyController.swift; sourceTree = "<group>"; };
+		FF1A1594283D544700A763DA /* TimeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeController.swift; sourceTree = "<group>"; };
+		FF1A1596283D544D00A763DA /* LengthController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LengthController.swift; sourceTree = "<group>"; };
+		FF1A1598283D545800A763DA /* MassController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MassController.swift; sourceTree = "<group>"; };
+		FF1A159A283D547E00A763DA /* CalculatorEntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorEntryController.swift; sourceTree = "<group>"; };
+		FF1A159C283D571E00A763DA /* SavedCurrencyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedCurrencyController.swift; sourceTree = "<group>"; };
+		FF1A159E283D599000A763DA /* UIkeypadButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIkeypadButton.swift; sourceTree = "<group>"; };
+		FF1A15A0283D59AC00A763DA /* UIKeypadRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKeypadRow.swift; sourceTree = "<group>"; };
 		FF48484E27F09C2E002CD220 /* calc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = calc.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		FF48485127F09C2E002CD220 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		FF48485127F09C2E002CD220 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		FF48485327F09C2E002CD220 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		FF48485527F09C2E002CD220 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		FF48485527F09C2E002CD220 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		FF48485827F09C2F002CD220 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FF48485A27F09C35002CD220 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FF48485D27F09C35002CD220 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -49,6 +111,16 @@
 		FF48486E27F09C36002CD220 /* calcUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = calcUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF48487227F09C36002CD220 /* calcUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calcUITests.swift; sourceTree = "<group>"; };
 		FF48487427F09C36002CD220 /* calcUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calcUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		FF48488127F472F3002CD220 /* UIkeypadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIkeypadView.swift; sourceTree = "<group>"; wrapsLines = 0; };
+		FF48488327FF0CF9002CD220 /* Currency-list.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Currency-list.txt"; sourceTree = "<group>"; };
+		FF930DC0280B70EE000ED6A7 /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
+		FF930DC128140716000ED6A7 /* SearchUnitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUnitViewController.swift; sourceTree = "<group>"; };
+		FF930DC32814073F000ED6A7 /* ThemeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeViewController.swift; sourceTree = "<group>"; };
+		FF930DC5282583D3000ED6A7 /* CalculatorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorHandler.swift; sourceTree = "<group>"; };
+		FF930DC728258409000ED6A7 /* UICalculationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICalculationRow.swift; sourceTree = "<group>"; wrapsLines = 0; };
+		FF930DC928258414000ED6A7 /* UICalculationRowsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICalculationRowsController.swift; sourceTree = "<group>"; };
+		FF930DCB28258459000ED6A7 /* Units.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Units.swift; sourceTree = "<group>"; wrapsLines = 0; };
+		FFB487E9282954EC00FF9988 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +148,97 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FF1A1565283D40CD00A763DA /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				FF1A1566283D410200A763DA /* UIInterfaceDelegate.swift */,
+				FF1A1568283D410C00A763DA /* UIControlDelegate.swift */,
+			);
+			path = Delegates;
+			sourceTree = "<group>";
+		};
+		FF1A156A283D417700A763DA /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				FF48485527F09C2E002CD220 /* ViewController.swift */,
+				FF930DC128140716000ED6A7 /* SearchUnitViewController.swift */,
+				FF930DC32814073F000ED6A7 /* ThemeViewController.swift */,
+				FF1A156B283D419A00A763DA /* HeaderViewController.swift */,
+				FF1A156D283D41BB00A763DA /* MenuViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		FF1A1571283D420400A763DA /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				FF1A1581283D46B900A763DA /* Unit Types */,
+				FF1A156F283D41E200A763DA /* Theme.swift */,
+				FF1A1575283D422F00A763DA /* Unit.swift */,
+				FF1A1577283D42AB00A763DA /* UnitContainer.swift */,
+			);
+			path = Objects;
+			sourceTree = "<group>";
+		};
+		FF1A1572283D420A00A763DA /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				FF1A1582283D46C300A763DA /* Unit Containers */,
+				FF1A1579283D436300A763DA /* Themes.swift */,
+				FF1A157B283D437E00A763DA /* Device.swift */,
+				FF1A157D283D438500A763DA /* Dimensions.swift */,
+				FF1A157F283D441000A763DA /* ColorController.swift */,
+				FF1A159A283D547E00A763DA /* CalculatorEntryController.swift */,
+				FF1A159C283D571E00A763DA /* SavedCurrencyController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		FF1A1574283D421300A763DA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FF1A1591283D511000A763DA /* Keypad */,
+				FF1A158B283D4F2200A763DA /* UIMenuActionButton.swift */,
+				FF930DC928258414000ED6A7 /* UICalculationRowsController.swift */,
+				FF1A158D283D4F3500A763DA /* UIThemeView.swift */,
+				FF1A158F283D4F7200A763DA /* UICurrencyTableCell.swift */,
+				FF930DC728258409000ED6A7 /* UICalculationRow.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		FF1A1581283D46B900A763DA /* Unit Types */ = {
+			isa = PBXGroup;
+			children = (
+				FF1A1583283D4DF300A763DA /* Currency.swift */,
+				FF1A1585283D4E4A00A763DA /* Time.swift */,
+				FF1A1587283D4E6800A763DA /* Length.swift */,
+				FF1A1589283D4E7200A763DA /* Mass.swift */,
+			);
+			path = "Unit Types";
+			sourceTree = "<group>";
+		};
+		FF1A1582283D46C300A763DA /* Unit Containers */ = {
+			isa = PBXGroup;
+			children = (
+				FF1A1592283D53F300A763DA /* CurrencyController.swift */,
+				FF1A1594283D544700A763DA /* TimeController.swift */,
+				FF1A1596283D544D00A763DA /* LengthController.swift */,
+				FF1A1598283D545800A763DA /* MassController.swift */,
+			);
+			path = "Unit Containers";
+			sourceTree = "<group>";
+		};
+		FF1A1591283D511000A763DA /* Keypad */ = {
+			isa = PBXGroup;
+			children = (
+				FF48488127F472F3002CD220 /* UIkeypadView.swift */,
+				FF1A159E283D599000A763DA /* UIkeypadButton.swift */,
+				FF1A15A0283D59AC00A763DA /* UIKeypadRow.swift */,
+			);
+			path = Keypad;
+			sourceTree = "<group>";
+		};
 		FF48484527F09C2E002CD220 = {
 			isa = PBXGroup;
 			children = (
@@ -99,13 +262,19 @@
 		FF48485027F09C2E002CD220 /* calc */ = {
 			isa = PBXGroup;
 			children = (
+				FF48485727F09C2F002CD220 /* Main.storyboard */,
+				FF48485C27F09C35002CD220 /* LaunchScreen.storyboard */,
 				FF48485127F09C2E002CD220 /* AppDelegate.swift */,
 				FF48485327F09C2E002CD220 /* SceneDelegate.swift */,
-				FF48485527F09C2E002CD220 /* ViewController.swift */,
-				FF48485727F09C2F002CD220 /* Main.storyboard */,
-				FF48485A27F09C35002CD220 /* Assets.xcassets */,
-				FF48485C27F09C35002CD220 /* LaunchScreen.storyboard */,
+				FF1A1574283D421300A763DA /* Views */,
+				FF1A1572283D420A00A763DA /* Controllers */,
+				FF1A1571283D420400A763DA /* Objects */,
+				FF1A156A283D417700A763DA /* View Controllers */,
+				FF1A1565283D40CD00A763DA /* Delegates */,
 				FF48485F27F09C35002CD220 /* Info.plist */,
+				FF48485A27F09C35002CD220 /* Assets.xcassets */,
+				FF48488327FF0CF9002CD220 /* Currency-list.txt */,
+				FFB487E8282954E700FF9988 /* old */,
 			);
 			path = calc;
 			sourceTree = "<group>";
@@ -125,6 +294,18 @@
 				FF48487427F09C36002CD220 /* calcUITestsLaunchTests.swift */,
 			);
 			path = calcUITests;
+			sourceTree = "<group>";
+		};
+		FFB487E8282954E700FF9988 /* old */ = {
+			isa = PBXGroup;
+			children = (
+				FF930DC0280B70EE000ED6A7 /* TODO.md */,
+				FF930DC5282583D3000ED6A7 /* CalculatorHandler.swift */,
+				FF930DCB28258459000ED6A7 /* Units.swift */,
+				FF1A156328368F8500A763DA /* click-sound.mp3 */,
+				FFB487E9282954EC00FF9988 /* ViewController.swift */,
+			);
+			path = old;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -234,6 +415,8 @@
 				FF48485E27F09C35002CD220 /* LaunchScreen.storyboard in Resources */,
 				FF48485B27F09C35002CD220 /* Assets.xcassets in Resources */,
 				FF48485927F09C2F002CD220 /* Main.storyboard in Resources */,
+				FF48488427FF5C76002CD220 /* Currency-list.txt in Resources */,
+				FF1A156428368F8600A763DA /* click-sound.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,9 +441,42 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF930DC42814073F000ED6A7 /* ThemeViewController.swift in Sources */,
+				FF1A1588283D4E6800A763DA /* Length.swift in Sources */,
+				FF1A1580283D441000A763DA /* ColorController.swift in Sources */,
+				FF48488227F472F3002CD220 /* UIkeypadView.swift in Sources */,
+				FF1A1597283D544D00A763DA /* LengthController.swift in Sources */,
+				FF1A158A283D4E7200A763DA /* Mass.swift in Sources */,
+				FF1A1567283D410200A763DA /* UIInterfaceDelegate.swift in Sources */,
+				FF1A1599283D545800A763DA /* MassController.swift in Sources */,
+				FF1A15A1283D59AC00A763DA /* UIKeypadRow.swift in Sources */,
+				FF1A156E283D41BB00A763DA /* MenuViewController.swift in Sources */,
+				FF1A158E283D4F3500A763DA /* UIThemeView.swift in Sources */,
 				FF48485627F09C2E002CD220 /* ViewController.swift in Sources */,
+				FF1A1593283D53F300A763DA /* CurrencyController.swift in Sources */,
+				FF1A1584283D4DF300A763DA /* Currency.swift in Sources */,
+				FF1A1576283D422F00A763DA /* Unit.swift in Sources */,
+				FF930DC228140716000ED6A7 /* SearchUnitViewController.swift in Sources */,
+				FF930DCC28258459000ED6A7 /* Units.swift in Sources */,
+				FF930DCA28258414000ED6A7 /* UICalculationRowsController.swift in Sources */,
 				FF48485227F09C2E002CD220 /* AppDelegate.swift in Sources */,
+				FF1A1569283D410C00A763DA /* UIControlDelegate.swift in Sources */,
+				FF1A1578283D42AB00A763DA /* UnitContainer.swift in Sources */,
+				FF1A159D283D571E00A763DA /* SavedCurrencyController.swift in Sources */,
+				FF1A156C283D419A00A763DA /* HeaderViewController.swift in Sources */,
+				FF1A157C283D437E00A763DA /* Device.swift in Sources */,
+				FF1A1595283D544700A763DA /* TimeController.swift in Sources */,
+				FF1A157A283D436300A763DA /* Themes.swift in Sources */,
 				FF48485427F09C2E002CD220 /* SceneDelegate.swift in Sources */,
+				FF1A157E283D438500A763DA /* Dimensions.swift in Sources */,
+				FF1A1570283D41E200A763DA /* Theme.swift in Sources */,
+				FF1A158C283D4F2200A763DA /* UIMenuActionButton.swift in Sources */,
+				FF1A159B283D547E00A763DA /* CalculatorEntryController.swift in Sources */,
+				FF1A159F283D599000A763DA /* UIkeypadButton.swift in Sources */,
+				FF930DC828258409000ED6A7 /* UICalculationRow.swift in Sources */,
+				FF1A1590283D4F7200A763DA /* UICurrencyTableCell.swift in Sources */,
+				FF1A1586283D4E4A00A763DA /* Time.swift in Sources */,
+				FF930DC6282583D3000ED6A7 /* CalculatorHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,11 +658,14 @@
 				DEVELOPMENT_TEAM = LUR46Z5LH7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = calc/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Calculatooor;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -456,7 +675,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -470,11 +689,14 @@
 				DEVELOPMENT_TEAM = LUR46Z5LH7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = calc/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Calculatooor;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -484,7 +706,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
