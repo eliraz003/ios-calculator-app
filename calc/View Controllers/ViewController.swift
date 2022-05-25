@@ -71,28 +71,47 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
     
     //* INTERFACE DELEGATE *//
     
+    /**
+     Get the Theme object that is saved in local storage
+     */
     func getTheme() -> Theme {
         let themeName = UserDefaults.standard.string(forKey: "@theme") ?? defaultTheme
         return themes[themeName]!
     }
     
+    /**
+     Set the theme by calling the ColorController and saving the new themes name to the UserDefaults
+     */
     func setTheme(theme: Theme) {
         UserDefaults.standard.set(theme.name, forKey: "@theme")
         ColorController.dispatchChange(colours: theme.colors)
     }
     
+    /**
+     Open a view modally (call when presenting the menu or the currency selector)
+     */
     func openViewModally(_ view: UIViewController) {
         present(view, animated: true, completion: nil)
     }
     
+    /**
+     Dismiss the presented view controller
+     (Shorter than fetching the root UIViewController each time view should be dismissed)
+     */
     func forceDismiss() {
         dismiss(animated: true, completion: nil)
     }
     
+    /**
+     Checks if the row passed is the last row (most recently created) in the row controller
+     */
     func isRowLast(row: UICalculationRow) -> Bool {
         return (rowsContainer.rows.last?.0 == row)
     }
     
+    /**
+     Checks if the row passed is the first row (first one still existing) in the row controller
+     */
     func isRowFirst(row: UICalculationRow) -> Bool {
         return (rowsContainer.rows.first?.0 == row)
     }
@@ -100,6 +119,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
     
     //* UTILITY FUNCTIONS *//
     
+    /**
+     Call when a rows value or operation has been changed
+     Refreshes every row including the total row and calls for the calculation result to be recalculated
+     */
     private func refreshRows() {
         rowsContainer.rows.forEach({ $0.0.refresh() })
         rowsContainer.totalRow.refresh()
@@ -107,6 +130,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         refreshTotals()
     }
     
+    /**
+     Loop thorugh each row and calculate the total result
+     */
     private func refreshTotals() {
         var total: CGFloat = 0.0
         
@@ -116,6 +142,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
             let current: UICalculationRow = rowsContainer.rows[index].0
             let previous: UICalculationRow? = (index == 0) ? nil : rowsContainer.rows[index - 1].0
             
+            /**
+             Gets the correct value (converting to the base unit if a unit is selected for this calculation)
+             */
             func getValue() -> Double {
                 let value = current.getValue()
                 let unit = current.getUnit()
@@ -125,6 +154,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
                 } else { return value }
             }
             
+            /**
+             Check the operation of the previous row (if previous operation had an addition operation then that means that this value should be added to the previous value)
+             */
             switch(previous?.getOperation() ?? MathematicalOperation.add) {
             case .add:
                 total += getValue(); break
@@ -141,9 +173,16 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
             index += 1
         }
         
+        /**
+         If a unit is selected for the current calculation then convert the final value to the unit shown in the totals row
+         */
         var finalValue = total
         if (rowsContainer.totalRow.getUnit() != nil && appliedUnit) { finalValue = rowsContainer.totalRow.getUnit()?.convertFromBase(value: finalValue) ?? total }
 
+        /**
+         Render the total result in the most appropiate way
+         (Uses NumberFormatter as CGFloat.description can return scientific numbers)
+         */
         let nubmerFormatter = NumberFormatter()
         nubmerFormatter.numberStyle = .decimal
         nubmerFormatter.alwaysShowsDecimalSeparator = true
@@ -159,6 +198,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         var absoluteFinalValue = nubmerFormatter.string(from: NSNumber(value: finalValue))!
         
         
+        /**
+         If the totals row has a special unit render (using ResultOnlyUnit) then call the renderResult unit,
+         if not assign the total row value to the number found from the numberFormatter
+         */
         if let resultAsResultOnlyUnit = rowsContainer.totalRow.getUnit() as? ResultOnlyUnit {
             rowsContainer.totalRow.setValue(newValue: resultAsResultOnlyUnit.renderResult(value: total))
         } else {
@@ -171,14 +214,24 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
     
     //* CONTROL DELEGATE *//
     
+    /**
+     Get the current row selected by the user
+     */
     func selected() -> UICalculationRow {
         return rowsContainer.getCurrent()
     }
     
+    /**
+     Select a given UICalculationRow
+     */
     func select(row: UICalculationRow) {
         rowsContainer.setSelectedIndex(at: row)
     }
     
+    /**
+     Set the operation for the current row and navigate to the row below
+     (addition, division, multiplication, subtraction...)
+     */
     func setOperationForSelected(operation: MathematicalOperation) {
         if (selected().getValue() == 0) { return }
         
@@ -188,13 +241,18 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         refreshRows()
     }
     
+    /**
+     Set the value for the selected row
+     */
     func setValueForSelected(value: String) {
         selected().setValue(newValue: value)
         refreshRows()
     }
     
     
-    
+    /**
+     Clear the calculation and add a row with the current answer (compress calculation into one row)
+     */
     func setAnswerToResult() {
         let answer = rowsContainer.totalRow.getRawValue()
         let answerUnit = rowsContainer.totalRow.getUnit()
@@ -209,11 +267,17 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         refreshTotals()
     }
     
+    /**
+     Performs a backspace operation by removing the last character from the current row
+     */
     func backspace() {
         if (selected().getValue() == 0) { ViewController.controlDelegate.removeSelected() }
         else { setValueForSelected(value: CalculatorEntryController.removingLastCharacter(current: ViewController.controlDelegate.selected().getRawValue())) }
     }
     
+    /**
+     Clears the entire calculation
+     */
     func clear() {
         mostRecentUnit = nil
         
@@ -222,6 +286,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         refreshRows()
     }
     
+    /**
+     Clear all the units selected in the calculation
+     */
     func clearUnits() {
         mostRecentUnit = nil
         
@@ -231,18 +298,25 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         refreshRows()
     }
     
+    /**
+     Remove the current selected row
+     */
     func removeSelected() {
         rowsContainer.removeCurrent()
         refreshRows()
     }
     
-    
-    
+    /**
+     Create and present the SearchUnitViewController used to select a currency
+     */
     func showCurrencyUnitMenu(selected: String?, handler: @escaping (Unit) -> Void) {
         let newController = SearchUnitViewController(selected: selected, onSelect: handler)
         present(newController, animated: true, completion: nil)
     }
-    
+
+    /**
+     Set a unit for a given row
+     */
     func setUnitFor(row: UICalculationRow, newUnit: Unit?) {
         row.setUnit(unit: newUnit)
         mostRecentUnit = newUnit ?? mostRecentUnit
@@ -250,6 +324,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         refreshRows()
     }
     
+    /**
+     Check if the row can have a unit
+     (Rows that are below multiply or divide operations cannot have units)
+     */
     func canRowHaveUnit(row: UICalculationRow) -> Bool {
         // check if value beforehand is multiply or divide
         if (rowsContainer.totalRow == row) { return true }
@@ -262,6 +340,11 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         return true
     }
     
+    /**
+     Get the unit for the row
+     Check the applied unit by calling row.getUnit() and validate that it can be set
+     If the value above it has a multiply or divide operation than return a nil unit
+     */
     func unitForRow(row: UICalculationRow) -> Unit? {
         let isTotalRow = (rowsContainer.totalRow == row)
         if (row.getUnit() != nil) { return row.getUnit() }
