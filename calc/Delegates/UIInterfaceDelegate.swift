@@ -8,6 +8,9 @@
 import Foundation
 import UIKit
 
+/**
+ A protocol for managing main interface interactions with the root view controller
+ */
 protocol UIInterfaceDelegate {
     func forceDismiss()
     func openViewModally(_ view: UIViewController)

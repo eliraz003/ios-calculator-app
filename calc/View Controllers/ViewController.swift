@@ -14,7 +14,9 @@ enum MathematicalOperation {
     case divide
 }
 
-
+/**
+ ViewController is the main view of the app
+ */
 class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, UIInterfaceDelegate {
     var keypad: UIkeypadView!
     var rowsContainer: UICalculationRowsController!
@@ -40,8 +42,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
             keypad.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
             keypad.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
             keypad.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Dimensions.keypadBottomOffset).isActive = true
-//            keypad.extendedViewBottomAnchor = view.bottomAnchor
-            
+
             rowsContainer.bottomAnchor.constraint(equalTo: keypad.topAnchor, constant: 0).isActive = true
             rowsContainer.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
             rowsContainer.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
@@ -51,8 +52,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
             keypad.leftAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
             keypad.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24).isActive = true
             keypad.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -24).isActive = true
-//            keypad.extendedViewBottomAnchor = view.bottomAnchor
-//            keypad.extendedViewTopAnchor = view.topAnchor
             
             rowsContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -24).isActive = true
             rowsContainer.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
@@ -80,7 +79,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
     func setTheme(theme: Theme) {
         UserDefaults.standard.set(theme.name, forKey: "@theme")
         ColorController.dispatchChange(colours: theme.colors)
-//        view.backgroundColor = theme.color
     }
     
     func openViewModally(_ view: UIViewController) {
@@ -202,14 +200,13 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         let answerUnit = rowsContainer.totalRow.getUnit()
         
         rowsContainer.clear()
-        
         selected().setValue(newValue: answer)
         
-        // Check if unit is set to a result only unit
         let answerAsResultOnly = answerUnit as? ResultOnlyUnit
         selected().setUnit(unit: (answerAsResultOnly != nil) ? answerAsResultOnly?.fallbackUnit() : answerUnit)
          
         refreshRows()
+        refreshTotals()
     }
     
     func backspace() {

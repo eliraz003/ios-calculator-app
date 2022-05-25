@@ -8,6 +8,9 @@
 import Foundation
 import UIKit
 
+/**
+ A protocol for managing the controls for the calculator such as selecting a row or the backspace operation
+ */
 protocol UIControlDelegate {
     func selected() -> UICalculationRow
     

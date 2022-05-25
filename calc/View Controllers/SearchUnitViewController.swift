@@ -8,6 +8,13 @@
 import Foundation
 import UIKit
 
+/**
+ SearchUnitViewController is used to search and select currencies,
+ Initialize with selected and onSelect
+ 
+ selected:String - The iso of the selected currency for the row that is presenting this search view
+ onSelect:(newUnit) -> Void - A callback operator for when the user selects a currency
+ */
 class SearchUnitViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
     var selected: String?
     var setItems: [Currency] = []

@@ -8,6 +8,9 @@
 import Foundation
 import UIKit
 
+/**
+ ThemeViewController is used to show the user the availiable themes in the app
+ */
 class ThemeViewController: HeaderViewController {
     override var viewTitle: String { return "Set Theme" }
     

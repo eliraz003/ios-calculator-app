@@ -8,6 +8,9 @@
 import Foundation
 import UIKit
 
+/**
+ HeaderViewController is used as a root class for a UIViewController that has a background colour and a title label included
+ */
 class HeaderViewController: UIViewController {
     let titleLabel = UILabel()
     var viewTitle: String { return "" }
