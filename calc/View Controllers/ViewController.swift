@@ -14,28 +14,6 @@ enum MathematicalOperation {
     case divide
 }
 
-extension NumberFormatter {
-    static func usingOverallCharacterCount(value: CGFloat, min: Int, max: Int) -> String {
-        let nubmerFormatter = NumberFormatter()
-        nubmerFormatter.numberStyle = .decimal
-        nubmerFormatter.alwaysShowsDecimalSeparator = true
-        
-        let finalValueAsString = nubmerFormatter.string(from: NSNumber(value: value))!
-        let beforeDecimalCharacterCount = finalValueAsString.split(separator: ".").map({ i in return String(i) })[0].count
-        
-        var numberOfDecimalsAllowed = (max - beforeDecimalCharacterCount)
-        if (numberOfDecimalsAllowed <= min) { numberOfDecimalsAllowed = min }
-        nubmerFormatter.maximumFractionDigits = numberOfDecimalsAllowed
-        
-        var absoluteFinalValue = nubmerFormatter.string(from: NSNumber(value: value))!
-        if (absoluteFinalValue.last == ".") {
-            absoluteFinalValue = absoluteFinalValue.replacingOccurrences(of: ".", with: "")
-        }
-        
-        return absoluteFinalValue
-    }
-}
-
 /**
  ViewController is the main view of the app
  */
@@ -200,26 +178,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
          */
         var finalValue = total
         if (rowsContainer.totalRow.getUnit() != nil && appliedUnit) { finalValue = rowsContainer.totalRow.getUnit()?.convertFromBase(value: finalValue) ?? total }
-
-        /**
-         Render the total result in the most appropiate way
-         (Uses NumberFormatter as CGFloat.description can return scientific numbers)
-         */
-//        var absoluteFinalValue = NumberFormatter()
-//        let nubmerFormatter = NumberFormatter()
-//        nubmerFormatter.numberStyle = .decimal
-//        nubmerFormatter.alwaysShowsDecimalSeparator = true
-//
-//        let finalValueAsString = nubmerFormatter.string(from: NSNumber(value: finalValue))!
-//        let beforeDecimalCharacterCount = finalValueAsString.split(separator: ".").map({ i in return String(i) })[0].count
-//
-//        var numberOfDecimalsAllowed = (8 - beforeDecimalCharacterCount)
-//        if (numberOfDecimalsAllowed <= 2) { numberOfDecimalsAllowed = 2 }
-//        if (rowsContainer.totalRow.getUnit()?.type == .currency) { numberOfDecimalsAllowed = 2 }
-//
-//        nubmerFormatter.maximumFractionDigits = numberOfDecimalsAllowed
-//        var absoluteFinalValue = nubmerFormatter.string(from: NSNumber(value: finalValue))!
-                
+    
         /**
          If the totals row has a special unit render (using ResultOnlyUnit) then call the renderResult unit,
          if not assign the total row value to the number found from the numberFormatter
@@ -231,9 +190,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
             let min = 2
             let max = (isCurrency) ? 2 : 6
             
-            var absoluteFinalValue = NumberFormatter.usingOverallCharacterCount(value: finalValue, min: min, max: max)
-//            if (absoluteFinalValue.last == ".") { absoluteFinalValue = absoluteFinalValue.replacingOccurrences(of: ".", with: "") }
-            rowsContainer.totalRow.setValue(newValue: absoluteFinalValue)//(decimalValue == nil) ? mainValue : "\(mainValue).\(decimalValue!)")
+            /**
+             Render the total result in the most appropiate way
+             (Uses NumberFormatter as CGFloat.description can return scientific numbers)
+             */
+            let absoluteFinalValue = NumberFormatter.usingOverallCharacterCount(value: finalValue, min: min, max: max)
+            rowsContainer.totalRow.setValue(newValue: absoluteFinalValue)
         }
         
         return total

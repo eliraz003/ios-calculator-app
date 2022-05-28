@@ -34,6 +34,7 @@
 		FF1A159D283D571E00A763DA /* SavedCurrencyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A159C283D571E00A763DA /* SavedCurrencyController.swift */; };
 		FF1A159F283D599000A763DA /* UIkeypadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A159E283D599000A763DA /* UIkeypadButton.swift */; };
 		FF1A15A1283D59AC00A763DA /* UIKeypadRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A15A0283D59AC00A763DA /* UIKeypadRow.swift */; };
+		FF47808128428638006C28F5 /* Extends_NumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF47808028428638006C28F5 /* Extends_NumberFormatter.swift */; };
 		FF48485227F09C2E002CD220 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF48485127F09C2E002CD220 /* AppDelegate.swift */; };
 		FF48485427F09C2E002CD220 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF48485327F09C2E002CD220 /* SceneDelegate.swift */; };
 		FF48485627F09C2E002CD220 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF48485527F09C2E002CD220 /* ViewController.swift */; };
@@ -98,6 +99,7 @@
 		FF1A159C283D571E00A763DA /* SavedCurrencyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedCurrencyController.swift; sourceTree = "<group>"; };
 		FF1A159E283D599000A763DA /* UIkeypadButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIkeypadButton.swift; sourceTree = "<group>"; };
 		FF1A15A0283D59AC00A763DA /* UIKeypadRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKeypadRow.swift; sourceTree = "<group>"; };
+		FF47808028428638006C28F5 /* Extends_NumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extends_NumberFormatter.swift; sourceTree = "<group>"; };
 		FF48484E27F09C2E002CD220 /* calc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = calc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF48485127F09C2E002CD220 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		FF48485327F09C2E002CD220 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -239,6 +241,14 @@
 			path = Keypad;
 			sourceTree = "<group>";
 		};
+		FF47807F2842861E006C28F5 /* Extentions */ = {
+			isa = PBXGroup;
+			children = (
+				FF47808028428638006C28F5 /* Extends_NumberFormatter.swift */,
+			);
+			path = Extentions;
+			sourceTree = "<group>";
+		};
 		FF48484527F09C2E002CD220 = {
 			isa = PBXGroup;
 			children = (
@@ -262,6 +272,7 @@
 		FF48485027F09C2E002CD220 /* calc */ = {
 			isa = PBXGroup;
 			children = (
+				FF47807F2842861E006C28F5 /* Extentions */,
 				FF48485727F09C2F002CD220 /* Main.storyboard */,
 				FF48485C27F09C35002CD220 /* LaunchScreen.storyboard */,
 				FF48485127F09C2E002CD220 /* AppDelegate.swift */,
@@ -446,6 +457,7 @@
 				FF1A1580283D441000A763DA /* ColorController.swift in Sources */,
 				FF48488227F472F3002CD220 /* UIkeypadView.swift in Sources */,
 				FF1A1597283D544D00A763DA /* LengthController.swift in Sources */,
+				FF47808128428638006C28F5 /* Extends_NumberFormatter.swift in Sources */,
 				FF1A158A283D4E7200A763DA /* Mass.swift in Sources */,
 				FF1A1567283D410200A763DA /* UIInterfaceDelegate.swift in Sources */,
 				FF1A1599283D545800A763DA /* MassController.swift in Sources */,
