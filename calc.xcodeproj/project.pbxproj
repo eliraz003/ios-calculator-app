@@ -658,7 +658,7 @@
 				DEVELOPMENT_TEAM = LUR46Z5LH7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = calc/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Calculatooor;
+				INFOPLIST_KEY_CFBundleDisplayName = "Pro Calculator";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -689,7 +689,7 @@
 				DEVELOPMENT_TEAM = LUR46Z5LH7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = calc/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Calculatooor;
+				INFOPLIST_KEY_CFBundleDisplayName = "Pro Calculator";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
