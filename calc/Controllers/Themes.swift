@@ -71,10 +71,10 @@ var themes: [String:Theme] = [
     ]),
     
     "Orange":.init(name: "Orange", colors: [
-        ColorController.MainBackground:UIColor.fromHex(hex: "FF772B"),
+        ColorController.MainBackground:UIColor.fromHex(hex: "FD7A13"),
         
-        ColorController.StandardKeyBackground:UIColor.fromHex(hex: "F36F24"),
-        ColorController.OperationKeyBackground:UIColor.fromHex(hex: "FF9D2A"),
+        ColorController.StandardKeyBackground:UIColor.fromHex(hex: "F57703"),
+        ColorController.OperationKeyBackground:UIColor.fromHex(hex: "FB8426"),
         
         ColorController.KeypadCharacter:UIColor.black,
         ColorController.RowLabel:UIColor.black
