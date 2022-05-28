@@ -22,20 +22,22 @@ to your team within "Signing And Capabilities"
 
 ### 🏗 Get Started With The Codebase
 > The main scripts you will need to worry about are:
-UIViewController
-UIControlDelegate
-UIInterfaceDelegate
-UIKeypadView
-UIKeypadButton
-UICalculationRowController
-UICalculationRow
+UIViewController<br>
+UIControlDelegate<br>
+UIInterfaceDelegate<br>
+UIKeypadView<br>
+UIKeypadButton<br>
+UICalculationRowController<br>
+UICalculationRow<br>
 
 * The `UIViewController` script handles the main functionality and UI for the app
 * The `UIViewController` inherits from the `UIControlDelegate` and `UIInterfaceDelegate` which provide static functionallity so that other parts of the app can call for actions, for example to call the backspace action call `UIViewController.controlDelegate.backspace()`
-* Whenever the calculation is changed (pressing backspace, changing unit, adding a number, or changing the operation) the `WRTITE FUNCTION` is called to recalculate the total value
+* Whenever the calculation is changed (pressing backspace, changing unit, adding a number, or changing the operation) the `refreshTotals()` is called to recalculate the total value
 * `UIKeypadView` is the view that renders the keypad, it is self contained and creates a keypad based on the `keypadLabels` dictionary found, you can try changing these to create a new keypad layout
 * `UIKeypadButton` is the individual button for the keypad, it can have either a label or icon property to determain what is rendered inside. When clicked it calls a `didPressKeyButton(action: String)` action within the `UIKeypadView` with the ID property passed to the label (determained by the `keypadLabels` dictionary)
 * UICalculationRowController controls the calculation part of the app, it has two main properties, `rows:[UICalculationRow]` and `totalRow:UICalculationRow`, with `rows` containing every calculation currenctly inputted, and `totalRow` being the row that shows the user their final calculation.
+* The `Dimensions` class holds all the dimentions of the app, such as key spacing or font sizes. You can change these values to start making modifications!
+* The `Themes` controller class holds all the themes availiable in the app and can be changed by making a new entry in `var themes: [String: Theme]`
 
 ### 🤝 Contributing
 Contributions, issues and feature requests are welcome.
