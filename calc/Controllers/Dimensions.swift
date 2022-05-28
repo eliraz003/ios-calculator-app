@@ -30,6 +30,7 @@ class Dimensions {
     }()
     
     static var keypadBottomOffset: CGFloat = {
+        print("DEVICE INSET", Device.hasSafeAreaInset)
         var bottomSafeAreaInset: CGFloat = (Device.hasSafeAreaInset) ? 12 : 0
         
         if (Device.typeOf == .small) {
@@ -41,10 +42,7 @@ class Dimensions {
     
     static var keypadKeySpacing = 4.0
     static var keypadPadding: CGFloat = {
-        if (Device.typeOf == .small) {
-            return 6
-        }
-        
+        if (Device.typeOf == .small) { return 6 }
         return 12
     }()
     
@@ -52,7 +50,6 @@ class Dimensions {
         if ([Device.DeviceType.medium, Device.DeviceType.small].contains(Device.typeOf)) {
             return UIFont.systemFont(ofSize: 26, weight: .light)
         }
-        
         
         return UIFont.systemFont(ofSize: 32, weight: .regular)
     }()

@@ -248,6 +248,11 @@ class UICalculationRow: UIView {
         }, completion: nil)
     }
     
+    func setValue(newValue: CGFloat) {
+        value = NumberFormatter.usingOverallCharacterCount(value: newValue, min: 0, max: 6)
+        refresh()
+    }
+    
     func setValue(newValue: String) {
         value = newValue
         refresh()

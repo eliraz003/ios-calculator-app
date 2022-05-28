@@ -32,6 +32,15 @@ class Device {
     }()
     
     static var hasSafeAreaInset: Bool = {
+//        if #available(iOS 11.0, tvOS 11.0, *) {
+//            return UIApplication.shared.delegate?.window??.safeAreaInsets.top ?? 0 > 20 }
+        
+//        return false
+
+        /**
+          ## TODO: THIS PART OF THE CODE DOES NOT WORK AND ALWAYS RETURNS FALSE
+         */
+        
         let window: UIWindow? = {
             return UIApplication.shared.connectedScenes
                 .filter({ $0.activationState == .foregroundActive })
