@@ -38,20 +38,8 @@ class Device {
                 .first(where: { $0 is UIWindowScene })
                 .flatMap({ $0 as? UIWindowScene })?.windows
                 .first(where: { return $0.isKeyWindow })
-            
-//            if #available(iOS 15, *) {
-//                return UIApplication.shared.window
-//            } else {
-//                return UIApplication.shared.windows.filter({ return $0.isKeyWindow }).first
-//            }
         }()
         
         return (window?.safeAreaInsets.top ?? 0) >= 44
     }()
-
-//    static func forType() -> DeviceType {
-//
-//    }
-//
-
 }

@@ -35,15 +35,14 @@ class UnitContainer {
     }
     
     func availiableUnits(forStandardRow: Bool) -> [[Unit]] {
-//        var arrA: [Unit] = []
-//        var arrB: [Unit] = []
-        
         var resultOnlyArray: [Unit] = []
         var arrays: [[Unit]] = [[]]
         
         items.forEach({ unit in
-            // add to resultsOnlyArray if is ResultOnlyUnit and is on total row
-            // add to array if the row is either (forStandardRow) || (!forStandardRow && unit.1.contains(.Show))
+            /**
+             * add to resultsOnlyArray if is ResultOnlyUnit and is on total row
+             * add to array if the row is either (forStandardRow) || (!forStandardRow && unit.1.contains(.Show))
+             */
             
             let isResultOnlyRow = unit.0 as? ResultOnlyUnit != nil
             
@@ -58,18 +57,7 @@ class UnitContainer {
             }
         })
         
-//        arrays.append(items.filter({ unit in
-//            if (!forStandardRow) { return (unit.0 as? ResultOnlyUnit == nil && unit.1.contains(.ShowInResultRendering)) }
-//            return (unit.0 as? ResultOnlyUnit == nil)
-//        }).map({ return $0.0 }))
-        
-//        arrays.append(items.filter({ unit in
-//            return (unit.0 as? ResultOnlyUnit != nil && !forStandardRow)
-//        }).map({ return $0.0 }))
         arrays.append(resultOnlyArray)
         return arrays
-        
-//        if(arrB.count > 0 && !forStandardRow) { return [arrA, arrB] }
-//        return [arrA]
     }
 }
