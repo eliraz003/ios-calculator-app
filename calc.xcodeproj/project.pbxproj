@@ -91,8 +91,8 @@
 		FF1A158D283D4F3500A763DA /* UIThemeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIThemeView.swift; sourceTree = "<group>"; };
 		FF1A158F283D4F7200A763DA /* UICurrencyTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICurrencyTableCell.swift; sourceTree = "<group>"; };
 		FF1A1592283D53F300A763DA /* CurrencyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyController.swift; sourceTree = "<group>"; };
-		FF1A1594283D544700A763DA /* TimeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeController.swift; sourceTree = "<group>"; };
-		FF1A1596283D544D00A763DA /* LengthController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LengthController.swift; sourceTree = "<group>"; };
+		FF1A1594283D544700A763DA /* TimeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeController.swift; sourceTree = "<group>"; wrapsLines = 0; };
+		FF1A1596283D544D00A763DA /* LengthController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LengthController.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		FF1A1598283D545800A763DA /* MassController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MassController.swift; sourceTree = "<group>"; };
 		FF1A159A283D547E00A763DA /* CalculatorEntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorEntryController.swift; sourceTree = "<group>"; };
 		FF1A159C283D571E00A763DA /* SavedCurrencyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedCurrencyController.swift; sourceTree = "<group>"; };
