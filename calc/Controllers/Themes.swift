@@ -70,6 +70,16 @@ var themes: [String:Theme] = [
         ColorController.RowLabel:UIColor.black
     ]),
     
+    "Orange":.init(name: "Orange", colors: [
+        ColorController.MainBackground:UIColor.fromHex(hex: "FF772B"),
+        
+        ColorController.StandardKeyBackground:UIColor.fromHex(hex: "F36F24"),
+        ColorController.OperationKeyBackground:UIColor.fromHex(hex: "FF9D2A"),
+        
+        ColorController.KeypadCharacter:UIColor.black,
+        ColorController.RowLabel:UIColor.black
+    ]),
+    
     "Purple":.init(name: "Purple", colors: [
         ColorController.MainBackground:UIColor.fromHex(hex: "AB94FF"),
         
