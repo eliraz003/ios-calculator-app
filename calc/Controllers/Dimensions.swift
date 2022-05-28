@@ -30,11 +30,13 @@ class Dimensions {
     }()
     
     static var keypadBottomOffset: CGFloat = {
+        var bottomSafeAreaInset: CGFloat = (Device.hasSafeAreaInset) ? 12 : 0
+        
         if (Device.typeOf == .small) {
-            return 24
+            return (12.0 + bottomSafeAreaInset)
         }
         
-        return 42
+        return (24.0 + bottomSafeAreaInset)
     }()
     
     static var keypadKeySpacing = 4.0
