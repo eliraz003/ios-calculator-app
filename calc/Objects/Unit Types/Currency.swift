@@ -51,12 +51,13 @@ class Currency: RateBasedUnit {
         return symbol
     }
     
-    func fetchValue(_ completion: @escaping (Unit?, Error?) -> Void) {
+    func fetchValue(_ completion: @escaping (Unit?, Error?) -> Void, dontAttemptAgain: Bool = false) {
         let url = URL(string: "https://sheltered-earth-85165.herokuapp.com/api/currencies/v1?iso=" + isoCode.uppercased())!
         URLSession.shared.dataTask(with: url) { data, response, error in
             DispatchQueue.main.async {
                 if (error != nil || data == nil) {
-                    completion(nil, error)
+                    if (dontAttemptAgain) {completion(nil, error)}
+                    else {self.fetchValue(completion, dontAttemptAgain: true)}
                     return
                 }
                 
@@ -65,7 +66,8 @@ class Currency: RateBasedUnit {
                     let quoteValue = asObject.quote
                     completion(FetchedCurrency(name: self.name, symbol: self.symbol, isoCode: self.isoCode, rate: quoteValue), nil)
                 } catch {
-                    completion(nil, CurrencyFetchError.CannotFetch)
+                    if (dontAttemptAgain) {completion(nil, CurrencyFetchError.CannotFetch)}
+                    else {self.fetchValue(completion, dontAttemptAgain: true)}
                 }
             }
         }.resume()
