@@ -12,7 +12,6 @@ enum CurrencyFetchError: Error {
     case CannotFetch
 }
 
-
 /**
  Decodable object response from server
  ## CHANGE ME ACCORDING TO YOUR CURRENCY API
@@ -51,8 +50,15 @@ class Currency: RateBasedUnit {
         return symbol
     }
     
+    static func currencyAPIUrl(iso: String) -> String {
+        /**
+         CHANGE URL DEPENDING ON THE URL OF YOUR CURRENCY CALLBACK API
+         */
+        return "https://sheltered-earth-85165.herokuapp.com/api/currencies/v1?iso=" + iso.uppercased()
+    }
+    
     func fetchValue(_ completion: @escaping (Unit?, Error?) -> Void, dontAttemptAgain: Bool = false) {
-        let url = URL(string: "https://sheltered-earth-85165.herokuapp.com/api/currencies/v1?iso=" + isoCode.uppercased())!
+        let url = URL(string: Currency.currencyAPIUrl(iso: isoCode))!
         URLSession.shared.dataTask(with: url) { data, response, error in
             DispatchQueue.main.async {
                 if (error != nil || data == nil) {
