@@ -245,6 +245,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
      Clear the calculation and add a row with the current answer (compress calculation into one row)
      */
     func setAnswerToResult() {
+        mostRecentUnit = nil
+        
         let answer = refreshTotals()
         var answerUnit = rowsContainer.totalRow.getUnit()
         if let unitAsResultOnly = answerUnit as? ResultOnlyUnit { answerUnit = unitAsResultOnly.fallbackUnit() }
