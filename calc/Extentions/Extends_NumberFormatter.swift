@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 extension NumberFormatter {
-    static func usingOverallCharacterCount(value: CGFloat, min: Int, max: Int) -> String {
+    static func usingOverallCharacterCount(value: CGFloat, min: Int, max: Int, dontUseSeperators: Bool = false) -> String {
         let nubmerFormatter = NumberFormatter()
         nubmerFormatter.numberStyle = .decimal
         nubmerFormatter.alwaysShowsDecimalSeparator = true
@@ -24,6 +24,10 @@ extension NumberFormatter {
         var absoluteFinalValue = nubmerFormatter.string(from: NSNumber(value: value))!
         if (absoluteFinalValue.last == ".") {
             absoluteFinalValue = absoluteFinalValue.replacingOccurrences(of: ".", with: "")
+        }
+        
+        if (dontUseSeperators && absoluteFinalValue.contains(",")) {
+            absoluteFinalValue = absoluteFinalValue.replacingOccurrences(of: ",", with: "")
         }
         
         return absoluteFinalValue

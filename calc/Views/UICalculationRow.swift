@@ -249,7 +249,7 @@ class UICalculationRow: UIView {
     }
     
     func setValue(newValue: CGFloat) {
-        value = NumberFormatter.usingOverallCharacterCount(value: newValue, min: 0, max: 6)
+        value = NumberFormatter.usingOverallCharacterCount(value: newValue, min: 0, max: 6, dontUseSeperators: allowUserUnitChanging)
         refresh()
     }
     
@@ -261,7 +261,8 @@ class UICalculationRow: UIView {
     func getRawValue() -> String {return value}
     func getValue() -> Double {
         let formatter = NumberFormatter()
-        return Double(truncating: formatter.number(from: value) ?? 0)
+        let numberValue = Double(truncating: formatter.number(from: value) ?? 0)
+        return numberValue
     }
     
     func getOperation() -> MathematicalOperation? { return operation }
