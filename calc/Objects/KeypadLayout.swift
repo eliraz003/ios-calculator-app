@@ -14,7 +14,6 @@ import UIKit
 enum KeypadAction {
     case openMenu
     case answer
-    case plusMinus
     case backspace
     case clear
 }
@@ -24,6 +23,7 @@ enum KeypadAction {
  */
 enum KeypadSpecial: String {
     case decimal
+    case plusMinus
     
     // POTENTIAL
     case pi
@@ -82,8 +82,11 @@ extension KeypadInteraction {
         case .number(let number):
             return UIKeypadButtonLabel(text: number)
         case .special(let special):
-            if (special == .decimal) { return UIKeypadButtonLabel(text: ".") }
-            return UIKeypadButtonLabel(text: special.rawValue)
+            switch(special) {
+                case .decimal: return UIKeypadButtonLabel(text: ".")
+                case .plusMinus: return UIKeypadButtonIcon(icon: UIImage(systemName: "plus.forwardslash.minus", withConfiguration: iconConfiguration)!)
+                default: return UIKeypadButtonLabel(text: special.rawValue)
+            }
         case .operation(let operation):
             switch(operation) {
                 case .divide: return UIKeypadButtonIcon(icon: UIImage(systemName: "divide", withConfiguration: iconConfiguration)!)
@@ -94,7 +97,6 @@ extension KeypadInteraction {
         case .action(let action):
             switch(action) {
                 case .backspace: return UIKeypadButtonIcon(icon: UIImage(systemName: "delete.backward", withConfiguration: iconConfiguration)!)
-                case .plusMinus: return UIKeypadButtonIcon(icon: UIImage(systemName: "plus.forwardslash.minus", withConfiguration: iconConfiguration)!)
                 case .clear: return UIKeypadButtonIcon(icon: UIImage(systemName: "scribble", withConfiguration: iconConfiguration)!)
                 case .openMenu: return UIKeypadButtonIcon(icon: UIImage(systemName: "ellipsis.circle", withConfiguration: iconConfiguration)!)
                 case .answer: return UIKeypadButtonLabel(text: "ANS")
@@ -114,7 +116,8 @@ class KeypadLayout {
         .special(special: .tan),
     ]).row([
         .special(special: .power),
-        .special(special: .sqrRoot)
+        .special(special: .sqrRoot),
+        .special(special: .plusMinus),
     ])
     
     /**
@@ -148,7 +151,7 @@ class KeypadLayout {
     ]).row([
         .action(action: .openMenu),
         .action(action: .clear),
-        .action(action: .plusMinus),
+        .special(special: .plusMinus),
         .operation(operation: .divide)
     ])
     
