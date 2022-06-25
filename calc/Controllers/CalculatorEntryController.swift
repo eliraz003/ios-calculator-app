@@ -86,6 +86,7 @@ class CalculatorEntryController {
             }
         }
         
+        if (components.count == 0) { return [""] }
         return components
     }
     
@@ -208,9 +209,18 @@ class CalculatorEntryController {
         if (current == "0" || current == "") {
             return CalculatorEntryController.prepareForFinalReturn(char.representable)
         } else {
-            if (current.contains(char.representable)) {
-                if (char.togglable) { return CalculatorEntryController.prepareForFinalReturn(current.replacingOccurrences(of: char.representable, with: "")) }
-                else { return CalculatorEntryController.prepareForFinalReturn(current) }
+            var components = getComponentsOfEntry(entry: current)
+            let doesContainCharacter = (char.placement == .anywhere)
+                ? components[components.count-1].contains(char.representable)
+                : current.contains(char.representable)
+            
+            if (doesContainCharacter) {
+                if (char.togglable) {
+                    if (char.placement == .anywhere) {
+                        components[components.count-1] = components[components.count-1].replacingOccurrences(of: char.representable, with: "")
+                        return CalculatorEntryController.prepareForFinalReturn(components.joined(separator: ""))
+                    } else { return CalculatorEntryController.prepareForFinalReturn(current.replacingOccurrences(of: char.representable, with: "")) }
+                } else { return CalculatorEntryController.prepareForFinalReturn(current) }
             } else {
                 return CalculatorEntryController.prepareForFinalReturn(current + char.representable)
             }
