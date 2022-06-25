@@ -83,7 +83,7 @@ class UIkeypadView: UIView {
                 ViewController.controlDelegate.setOperationForSelected(operation: .minus)
                 break
             case "+":
-                ViewController.controlDelegate.setOperationForSelected(operation: .add)
+                ViewController.controlDelegate.setOperationForSelected(operation: .plus)
                 break
             case "*":
                 ViewController.controlDelegate.setOperationForSelected(operation: .multiply)

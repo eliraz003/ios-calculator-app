@@ -39,7 +39,7 @@ enum KeypadSpecial: String {
 /**
  Possible operations
  */
-enum KeypadOperation {
+enum KeypadOperation: String {
     case plus
     case minus
     case multiply

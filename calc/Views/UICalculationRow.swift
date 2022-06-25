@@ -135,7 +135,7 @@ class UICalculationRow: UIView {
         
         let configuration = UIImage.SymbolConfiguration(pointSize: 16, weight: .semibold)
         switch(operation) {
-        case .add:
+        case .plus:
             setOperationIcon(to: UIImage(systemName: "plus", withConfiguration: configuration)); break
         case .minus:
             setOperationIcon(to: UIImage(systemName: "minus", withConfiguration: configuration)); break

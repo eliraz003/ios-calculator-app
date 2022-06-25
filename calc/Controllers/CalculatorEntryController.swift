@@ -28,27 +28,50 @@ class CalculatorEntryController {
     }
 
     /**
+     Add special character
+     */
+    static func appendCharacter(character: KeypadSpecial, to current: String) -> String {
+        if (current.count >= 8) { return current }
+        
+        let specialCharacterList: [KeypadSpecial : String] = [
+            .decimal:".",
+            .percentage:"%",
+            .power:"^",
+            .sqrRoot:"√",
+        ]
+        
+        let char = specialCharacterList[character] ?? ""
+        
+        if (current == "0" || current == "") {
+            return "0"+char
+        } else {
+            if (current.contains(char)) {
+                return CalculatorEntryController.prepareForFinalReturn(current)
+            } else {
+                return CalculatorEntryController.prepareForFinalReturn(current + char)
+            }
+        }
+    }
+    
+    /**
      Add character 'character' to current string and return the new value
      */
     static func appendCharacter(character: String, to current: String) -> String {
         if (current.count >= 8) { return current }
         
         if (current == "0" || current == "") {
-            if (character == ".") {
-                return "0."
-            } else {
-                return character
-            }
+            return character
         } else {
-            if (character == ".") {
-                if (current.contains(".")) {
-                    return CalculatorEntryController.prepareForFinalReturn(current)
-                } else {
-                    return CalculatorEntryController.prepareForFinalReturn(current + ".")
-                }
-            } else {
-                return CalculatorEntryController.prepareForFinalReturn(current + character)
-            }
+            return CalculatorEntryController.prepareForFinalReturn(current + character)
+//            if (character == ".") {
+//                if (current.contains(".")) {
+//                    return CalculatorEntryController.prepareForFinalReturn(current)
+//                } else {
+//                    return CalculatorEntryController.prepareForFinalReturn(current + ".")
+//                }
+//            } else {
+//
+//            }
         }
     }
 

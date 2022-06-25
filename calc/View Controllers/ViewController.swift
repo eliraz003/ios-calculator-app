@@ -7,8 +7,8 @@
 
 import UIKit
 
-enum MathematicalOperation {
-    case add
+enum MathematicalOperation: String {
+    case plus
     case minus
     case multiply
     case divide
@@ -42,7 +42,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         mainKeypad.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(mainKeypad)
         
-        secondaryKeypad = UIkeypadView(layout: KeypadLayout.Standard, delegate: self)
+        secondaryKeypad = UIkeypadView(layout: KeypadLayout.Special, delegate: self)
         secondaryKeypad.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(secondaryKeypad)
         
@@ -99,7 +99,31 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
     //* KEYPAD CONTROL DELEGATE *//
     
     func didInteract(interaction: KeypadInteraction) {
-        
+        switch(interaction) {
+        case .number(let number):
+            setValueForSelected(value:
+                CalculatorEntryController.appendCharacter(character: number, to: selected().getRawValue()))
+            break
+            
+        case .special(let special):
+            setValueForSelected(value:
+                CalculatorEntryController.appendCharacter(character: special, to: selected().getRawValue()))
+            break
+            
+        case .operation(let operation):
+            setOperationForSelected(operation: MathematicalOperation(rawValue: operation.rawValue) ?? .plus)
+            break
+            
+        case .action(let action):
+            switch(action) {
+            case .backspace:
+                return backspace()
+            default:
+                print("ACTION NOT IMPLEMENTED", action)
+                break
+            }
+            break
+        }
     }
     
     
@@ -191,8 +215,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
             /**
              Check the operation of the previous row (if previous operation had an addition operation then that means that this value should be added to the previous value)
              */
-            switch(previous?.getOperation() ?? MathematicalOperation.add) {
-            case .add:
+            switch(previous?.getOperation() ?? MathematicalOperation.plus) {
+            case .plus:
                 total += getValue(); break
             case .divide:
                 let secondaryTotal = getValue()
