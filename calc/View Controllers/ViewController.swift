@@ -17,47 +17,58 @@ enum MathematicalOperation {
 /**
  ViewController is the main view of the app
  */
-class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, UIInterfaceDelegate {
-    var keypad: UIkeypadView!
-    var rowsContainer: UICalculationRowsController!
+class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, UIInterfaceDelegate, UIKeypadInteractableDelegate {
+    private var keypadBounds: UIView!
+    private var mainKeypad: UIkeypadView!
+    private var secondaryKeypad: UIkeypadView!
     
-    var mostRecentUnit: Unit?
+    private var rowsContainer: UICalculationRowsController!
+    
+    private var mostRecentUnit: Unit?
         
     override func viewDidLoad() {
         super.viewDidLoad()
         
         ViewController.interfaceDelegate = self
         ViewController.controlDelegate = self
-        
-        keypad = UIkeypadView(layout: KeypadLayout.Standard)
-        keypad.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(keypad)
-        
+                
         rowsContainer = UICalculationRowsController() //(delegate: self)
         rowsContainer.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(rowsContainer)
         
-        let device = UIScreen.main.traitCollection.userInterfaceIdiom
-        if (device == .phone) {
-            keypad.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-            keypad.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
-            keypad.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Dimensions.keypadBottomOffset).isActive = true
+        
+        
+        mainKeypad = UIkeypadView(layout: KeypadLayout.Standard, delegate: self)
+        mainKeypad.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(mainKeypad)
+        
+        secondaryKeypad = UIkeypadView(layout: KeypadLayout.Standard, delegate: self)
+        secondaryKeypad.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(secondaryKeypad)
+        
+        let gesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeToSecondaryKeypad))
+        gesture.direction = .left
+        mainKeypad.addGestureRecognizer(gesture)
+        
+        let backGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeToMainKeypad))
+        backGesture.direction = .right
+        secondaryKeypad.addGestureRecognizer(backGesture)
 
-            rowsContainer.bottomAnchor.constraint(equalTo: keypad.topAnchor, constant: 0).isActive = true
-            rowsContainer.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-            rowsContainer.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
-            rowsContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: 36).isActive = true
+        
+        mainKeypad.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        mainKeypad.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+        mainKeypad.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Dimensions.keypadBottomOffset).isActive = true
+        
+        secondaryKeypad.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        secondaryKeypad.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+        secondaryKeypad.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Dimensions.keypadBottomOffset).isActive = true
+        secondaryKeypad.transform = CGAffineTransform(translationX: UIScreen.main.bounds.width, y: 0)
+        
 
-        } else if (device == .pad) {
-            keypad.leftAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-            keypad.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24).isActive = true
-            keypad.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -24).isActive = true
-            
-            rowsContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -24).isActive = true
-            rowsContainer.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-            rowsContainer.rightAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-            rowsContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: 36).isActive = true
-        }
+        rowsContainer.bottomAnchor.constraint(equalTo: mainKeypad.topAnchor, constant: 0).isActive = true
+        rowsContainer.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        rowsContainer.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+        rowsContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: 36).isActive = true
         
         rowsContainer.bringToLife()
         rowsContainer.addRow()
@@ -66,6 +77,29 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         ViewController.interfaceDelegate.setTheme(theme:
             ViewController.interfaceDelegate.getTheme()
         )
+    }
+    
+    //* ALLOW USER TO SWIPE BETWEEN MAIN AND SECONDARY KEYPAD *//
+    
+    @objc func swipeToSecondaryKeypad() {
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+            self.mainKeypad.transform = CGAffineTransform(translationX: -UIScreen.main.bounds.width, y: 0)
+            self.secondaryKeypad.transform = CGAffineTransform(translationX: 0, y: 0)
+        }, completion: nil)
+    }
+    
+    @objc func swipeToMainKeypad() {
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+            self.mainKeypad.transform = CGAffineTransform(translationX: 0, y: 0)
+            self.secondaryKeypad.transform = CGAffineTransform(translationX: UIScreen.main.bounds.width, y: 0)
+        }, completion: nil)
+    }
+    
+    
+    //* KEYPAD CONTROL DELEGATE *//
+    
+    func didInteract(interaction: KeypadInteraction) {
+        
     }
     
     

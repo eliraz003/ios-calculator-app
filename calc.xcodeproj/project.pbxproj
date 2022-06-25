@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6FED536328674A720031E08E /* KeypadLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FED536228674A720031E08E /* KeypadLayout.swift */; };
 		FF1A156428368F8600A763DA /* click-sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FF1A156328368F8500A763DA /* click-sound.mp3 */; };
 		FF1A1567283D410200A763DA /* UIInterfaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A1566283D410200A763DA /* UIInterfaceDelegate.swift */; };
 		FF1A1569283D410C00A763DA /* UIControlDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A1568283D410C00A763DA /* UIControlDelegate.swift */; };
@@ -72,6 +73,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6FED536228674A720031E08E /* KeypadLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeypadLayout.swift; sourceTree = "<group>"; };
 		FF1A156328368F8500A763DA /* click-sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "click-sound.mp3"; sourceTree = "<group>"; };
 		FF1A1566283D410200A763DA /* UIInterfaceDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIInterfaceDelegate.swift; sourceTree = "<group>"; };
 		FF1A1568283D410C00A763DA /* UIControlDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIControlDelegate.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				FF1A156F283D41E200A763DA /* Theme.swift */,
 				FF1A1575283D422F00A763DA /* Unit.swift */,
 				FF1A1577283D42AB00A763DA /* UnitContainer.swift */,
+				6FED536228674A720031E08E /* KeypadLayout.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -457,6 +460,7 @@
 				FF1A1580283D441000A763DA /* ColorController.swift in Sources */,
 				FF48488227F472F3002CD220 /* UIkeypadView.swift in Sources */,
 				FF1A1597283D544D00A763DA /* LengthController.swift in Sources */,
+				6FED536328674A720031E08E /* KeypadLayout.swift in Sources */,
 				FF47808128428638006C28F5 /* Extends_NumberFormatter.swift in Sources */,
 				FF1A158A283D4E7200A763DA /* Mass.swift in Sources */,
 				FF1A1567283D410200A763DA /* UIInterfaceDelegate.swift in Sources */,

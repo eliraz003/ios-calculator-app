@@ -20,9 +20,7 @@ class UIKeypadRow: UIStackView {
         self.heightAnchor.constraint(equalToConstant: Dimensions.keyHeight).isActive = true
         
         for action in actions {
-            let button = UIKeypadButton(action: action, onClick: {
-                print("DID CLICK", $0)
-            }) //UIKeypadButton(text: "4", action: { _ in print("Click") }) // replace with new implemetation
+            let button = UIKeypadButton(action: action, onClick: { onAction($0) })
             ColorController.appendToList(key: action.colorControllerPattern(), item: button)
             button.translatesAutoresizingMaskIntoConstraints = false
             addArrangedSubview(button)
@@ -38,7 +36,7 @@ class UIKeypadRow: UIStackView {
 //        self.distribution = .equalSpacing
 //        self.alignment = .center
 //        self.heightAnchor.constraint(equalToConstant: Dimensions.keyHeight).isActive = true
-//                
+//
 //        var index = 0
 //        while (index < ((supersizedFirst) ? 3 : 4)) {
 //            let button = UIKeypadButton(text: labels[index], action: action)
@@ -49,11 +47,11 @@ class UIKeypadRow: UIStackView {
 //            button.border.alpha = (index == 0) ? 0 : 1
 //            button.heightAnchor.constraint(equalToConstant: Dimensions.keyHeight).isActive = true
 ////            buttons.append(button)
-//            
+//
 //            ColorController.appendToList(key: (usesIcon) ? ColorController.OperationKeyBackground : ColorController.StandardKeyBackground, item: button)
 //            index += 1
 //        }
-//        
+//
 //        let border = UIView()
 //        addSubview(border)
 //        border.translatesAutoresizingMaskIntoConstraints = false

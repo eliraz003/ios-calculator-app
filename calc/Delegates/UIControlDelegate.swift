@@ -33,3 +33,8 @@ protocol UIControlDelegate {
 extension UIViewController {
     static var controlDelegate: UIControlDelegate!
 }
+
+
+protocol UIKeypadInteractableDelegate {
+    func didInteract(interaction: KeypadInteraction)
+}
