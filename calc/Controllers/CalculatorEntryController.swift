@@ -7,6 +7,34 @@
 
 import Foundation
 
+class SpecialCharacterRules {
+    private static var rules: [KeypadSpecial : SpecialCharacterRule] = [
+        .decimal:.init(placement: .anywhere, representable: "."),
+        .percentage:.init(placement: .end, representable: "%"),
+        .power:.init(placement: .anywhere, representable: "^"),
+        .sqrRoot:.init(placement: .start, representable: "√"),
+    ]
+    
+    static func getRuleFor(_ character: KeypadSpecial) -> SpecialCharacterRule {
+        return rules[character] ?? .init(placement: .anywhere, representable: "")
+    }
+    
+    static func shouldAdhereToRule(wholeString: String) -> Bool {
+        return false
+    }
+    
+    struct SpecialCharacterRule {
+        enum Placement {
+            case anywhere
+            case start
+            case end
+        }
+        
+        var placement: Placement
+        var representable: String
+    }
+}
+
 class CalculatorEntryController {
     /**
      Call before returning any value created below to check for input errors and remove leading zeros
@@ -33,22 +61,19 @@ class CalculatorEntryController {
     static func appendCharacter(character: KeypadSpecial, to current: String) -> String {
         if (current.count >= 8) { return current }
         
-        let specialCharacterList: [KeypadSpecial : String] = [
-            .decimal:".",
-            .percentage:"%",
-            .power:"^",
-            .sqrRoot:"√",
-        ]
-        
-        let char = specialCharacterList[character] ?? ""
+        let char = SpecialCharacterRules.getRuleFor(character) //specialCharacterList[character] ?? .init(placement: .anywhere, representable: "")
         
         if (current == "0" || current == "") {
-            return "0"+char
+            return "0"+char.representable
         } else {
-            if (current.contains(char)) {
+            if (current.contains(char.representable)) {
                 return CalculatorEntryController.prepareForFinalReturn(current)
             } else {
-                return CalculatorEntryController.prepareForFinalReturn(current + char)
+                if (char.placement == .start) {
+                    return CalculatorEntryController.prepareForFinalReturn(char.representable + current)
+                }
+                
+                return CalculatorEntryController.prepareForFinalReturn(current + char.representable)
             }
         }
     }
@@ -63,9 +88,9 @@ class CalculatorEntryController {
             return character
         } else {
             return CalculatorEntryController.prepareForFinalReturn(current + character)
-//            if (character == ".") {
+//            if (character == ".")
 //                if (current.contains(".")) {
-//                    return CalculatorEntryController.prepareForFinalReturn(current)
+//                    return CalculatorEntryController.prepareForFinalRet2urn(current)
 //                } else {
 //                    return CalculatorEntryController.prepareForFinalReturn(current + ".")
 //                }

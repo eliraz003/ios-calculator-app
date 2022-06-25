@@ -319,8 +319,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
     
     /**
      Performs a backspace operation by removing the last character from the current row
+     ##TODO: RUN VALUES THROUGH JAVASCRIPT TO ENSURE THAT THEY ARE ACCURATE BASED ON SPECIAL CHARACTERS
      */
     func backspace() {
+        print("Value", selected().getValue())
         if (selected().getValue() == 0) { ViewController.controlDelegate.removeSelected() }
         else { setValueForSelected(value: CalculatorEntryController.removingLastCharacter(current: ViewController.controlDelegate.selected().getRawValue())) }
     }
