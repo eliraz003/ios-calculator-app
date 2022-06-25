@@ -29,7 +29,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         ViewController.interfaceDelegate = self
         ViewController.controlDelegate = self
         
-        keypad = UIkeypadView()
+        keypad = UIkeypadView(layout: KeypadLayout.Standard)
         keypad.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(keypad)
         

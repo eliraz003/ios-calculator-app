@@ -10,6 +10,117 @@ import AVFoundation
 import UIKit
 
 
+
+enum KeypadAction {
+    case openMenu
+    case answer
+    case plusMinus
+    case backspace
+    case clear
+}
+
+enum KeypadSpecial {
+    case decimal
+}
+
+enum KeypadOperation {
+    case plus
+    case minus
+    case multiply
+    case divide
+}
+
+enum KeypadInteraction {
+    case number(number: String)
+    case operation(operation: KeypadOperation)
+    case action(action: KeypadAction)
+    case special(special: KeypadSpecial)
+}
+
+extension KeypadInteraction {
+    func colorControllerPattern() -> String {
+        switch(self) {
+        case .number(_):
+            return ColorController.StandardKeyBackground
+        case .special(_):
+            return ColorController.StandardKeyBackground
+        default:
+            return ColorController.OperationKeyBackground
+        }
+    }
+    
+    func getRenderer() -> UIView {
+        switch(self) {
+        case .number(let number):
+            return UIKeypadButtonLabel(text: number)
+        case .special(let special):
+            if (special == .decimal) { return UIKeypadButtonLabel(text: ".") }
+            return UIView()
+        case .operation(let operation):
+            switch(operation) {
+                case .divide: return UIKeypadButtonIcon(icon: UIImage(systemName: "divide", withConfiguration: iconConfiguration)!)
+                case .multiply: return UIKeypadButtonIcon(icon: UIImage(systemName: "multiply", withConfiguration: iconConfiguration)!)
+                case .minus: return UIKeypadButtonIcon(icon: UIImage(systemName: "plus", withConfiguration: iconConfiguration)!)
+                case .plus: return UIKeypadButtonIcon(icon: UIImage(systemName: "minus", withConfiguration: iconConfiguration)!)
+            }
+        case .action(let action):
+            switch(action) {
+                case .backspace: return UIKeypadButtonIcon(icon: UIImage(systemName: "delete.backward", withConfiguration: iconConfiguration)!)
+                case .plusMinus: return UIKeypadButtonIcon(icon: UIImage(systemName: "plus.forwardslash.minus", withConfiguration: iconConfiguration)!)
+                case .clear: return UIKeypadButtonIcon(icon: UIImage(systemName: "scribble", withConfiguration: iconConfiguration)!)
+                case .openMenu: return UIKeypadButtonIcon(icon: UIImage(systemName: "ellipsis.circle", withConfiguration: iconConfiguration)!)
+                case .answer: return UIKeypadButtonLabel(text: "ANS")
+            }
+        }
+    }
+}
+
+
+class KeypadLayout {
+    static var Special: KeypadLayout = KeypadLayout()
+    static var NumericalOnly: KeypadLayout = KeypadLayout()
+    
+    static var Standard: KeypadLayout = {
+        return KeypadLayout().row([
+            .number(number: "0"),
+            .special(special: .decimal),
+            .action(action: .answer),
+            .action(action: .backspace)
+        ]).row([
+            .number(number: "1"),
+            .number(number: "2"),
+            .number(number: "3"),
+            .operation(operation: .plus)
+        ]).row([
+            .number(number: "4"),
+            .number(number: "5"),
+            .number(number: "6"),
+            .operation(operation: .minus)
+        ]).row([
+            .number(number: "7"),
+            .number(number: "8"),
+            .number(number: "9"),
+            .operation(operation: .multiply)
+        ]).row([
+            .action(action: .openMenu),
+            .action(action: .clear),
+            .action(action: .plusMinus),
+            .operation(operation: .divide)
+        ])
+    }()
+    
+    private var rows: [[KeypadInteraction]] = []
+    
+    @discardableResult func row(_ items: [KeypadInteraction]) -> KeypadLayout {
+        rows.append(items)
+        return self
+    }
+    
+    func row(at: Int) -> [KeypadInteraction] { return rows[at] }
+    
+    func numberOfRows() -> Int { return rows.count }
+}
+
 /**
  The layout of the keypad buttons
  */
@@ -41,14 +152,16 @@ let keypadLabelIcons: [String:UIImage] = [
 
 class UIkeypadView: UIView {
     required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
-    init() {
+    init(layout: KeypadLayout) {
         super.init(frame: CGRect.zero)
         
         var previousAnchor: NSLayoutYAxisAnchor?
-        
+            
         var index = 0
-        while (index < 5) {
-            let row = UIKeypadRow(labels: keypadLabels[index], action: didPressKeyButton(action:), supersizedFirst: false)
+        while (index < layout.numberOfRows()) {
+            let row = UIKeypadRow(actions: layout.row(at: index), { interaction in
+                print("DID CLICK")
+            }) //UIKeypadRow(labels: keypadLabels[index], action: didPressKeyButton(action:), supersizedFirst: false)
             addSubview(row)
             row.translatesAutoresizingMaskIntoConstraints = false
             row.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -Dimensions.keypadPadding).isActive = true

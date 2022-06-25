@@ -76,7 +76,7 @@
 		FF1A1566283D410200A763DA /* UIInterfaceDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIInterfaceDelegate.swift; sourceTree = "<group>"; };
 		FF1A1568283D410C00A763DA /* UIControlDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIControlDelegate.swift; sourceTree = "<group>"; };
 		FF1A156B283D419A00A763DA /* HeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderViewController.swift; sourceTree = "<group>"; };
-		FF1A156D283D41BB00A763DA /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		FF1A156D283D41BB00A763DA /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		FF1A156F283D41E200A763DA /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		FF1A1575283D422F00A763DA /* Unit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unit.swift; sourceTree = "<group>"; };
 		FF1A1577283D42AB00A763DA /* UnitContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitContainer.swift; sourceTree = "<group>"; };
