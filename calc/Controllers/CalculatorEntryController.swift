@@ -7,18 +7,55 @@
 
 import Foundation
 
-class SpecialCharacterRules {
+extension RangeReplaceableCollection {
+    func splice(range: Range<Int>) -> [Element] where Index == Int {
+        var current: [Element] = []
+        var i = range.lowerBound
+        while (i <= range.upperBound) {
+            print("IS COUNT LARGER", self.count > i)
+            if (i <= self.count-1) { current.append(self[i]) }
+            
+
+            i += 1
+        }
+        
+        return current
+    }
+}
+
+typealias SpecialCharacterPerformer = (Double, Double) -> Double
+
+struct SpecialCharacterRule {
+    enum Placement {
+        case anywhere
+        case start
+        case end
+    }
+    
+    var placement: Placement
+    var representable: String
+    var togglable: Bool = true
+    var perform: SpecialCharacterPerformer?
+}
+
+
+
+class CalculatorEntryController {
     private static var rules: [KeypadSpecial : SpecialCharacterRule] = [
-        .decimal:.init(placement: .anywhere, representable: ".", togglable: false),
-        .plusMinus:.init(placement: .start, representable: "-"),
-        .percentage:.init(placement: .end, representable: "%"),
-        .power:.init(placement: .anywhere, representable: "^", togglable: false),
-        .sqrRoot:.init(placement: .start, representable: "√"),
+        .decimal:.init(placement: .anywhere, representable: ".", togglable: false, perform: nil),
+        .plusMinus:.init(placement: .start, representable: "-", togglable: true, perform: nil),
+        .power:.init(placement: .anywhere, representable: "^", togglable: false, perform: {(a,b) in return pow(a, b) }),
+        .sqrRoot:.init(placement: .start, representable: "√", togglable: true, perform: {(a,b) in return sqrt(a)})
     ]
     
     static func getRuleFor(_ character: KeypadSpecial) -> SpecialCharacterRule {
-        return rules[character] ?? .init(placement: .anywhere, representable: "")
+        return rules[character] ?? .init(placement: .anywhere, representable: "", perform: nil)
     }
+
+    static func getRuleFor(_ character: String) -> SpecialCharacterRule? {
+        return rules.first(where: { return $0.value.representable == character })?.value
+    }
+
     
     static func shouldAdhereToRule(wholeString: String) -> [String:SpecialCharacterRule.Placement] {
         var current: [String : SpecialCharacterRule.Placement] = [:]
@@ -32,20 +69,102 @@ class SpecialCharacterRules {
         return current
     }
     
-    struct SpecialCharacterRule {
-        enum Placement {
-            case anywhere
-            case start
-            case end
+    
+    
+    static func getComponentsOfEntry(entry: String) -> [String] {
+        var components: [String] = []
+        var isLastEntrySpecial = false
+        for char in entry {
+            if let rule = getRuleFor(String(char)), rule.perform != nil {
+                components.append(String(char))
+                isLastEntrySpecial = true
+            } else {
+                if (components.count == 0 || isLastEntrySpecial) { components.append("") }
+                
+                components[components.count - 1].append(String(char))
+                isLastEntrySpecial = false
+            }
         }
         
-        var placement: Placement
-        var representable: String
-        var togglable: Bool = true
+        return components
     }
-}
+    
+    static func renderedValue(entry: String) -> Double {
+        let components = getComponentsOfEntry(entry: entry)
+        
+        func toNumber(value: String) -> Double {
+            let formatter = NumberFormatter()
+            return Double(truncating: formatter.number(from: value) ?? 0)
+        }
+        
+        if (components.count == 1) {
+            return toNumber(value: components[0])
+        } else {
+            print("========")
+            func evaluateOperation(array: [String], holdingValue: Double, callOperation: SpecialCharacterPerformer?) -> Double {
+                if (array.count == 0) { return 0 }
+                if (array.count == 1) { return toNumber(value: array[0]) }
+                    
+                if let rule0 = getRuleFor(array[0]) {
+                    let result = evaluateOperation(array: array.splice(range: 1..<components.count), holdingValue: 0, callOperation: rule0.perform)
+                    print("RESULT WHERE 0 IS RULE", result)
+                    let handledResult = rule0.perform?(result, 1) ?? 0
+                    return handledResult
+                } else if let rule1 = getRuleFor(array[1])  {
+                    let result = evaluateOperation(array: array.splice(range: 2..<components.count), holdingValue: 0, callOperation: rule1.perform)
+                    print("RESULT WHERE 1 IS RULE", result, toNumber(value: array[0]))
+                    let handledResult = rule1.perform?(toNumber(value: array[0]), result) ?? toNumber(value: array[0])
+                    return handledResult
+                }
 
-class CalculatorEntryController {
+                return 0
+            }
+            
+            return evaluateOperation(array: components, holdingValue: 0, callOperation: { (a,b) in
+                return a
+            })
+            
+//            func evaluateOperation(before: [String], after: [String]) -> NSNumber {
+                // pass operation
+                // call evaluate operation on after strings
+//                return 0
+//            }
+            
+            
+//            if let rule0 = getRuleFor(components[0]) {
+//                let result = evaluateOperation(before: [], after: components.splice(range: 1..<components.count))
+//                print("RESULT WHERE 0 IS RULE", result)
+//            } else if let rule1 = getRuleFor(components[1])  {
+//                print("RESULT WHERE 1 IS RULE", 0)
+//            }
+//
+//            return 0
+            
+//            var isSustaining = false
+//            var i = 0
+//            while (i < components.count && !isSustaining) {
+//                if let isRule = getRuleFor(components[i]) {
+//                    isSustaining = true
+//                }
+//
+//                i += 1
+//            }
+//
+//
+//            for component in components {
+//                if let rule = getRuleFor(component) {
+//
+//                } else {
+//
+//                }
+//            }
+        }
+//        print("COMPONENTS", getComponentsOfEntry(entry: entry))
+        
+    }
+    
+    
+    
     /**
      Call before returning any value created below to check for input errors and remove leading zeros
      */
@@ -54,7 +173,7 @@ class CalculatorEntryController {
         var finalString = string
         
         /** Call SpecialCharacterRules.shouldAdhereToRule to determain what parts of the current input are special characters */
-        let toAdhere = SpecialCharacterRules.shouldAdhereToRule(wholeString: finalString)
+        let toAdhere = shouldAdhereToRule(wholeString: finalString)
         toAdhere.forEach({ val in
             /** remove all special characters */
             finalString = finalString.replacingOccurrences(of: val.key, with: "")
@@ -84,7 +203,7 @@ class CalculatorEntryController {
     static func appendCharacter(character: KeypadSpecial, to current: String) -> String {
         if (current.count >= 8) { return current }
         
-        let char = SpecialCharacterRules.getRuleFor(character) //specialCharacterList[character] ?? .init(placement: .anywhere, representable: "")
+        let char = getRuleFor(character) //specialCharacterList[character] ?? .init(placement: .anywhere, representable: "")
         
         if (current == "0" || current == "") {
             return CalculatorEntryController.prepareForFinalReturn(char.representable)
@@ -94,11 +213,6 @@ class CalculatorEntryController {
                 else { return CalculatorEntryController.prepareForFinalReturn(current) }
             } else {
                 return CalculatorEntryController.prepareForFinalReturn(current + char.representable)
-//                if (char.placement == .start) {
-//                    return CalculatorEntryController.prepareForFinalReturn(char.representable + current)
-//                }
-                
-//                return CalculatorEntryController.prepareForFinalReturn(current + char.representable)
             }
         }
     }
@@ -110,18 +224,9 @@ class CalculatorEntryController {
         if (current.count >= 8) { return current }
         
         if (current == "0" || current == "") {
-            return character
+            return CalculatorEntryController.prepareForFinalReturn(character)
         } else {
             return CalculatorEntryController.prepareForFinalReturn(current + character)
-//            if (character == ".")
-//                if (current.contains(".")) {
-//                    return CalculatorEntryController.prepareForFinalRet2urn(current)
-//                } else {
-//                    return CalculatorEntryController.prepareForFinalReturn(current + ".")
-//                }
-//            } else {
-//
-//            }
         }
     }
 
@@ -142,23 +247,23 @@ class CalculatorEntryController {
         }
     }
 
-    /**
-     Reverse the value for the current entry
-     i.e.
-     4 -> -4
-     16 -> -16
-     -42.4 -> 42.4
-     */
-    static func reverseCalculatorValue(current: String) -> String {
-        var numberValue = current
-        var wasNegative = false
-        if (current.first == "-") {
-            wasNegative = true
-            numberValue = String(numberValue.dropFirst())
-        }
-        
-        if (numberValue == "") { numberValue = "0" }
-        
-        return CalculatorEntryController.prepareForFinalReturn((wasNegative ? "" : "-") + numberValue)
-    }
+//    /**
+//     Reverse the value for the current entry
+//     i.e.
+//     4 -> -4
+//     16 -> -16
+//     -42.4 -> 42.4
+//     */
+//    static func reverseCalculatorValue(current: String) -> String {
+//        var numberValue = current
+//        var wasNegative = false
+//        if (current.first == "-") {
+//            wasNegative = true
+//            numberValue = String(numberValue.dropFirst())
+//        }
+//
+//        if (numberValue == "") { numberValue = "0" }
+//
+//        return CalculatorEntryController.prepareForFinalReturn((wasNegative ? "" : "-") + numberValue)
+//    }
 }

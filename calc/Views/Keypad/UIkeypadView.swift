@@ -77,7 +77,7 @@ class UIkeypadView: UIView {
                 ViewController.controlDelegate.clear()
                 break
             case "+/-":
-                ViewController.controlDelegate.setValueForSelected(value: CalculatorEntryController.reverseCalculatorValue(current: ViewController.controlDelegate.selected().getRawValue()))
+//                ViewController.controlDelegate.setValueForSelected(value: CalculatorEntryController.reverseCalculatorValue(current: ViewController.controlDelegate.selected().getRawValue()))
                 break
             case "-":
                 ViewController.controlDelegate.setOperationForSelected(operation: .minus)

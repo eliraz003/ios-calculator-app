@@ -260,8 +260,8 @@ class UICalculationRow: UIView {
     
     func getRawValue() -> String {return value}
     func getValue() -> Double {
-        let formatter = NumberFormatter()
-        let numberValue = Double(truncating: formatter.number(from: value) ?? 0)
+        print("FIX CALCULATION TO SUPPOERT SPECIAL CHARACTERS")
+        let numberValue = Double(truncating: NSNumber(value: CalculatorEntryController.renderedValue(entry: value)))
         return numberValue
     }
     

@@ -97,7 +97,7 @@
 		FF1A1594283D544700A763DA /* TimeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeController.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		FF1A1596283D544D00A763DA /* LengthController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LengthController.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		FF1A1598283D545800A763DA /* MassController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MassController.swift; sourceTree = "<group>"; };
-		FF1A159A283D547E00A763DA /* CalculatorEntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorEntryController.swift; sourceTree = "<group>"; };
+		FF1A159A283D547E00A763DA /* CalculatorEntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorEntryController.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		FF1A159C283D571E00A763DA /* SavedCurrencyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedCurrencyController.swift; sourceTree = "<group>"; };
 		FF1A159E283D599000A763DA /* UIkeypadButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIkeypadButton.swift; sourceTree = "<group>"; };
 		FF1A15A0283D59AC00A763DA /* UIKeypadRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKeypadRow.swift; sourceTree = "<group>"; };
