@@ -40,23 +40,6 @@ let keypadLabelIcons: [String:UIImage] = [
 
 
 class UIkeypadView: UIView {
-//    private let extendedViewTop = UIView()
-//    private let extendedViewBottom = UIView()
-//
-//    var extendedViewTopAnchor: NSLayoutYAxisAnchor? {
-//        didSet {
-//            if (extendedViewTopAnchor == nil) { return }
-//            extendedViewTop.topAnchor.constraint(equalTo: extendedViewTopAnchor!, constant: 0).isActive = true
-//        }
-//    }
-//
-//    var extendedViewBottomAnchor: NSLayoutYAxisAnchor? {
-//        didSet {
-//            if (extendedViewBottomAnchor == nil) { return }
-//            extendedViewBottom.bottomAnchor.constraint(equalTo: extendedViewBottomAnchor!, constant: 0).isActive = true
-//        }
-//    }
-    
     required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
     init() {
         super.init(frame: CGRect.zero)
@@ -75,23 +58,7 @@ class UIkeypadView: UIView {
             previousAnchor = row.topAnchor
             index += 1
         }
-        
-//        addSubview(extendedViewTop)
-//        addSubview(extendedViewBottom)
-//
-//        extendedViewTop.translatesAutoresizingMaskIntoConstraints = false
-//        extendedViewTop.bottomAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
-//        extendedViewTop.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 0).isActive = true
-//        extendedViewTop.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 0).isActive = true
-//
-//        extendedViewBottom.translatesAutoresizingMaskIntoConstraints = false
-//        extendedViewBottom.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 0).isActive = true
-//        extendedViewBottom.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 0).isActive = true
-//        extendedViewBottom.topAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
-//
-//        extendedViewTop.isHidden = true
-//        extendedViewBottom.isHidden = true
-        
+                
         self.topAnchor.constraint(equalTo: previousAnchor!, constant: 0).isActive = true
     }
     
