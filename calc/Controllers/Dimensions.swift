@@ -48,10 +48,10 @@ class Dimensions {
     
     static var unitFont: UIFont = {
         if ([Device.DeviceType.medium, Device.DeviceType.small].contains(Device.typeOf)) {
-            return UIFont.systemFont(ofSize: 26, weight: .light)
+            return UIFont.monospacedSystemFont(ofSize: 26, weight: .light)
         }
         
-        return UIFont.systemFont(ofSize: 32, weight: .regular)
+        return UIFont.monospacedSystemFont(ofSize: 32, weight: .regular)
     }()
     
     static var focusedCalculationFont: UIFont = {
