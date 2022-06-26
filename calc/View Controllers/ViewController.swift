@@ -122,6 +122,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
                 print("ACTION NOT IMPLEMENTED", action)
                 break
             }
+            
+            break
+        
+        default:
             break
         }
     }

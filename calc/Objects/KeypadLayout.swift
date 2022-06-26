@@ -25,6 +25,8 @@ enum KeypadSpecial: String {
     case decimal
     case plusMinus
     
+    case fraction
+    
     // POTENTIAL
     case pi
     case sqrRoot
@@ -50,6 +52,7 @@ enum KeypadOperation: String {
  Generic type of interaction
  */
 enum KeypadInteraction {
+    case empty
     case number(number: String)
     case operation(operation: KeypadOperation)
     case action(action: KeypadAction)
@@ -67,7 +70,10 @@ extension KeypadInteraction {
         switch(self) {
         case .number(_):
             return ColorController.StandardKeyBackground
-        case .special(_):
+        case .special(let special):
+            if (special == .plusMinus) { return ColorController.OperationKeyBackground }
+            return ColorController.StandardKeyBackground
+        case .empty:
             return ColorController.StandardKeyBackground
         default:
             return ColorController.OperationKeyBackground
@@ -85,6 +91,15 @@ extension KeypadInteraction {
             switch(special) {
                 case .decimal: return UIKeypadButtonLabel(text: ".")
                 case .plusMinus: return UIKeypadButtonIcon(icon: UIImage(systemName: "plus.forwardslash.minus", withConfiguration: iconConfiguration)!)
+                
+                case .pi: return UIKeypadButtonLabel(text: "π")
+                case .sqrRoot: return UIKeypadButtonIcon(icon: UIImage(systemName: "x.squareroot", withConfiguration: iconConfiguration)!)
+                case .power: return UIKeypadButtonIcon(icon: UIImage(systemName: "textformat.superscript", withConfiguration: iconConfiguration)!)
+                
+                case .fraction: return UIKeypadButtonIcon(icon: UIImage(systemName: "line.diagonal", withConfiguration: iconConfiguration)!)
+                case .percentage: return UIKeypadButtonIcon(icon: UIImage(systemName: "percent", withConfiguration: iconConfiguration)!)
+                case .log: return UIKeypadButtonIcon(icon: UIImage(systemName: "chart.line.uptrend.xyaxis", withConfiguration: iconConfiguration)!)
+                
                 default: return UIKeypadButtonLabel(text: special.rawValue)
             }
         case .operation(let operation):
@@ -101,6 +116,8 @@ extension KeypadInteraction {
                 case .openMenu: return UIKeypadButtonIcon(icon: UIImage(systemName: "ellipsis.circle", withConfiguration: iconConfiguration)!)
                 case .answer: return UIKeypadButtonLabel(text: "ANS")
             }
+        default:
+            return UIView()
         }
     }
 }
@@ -111,13 +128,30 @@ class KeypadLayout {
      A keypad the provides advanced actions
      */
     static var Special: KeypadLayout = KeypadLayout().row([
+        .empty,
+        .empty,
+        .empty,
+        .empty
+    ]).row([
+        .special(special: .sqrRoot),
+        .special(special: .power),
+        .special(special: .pi),
+        .empty
+    ]).row([
         .special(special: .sin),
         .special(special: .cos),
         .special(special: .tan),
+        .empty
     ]).row([
-        .special(special: .power),
-        .special(special: .sqrRoot),
+        .special(special: .log),
+        .special(special: .percentage),
+        .special(special: .fraction),
+        .empty
+    ]).row([
+        .action(action: .openMenu),
+        .action(action: .clear),
         .special(special: .plusMinus),
+        .empty
     ])
     
     /**
