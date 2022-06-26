@@ -118,9 +118,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
             switch(action) {
             case .backspace:
                 return backspace()
-            default:
-                print("ACTION NOT IMPLEMENTED", action)
-                break
+            case .clear:
+                return clear()
+            case .openMenu:
+                return openViewModally(MenuViewController())
+            case .answer:
+                return setAnswerToResult()
             }
             
             break
