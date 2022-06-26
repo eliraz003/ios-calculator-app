@@ -14,10 +14,56 @@ enum MathematicalOperation: String {
     case divide
 }
 
+class UIDotsIndicator: UIView {
+    private var dots: [UIView] = []
+    
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+    init(count: Int) {
+        super.init(frame: CGRect.zero)
+        
+        let size: CGFloat = 8
+        let gap: CGFloat = 12
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.heightAnchor.constraint(equalToConstant: size).isActive = true
+        
+        var i = 0
+        while (i < count) {
+            let newView = UIView(frame: CGRect(x: (CGFloat(i)*size)+(CGFloat(i)*gap), y: 0, width: size, height: size))
+            addSubview(newView)
+//            newView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
+//            newView.leftAnchor.constraint(equalTo: previous?.rightAnchor ?? leftAnchor, constant: 0).isActive = true
+//            newView.widthAnchor.constraint(equalToConstant: 8).isActive = true
+//            newView.heightAnchor.constraint(equalToConstant: 8).isActive = true
+            
+            newView.backgroundColor = .white
+            newView.layer.cornerRadius = (size / 2)
+//            previous = newView
+            i += 1
+            dots.append(newView)
+        }
+        
+        self.layoutIfNeeded()
+        self.widthAnchor.constraint(equalToConstant: dots.last?.frame.maxX ?? 0).isActive = true
+        
+        setIndex(index: 0)
+        //        self.rightAnchor.constraint(equalTo: previous?.rightAnchor ?? self.rightAnchor, constant: 0).isActive = true
+    }
+    
+    func setIndex(index: Int) {
+        for dot in dots {
+            dot.alpha = 0.3
+        }
+        
+        dots[index].alpha = 1
+    }
+}
+
 /**
  ViewController is the main view of the app
  */
 class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, UIInterfaceDelegate, UIKeypadInteractableDelegate {
+    private var stepsIndicator: UIDotsIndicator!
     private var keypadBounds: UIView!
     private var mainKeypad: UIkeypadView!
     private var secondaryKeypad: UIkeypadView!
@@ -36,7 +82,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         rowsContainer.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(rowsContainer)
         
-        
+        stepsIndicator = UIDotsIndicator(count: 2)
+        view.addSubview(stepsIndicator)
         
         mainKeypad = UIkeypadView(layout: KeypadLayout.Standard, delegate: self)
         mainKeypad.translatesAutoresizingMaskIntoConstraints = false
@@ -54,14 +101,16 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         backGesture.direction = .right
         secondaryKeypad.addGestureRecognizer(backGesture)
 
+        stepsIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+        stepsIndicator.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Dimensions.keypadBottomOffset).isActive = true
         
         mainKeypad.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
         mainKeypad.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
-        mainKeypad.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Dimensions.keypadBottomOffset).isActive = true
+        mainKeypad.bottomAnchor.constraint(equalTo: stepsIndicator.topAnchor, constant: -8).isActive = true
         
         secondaryKeypad.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
         secondaryKeypad.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
-        secondaryKeypad.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Dimensions.keypadBottomOffset).isActive = true
+        secondaryKeypad.bottomAnchor.constraint(equalTo: stepsIndicator.topAnchor, constant: -8).isActive = true
         secondaryKeypad.transform = CGAffineTransform(translationX: UIScreen.main.bounds.width, y: 0)
         
 
@@ -86,6 +135,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
             self.mainKeypad.transform = CGAffineTransform(translationX: -UIScreen.main.bounds.width, y: 0)
             self.secondaryKeypad.transform = CGAffineTransform(translationX: 0, y: 0)
         }, completion: nil)
+        
+        stepsIndicator.setIndex(index: 1)
     }
     
     @objc func swipeToMainKeypad() {
@@ -93,6 +144,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
             self.mainKeypad.transform = CGAffineTransform(translationX: 0, y: 0)
             self.secondaryKeypad.transform = CGAffineTransform(translationX: UIScreen.main.bounds.width, y: 0)
         }, completion: nil)
+        
+        stepsIndicator.setIndex(index: 0)
     }
     
     

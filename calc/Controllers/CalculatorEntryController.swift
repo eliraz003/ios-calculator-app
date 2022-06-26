@@ -12,10 +12,7 @@ extension RangeReplaceableCollection {
         var current: [Element] = []
         var i = range.lowerBound
         while (i <= range.upperBound) {
-            print("IS COUNT LARGER", self.count > i)
             if (i <= self.count-1) { current.append(self[i]) }
-            
-
             i += 1
         }
         
@@ -44,8 +41,11 @@ class CalculatorEntryController {
     private static var rules: [KeypadSpecial : SpecialCharacterRule] = [
         .decimal:.init(placement: .anywhere, representable: ".", togglable: false, perform: nil),
         .plusMinus:.init(placement: .start, representable: "-", togglable: true, perform: nil),
+        
         .power:.init(placement: .anywhere, representable: "^", togglable: false, perform: {(a,b) in return pow(a, b) }),
-        .sqrRoot:.init(placement: .start, representable: "√", togglable: true, perform: {(a,b) in return sqrt(a)})
+        .sqrRoot:.init(placement: .start, representable: "√", togglable: true, perform: {(a,b) in return sqrt(a)}),
+        .fraction:.init(placement: .anywhere, representable: "/", togglable: false, perform: {(a,b) in return a/b}),
+        .pi:.init(placement: .anywhere, representable: "P", togglable: false, perform: {(a,b) in return a*Double.pi })
     ]
     
     static func getRuleFor(_ character: KeypadSpecial) -> SpecialCharacterRule {
