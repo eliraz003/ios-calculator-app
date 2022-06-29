@@ -160,7 +160,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
             UIView.animate(withDuration: 0.55, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.7, options: .curveEaseOut, animations: {
                 self.mainKeypad.transform = CGAffineTransform(translationX: self.getOffsetOfKeypadUsingIndex(self.currentKeypad, target: 0), y: 0)
                 self.secondaryKeypad.transform = CGAffineTransform(translationX: self.getOffsetOfKeypadUsingIndex(self.currentKeypad, target: 1), y: 0)
-            }, completion: nil)
+            }, completion: { _ in
+                self.stepsIndicator.setIndex(index: self.currentKeypad)
+            })
         }
     }
     
@@ -214,9 +216,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
             case .answer:
                 return setAnswerToResult()
             }
-            
-            break
-        
         default:
             break
         }
