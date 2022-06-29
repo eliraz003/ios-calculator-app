@@ -20,7 +20,7 @@ extension RangeReplaceableCollection {
     }
 }
 
-typealias SpecialCharacterPerformer = (Double, Double) -> Double
+typealias SpecialCharacterPerformer = (Double?, Double?) -> Double
 
 struct SpecialCharacterRule {
     enum Placement {
@@ -42,10 +42,14 @@ class CalculatorEntryController {
         .decimal:.init(placement: .anywhere, representable: ".", togglable: false, perform: nil),
         .plusMinus:.init(placement: .start, representable: "-", togglable: true, perform: nil),
         
-        .power:.init(placement: .anywhere, representable: "^", togglable: false, perform: {(a,b) in return pow(a, b) }),
-        .sqrRoot:.init(placement: .start, representable: "√", togglable: true, perform: {(a,b) in return sqrt(a)}),
-        .fraction:.init(placement: .anywhere, representable: "/", togglable: false, perform: {(a,b) in return a/b}),
-        .pi:.init(placement: .anywhere, representable: "P", togglable: false, perform: {(a,b) in return a*Double.pi })
+        .power:.init(placement: .anywhere, representable: "^", togglable: false, perform: {(a,b) in return pow(a ?? 0, b ?? 1) }),
+        .sqrRoot:.init(placement: .anywhere, representable: "√", togglable: true, perform: {(a,b) in return (a ?? 1) * sqrt(b ?? 0)}),
+        .fraction:.init(placement: .anywhere, representable: "/", togglable: false, perform: {(a,b) in return (a ?? 0)/(b ?? 0)}),
+        .pi:.init(placement: .anywhere, representable: "π", togglable: false, perform: {(a,b) in print("a", a, b); return ((a ?? 1) * Double.pi) * (b ?? 1) }),
+        
+        .tan:.init(placement: .anywhere, representable: "T", togglable: false, perform: {(a,b) in return tan((Double.pi / 180) * (a ?? 1)) }),
+        .cos:.init(placement: .anywhere, representable: "C", togglable: false, perform: {(a,b) in return cos((Double.pi / 180) * (a ?? 1)) }),
+        .sin:.init(placement: .anywhere, representable: "S", togglable: false, perform: {(a,b) in return sin((Double.pi / 180) * (a ?? 1)) }),
     ]
     
     static func getRuleFor(_ character: KeypadSpecial) -> SpecialCharacterRule {
@@ -98,73 +102,33 @@ class CalculatorEntryController {
             return Double(truncating: formatter.number(from: value) ?? 0)
         }
         
-        if (components.count == 1) {
-            return toNumber(value: components[0])
-        } else {
-            print("========")
-            func evaluateOperation(array: [String], holdingValue: Double, callOperation: SpecialCharacterPerformer?) -> Double {
-                if (array.count == 0) { return 0 }
-                if (array.count == 1) { return toNumber(value: array[0]) }
-                    
-                if let rule0 = getRuleFor(array[0]) {
-                    let result = evaluateOperation(array: array.splice(range: 1..<components.count), holdingValue: 0, callOperation: rule0.perform)
-                    print("RESULT WHERE 0 IS RULE", result)
-                    let handledResult = rule0.perform?(result, 1) ?? 0
-                    return handledResult
-                } else if let rule1 = getRuleFor(array[1])  {
-                    let result = evaluateOperation(array: array.splice(range: 2..<components.count), holdingValue: 0, callOperation: rule1.perform)
-                    print("RESULT WHERE 1 IS RULE", result, toNumber(value: array[0]))
-                    let handledResult = rule1.perform?(toNumber(value: array[0]), result) ?? toNumber(value: array[0])
-                    return handledResult
-                }
-
-                return 0
+        func evaluateOperation(array: [String], holdingValue: Double, callOperation: SpecialCharacterPerformer?) -> Double? {
+            if (array.count == 0) { return nil }
+            if (array.count == 1) {
+                if let rule0 = getRuleFor(array[0]) { return rule0.perform?(nil, nil) ?? 0 }
+                else { return toNumber(value: array[0]) }
             }
-            
-            return evaluateOperation(array: components, holdingValue: 0, callOperation: { (a,b) in
-                return a
-            })
-            
-//            func evaluateOperation(before: [String], after: [String]) -> NSNumber {
-                // pass operation
-                // call evaluate operation on after strings
-//                return 0
-//            }
-            
-            
-//            if let rule0 = getRuleFor(components[0]) {
-//                let result = evaluateOperation(before: [], after: components.splice(range: 1..<components.count))
-//                print("RESULT WHERE 0 IS RULE", result)
-//            } else if let rule1 = getRuleFor(components[1])  {
-//                print("RESULT WHERE 1 IS RULE", 0)
-//            }
-//
-//            return 0
-            
-//            var isSustaining = false
-//            var i = 0
-//            while (i < components.count && !isSustaining) {
-//                if let isRule = getRuleFor(components[i]) {
-//                    isSustaining = true
-//                }
-//
-//                i += 1
-//            }
-//
-//
-//            for component in components {
-//                if let rule = getRuleFor(component) {
-//
-//                } else {
-//
-//                }
-//            }
+                
+            if let rule0 = getRuleFor(array[0]) {
+                let result = evaluateOperation(array: array.splice(range: 1..<components.count), holdingValue: 0, callOperation: rule0.perform)
+                let handledResult = rule0.perform?(nil, result)
+                return handledResult ?? 0
+            } else if let rule1 = getRuleFor(array[1])  {
+                let result = evaluateOperation(array: array.splice(range: 2..<components.count), holdingValue: 0, callOperation: rule1.perform)
+                let handledResult = rule1.perform?(toNumber(value: array[0]), result) ?? toNumber(value: array[0])
+                return handledResult
+            }
+
+            return 0
         }
-//        print("COMPONENTS", getComponentsOfEntry(entry: entry))
         
+        let result = evaluateOperation(array: components, holdingValue: 0, callOperation: { (a,b) in
+            return a ?? 0
+        }) ?? 0
+        
+        if (Double.infinity == result) { return 0 }
+        return result
     }
-    
-    
     
     /**
      Call before returning any value created below to check for input errors and remove leading zeros
