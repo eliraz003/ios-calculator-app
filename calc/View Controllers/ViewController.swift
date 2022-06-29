@@ -65,6 +65,8 @@ class UIDotsIndicator: UIView {
 class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, UIInterfaceDelegate, UIKeypadInteractableDelegate {
     private var stepsIndicator: UIDotsIndicator!
     private var keypadBounds: UIView!
+    
+    private var currentKeypad: Int = 0
     private var mainKeypad: UIkeypadView!
     private var secondaryKeypad: UIkeypadView!
     
@@ -92,14 +94,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         secondaryKeypad = UIkeypadView(layout: KeypadLayout.Special, delegate: self)
         secondaryKeypad.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(secondaryKeypad)
-        
-//        let gesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeToSecondaryKeypad))
-//        gesture.direction = .left
-//        mainKeypad.addGestureRecognizer(gesture)
-//
-//        let backGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeToMainKeypad))
-//        backGesture.direction = .right
-//        secondaryKeypad.addGestureRecognizer(backGesture)
 
         stepsIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
         stepsIndicator.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Dimensions.keypadBottomOffset).isActive = true
@@ -137,8 +131,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
     
     //* ALLOW USER TO SWIPE BETWEEN MAIN AND SECONDARY KEYPAD *//
     
-    var currentKeypad: Int = 0
-    
     private func getOffsetOfKeypadUsingIndex(_ current: Int, target: Int) -> CGFloat {
         let w = UIScreen.main.bounds.width
         let offset = CGFloat(target - current)
@@ -166,25 +158,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         }
     }
     
-//    @objc func swipeToSecondaryKeypad() {
-//        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-//            self.mainKeypad.transform = CGAffineTransform(translationX: -UIScreen.main.bounds.width, y: 0)
-//            self.secondaryKeypad.transform = CGAffineTransform(translationX: 0, y: 0)
-//        }, completion: nil)
-//
-//        currentKeypad = 1
-//        stepsIndicator.setIndex(index: 1)
-//    }
-//
-//    @objc func swipeToMainKeypad() {
-//        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-//            self.mainKeypad.transform = CGAffineTransform(translationX: 0, y: 0)
-//            self.secondaryKeypad.transform = CGAffineTransform(translationX: UIScreen.main.bounds.width, y: 0)
-//        }, completion: nil)
-//
-//        currentKeypad = 0
-//        stepsIndicator.setIndex(index: 0)
-//    }
     
     
     //* KEYPAD CONTROL DELEGATE *//

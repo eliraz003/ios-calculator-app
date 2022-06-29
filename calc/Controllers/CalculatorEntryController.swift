@@ -45,7 +45,7 @@ class CalculatorEntryController {
         .power:.init(placement: .anywhere, representable: "^", togglable: false, perform: {(a,b) in return pow(a ?? 0, b ?? 1) }),
         .sqrRoot:.init(placement: .anywhere, representable: "√", togglable: true, perform: {(a,b) in return (a ?? 1) * sqrt(b ?? 0)}),
         .fraction:.init(placement: .anywhere, representable: "/", togglable: false, perform: {(a,b) in return (a ?? 0)/(b ?? 0)}),
-        .pi:.init(placement: .anywhere, representable: "π", togglable: false, perform: {(a,b) in print("a", a, b); return ((a ?? 1) * Double.pi) * (b ?? 1) }),
+        .pi:.init(placement: .anywhere, representable: "π", togglable: false, perform: {(a,b) in return ((a ?? 1) * Double.pi) }),
         
         .tan:.init(placement: .anywhere, representable: "T", togglable: false, perform: {(a,b) in return tan((Double.pi / 180) * (a ?? 1)) }),
         .cos:.init(placement: .anywhere, representable: "C", togglable: false, perform: {(a,b) in return cos((Double.pi / 180) * (a ?? 1)) }),

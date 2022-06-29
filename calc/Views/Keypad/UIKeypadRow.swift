@@ -32,39 +32,6 @@ class UIKeypadRow: UIStackView {
         }
     }
     
-//    init(labels: [String], action: @escaping (String) -> Void, supersizedFirst: Bool = false) {
-//        super.init(frame: CGRect.zero)
-//        self.axis = .horizontal
-//        self.distribution = .equalSpacing
-//        self.alignment = .center
-//        self.heightAnchor.constraint(equalToConstant: Dimensions.keyHeight).isActive = true
-//
-//        var index = 0
-//        while (index < ((supersizedFirst) ? 3 : 4)) {
-//            let button = UIKeypadButton(text: labels[index], action: action)
-//            button.translatesAutoresizingMaskIntoConstraints = false
-//            addArrangedSubview(button)
-//
-//            let usesIcon = (keypadLabelIcons[labels[index]] != nil || labels[index] == "ANS")
-//            button.border.alpha = (index == 0) ? 0 : 1
-//            button.heightAnchor.constraint(equalToConstant: Dimensions.keyHeight).isActive = true
-////            buttons.append(button)
-//
-//            ColorController.appendToList(key: (usesIcon) ? ColorController.OperationKeyBackground : ColorController.StandardKeyBackground, item: button)
-//            index += 1
-//        }
-//
-//        let border = UIView()
-//        addSubview(border)
-//        border.translatesAutoresizingMaskIntoConstraints = false
-//        border.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 0).isActive = true
-//        border.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 0).isActive = true
-//        border.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
-//        border.heightAnchor.constraint(equalToConstant: 1).isActive = true
-//        border.backgroundColor = UIColor.black.withAlphaComponent(0.03)
-//        border.isHidden = true
-//    }
-    
     override func didMoveToSuperview() {
         if (superview == nil) { return }
         
