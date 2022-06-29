@@ -93,13 +93,13 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         secondaryKeypad.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(secondaryKeypad)
         
-        let gesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeToSecondaryKeypad))
-        gesture.direction = .left
-        mainKeypad.addGestureRecognizer(gesture)
-        
-        let backGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeToMainKeypad))
-        backGesture.direction = .right
-        secondaryKeypad.addGestureRecognizer(backGesture)
+//        let gesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeToSecondaryKeypad))
+//        gesture.direction = .left
+//        mainKeypad.addGestureRecognizer(gesture)
+//
+//        let backGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeToMainKeypad))
+//        backGesture.direction = .right
+//        secondaryKeypad.addGestureRecognizer(backGesture)
 
         stepsIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
         stepsIndicator.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Dimensions.keypadBottomOffset).isActive = true
@@ -122,6 +122,13 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         rowsContainer.bringToLife()
         rowsContainer.addRow()
         
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(userDidPanKeypad(gesture:)))
+        mainKeypad.isUserInteractionEnabled = true
+        mainKeypad.addGestureRecognizer(panGesture)
+        let secondaryPanGesture = UIPanGestureRecognizer(target: self, action: #selector(userDidPanKeypad(gesture:)))
+        secondaryKeypad.isUserInteractionEnabled = true
+        secondaryKeypad.addGestureRecognizer(secondaryPanGesture)
+        
         ColorController.appendToList(key: ColorController.MainBackground, item: view)
         ViewController.interfaceDelegate.setTheme(theme:
             ViewController.interfaceDelegate.getTheme()
@@ -130,23 +137,52 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
     
     //* ALLOW USER TO SWIPE BETWEEN MAIN AND SECONDARY KEYPAD *//
     
-    @objc func swipeToSecondaryKeypad() {
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-            self.mainKeypad.transform = CGAffineTransform(translationX: -UIScreen.main.bounds.width, y: 0)
-            self.secondaryKeypad.transform = CGAffineTransform(translationX: 0, y: 0)
-        }, completion: nil)
-        
-        stepsIndicator.setIndex(index: 1)
+    var currentKeypad: Int = 0
+    
+    private func getOffsetOfKeypadUsingIndex(_ current: Int, target: Int) -> CGFloat {
+        let w = UIScreen.main.bounds.width
+        let offset = CGFloat(target - current)
+        return w * offset
     }
     
-    @objc func swipeToMainKeypad() {
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-            self.mainKeypad.transform = CGAffineTransform(translationX: 0, y: 0)
-            self.secondaryKeypad.transform = CGAffineTransform(translationX: UIScreen.main.bounds.width, y: 0)
-        }, completion: nil)
+    @objc func userDidPanKeypad(gesture: UIPanGestureRecognizer) {
+        var transform = gesture.translation(in: view).x
+        if (currentKeypad == 0) { transform = min(0, transform) }
+        else if (currentKeypad == 1) { transform = max(0, transform) }
         
-        stepsIndicator.setIndex(index: 0)
+        if (gesture.state == .changed) {
+            self.mainKeypad.transform = CGAffineTransform(translationX:  getOffsetOfKeypadUsingIndex(currentKeypad, target: 0) + transform, y: 0)
+            self.secondaryKeypad.transform = CGAffineTransform(translationX: getOffsetOfKeypadUsingIndex(currentKeypad, target: 1) + transform, y: 0)
+        } else if (gesture.state == .ended) {
+            if (currentKeypad == 0 && transform < -100) { currentKeypad = 1 }
+            else if (currentKeypad == 1 && transform > 100) { currentKeypad = 0 }
+            
+            UIView.animate(withDuration: 0.55, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.7, options: .curveEaseOut, animations: {
+                self.mainKeypad.transform = CGAffineTransform(translationX: self.getOffsetOfKeypadUsingIndex(self.currentKeypad, target: 0), y: 0)
+                self.secondaryKeypad.transform = CGAffineTransform(translationX: self.getOffsetOfKeypadUsingIndex(self.currentKeypad, target: 1), y: 0)
+            }, completion: nil)
+        }
     }
+    
+//    @objc func swipeToSecondaryKeypad() {
+//        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+//            self.mainKeypad.transform = CGAffineTransform(translationX: -UIScreen.main.bounds.width, y: 0)
+//            self.secondaryKeypad.transform = CGAffineTransform(translationX: 0, y: 0)
+//        }, completion: nil)
+//
+//        currentKeypad = 1
+//        stepsIndicator.setIndex(index: 1)
+//    }
+//
+//    @objc func swipeToMainKeypad() {
+//        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+//            self.mainKeypad.transform = CGAffineTransform(translationX: 0, y: 0)
+//            self.secondaryKeypad.transform = CGAffineTransform(translationX: UIScreen.main.bounds.width, y: 0)
+//        }, completion: nil)
+//
+//        currentKeypad = 0
+//        stepsIndicator.setIndex(index: 0)
+//    }
     
     
     //* KEYPAD CONTROL DELEGATE *//
