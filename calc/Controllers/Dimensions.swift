@@ -30,7 +30,6 @@ class Dimensions {
     }()
     
     static var keypadBottomOffset: CGFloat = {
-        print("DEVICE INSET", Device.hasSafeAreaInset)
         var bottomSafeAreaInset: CGFloat = (Device.hasSafeAreaInset) ? 12 : 0
         
         if (Device.typeOf == .small) {

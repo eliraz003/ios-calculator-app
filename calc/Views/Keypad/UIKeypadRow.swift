@@ -21,7 +21,9 @@ class UIKeypadRow: UIStackView {
         
         for action in actions {
             let button = UIKeypadButton(action: action, onClick: { onAction($0) })
-            ColorController.appendToList(key: action.colorControllerPattern(), item: button)
+            let colorControllerPattern = action.colorControllerPattern()
+            ColorController.appendToList(key: colorControllerPattern.0, item: button, handler: colorControllerPattern.1)
+            
             button.translatesAutoresizingMaskIntoConstraints = false
             addArrangedSubview(button)
         

@@ -66,17 +66,19 @@ extension KeypadInteraction {
     /**
     Get the ColorController name for the given interaction to properly style the keypad
      */
-    func colorControllerPattern() -> String {
+    func colorControllerPattern() -> (String, (UIColor) -> UIColor) {
+        func returnEmptyPatternHandler(_ val: String) -> (String, (UIColor) -> UIColor) { return (val, { return $0 }) }
+        
         switch(self) {
         case .number(_):
-            return ColorController.StandardKeyBackground
+            return returnEmptyPatternHandler(ColorController.StandardKeyBackground)
         case .special(let special):
-            if (special == .plusMinus) { return ColorController.OperationKeyBackground }
-            return ColorController.StandardKeyBackground
+            if (special == .plusMinus) { return returnEmptyPatternHandler(ColorController.OperationKeyBackground) }
+            return returnEmptyPatternHandler(ColorController.StandardKeyBackground)
         case .empty:
-            return ColorController.StandardKeyBackground
+            return (ColorController.StandardKeyBackground, { return $0.withAlphaComponent(0.3) })
         default:
-            return ColorController.OperationKeyBackground
+            return returnEmptyPatternHandler(ColorController.OperationKeyBackground)
         }
     }
     
