@@ -229,19 +229,34 @@ class CalculatorEntryController {
     static func removingLastCharacter(current: String) -> String? {
         print("IS REMOVING LAST CHARACTER")
         
-        let components = getComponentsOfEntry(entry: current)
-        print("COMPONENTS IN ENTRY", current, components)
-        
-        if (current.count <= 1) {
-            return "0"
+        var components = getComponentsOfEntry(entry: current)
+        if (KeypadSpecial.getRuleFor(components.last!) != nil) {
+            components.removeLast()
         } else {
-            var newString = current
-            if let lastIndex = current.lastIndex(of: current.last!) {
-                newString.remove(at: lastIndex)
+            components[components.count-1].removeLast()
+            if (components[components.count-1] == "") {
+                components.removeLast()
             }
-            
-            return CalculatorEntryController.prepareForFinalReturn(newString)
         }
+        
+//        print("Final", components, components.count==1, (components[0] == "" || components[0] == "0"))
+        let valueIsEmpty: Bool = (components.count == 1)
+            ? (components[0] == "" || components[0] == "0")
+            : (components.count == 0) ? true :false
+        print("is value empty", valueIsEmpty)
+        if (valueIsEmpty) { return nil }
+        else { return CalculatorEntryController.prepareForFinalReturn(components.joined()) }
+        
+//        if (current.count <= 1) {
+//            return "0"
+//        } else {
+//            var newString = current
+//            if let lastIndex = current.lastIndex(of: current.last!) {
+//                newString.remove(at: lastIndex)
+//            }
+//
+//            return CalculatorEntryController.prepareForFinalReturn(newString)
+//        }
     }
 
 }
