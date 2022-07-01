@@ -11,7 +11,7 @@ import UIKit
 /**
  Possible actions that can be called using the keypad
  */
-enum KeypadAction {
+enum KeypadAction: String {
     case openMenu
     case answer
     case backspace
@@ -57,6 +57,23 @@ enum KeypadInteraction {
     case operation(operation: KeypadOperation)
     case action(action: KeypadAction)
     case special(special: KeypadSpecial)
+}
+
+extension KeypadInteraction {
+    func accessibilityLabel() -> String {
+        switch(self) {
+        case .number(let number):
+            return number
+        case .special(let special):
+            return special.rawValue
+        case .operation(let operation):
+            return operation.rawValue
+        case .action(let action):
+            return action.rawValue
+        case .empty:
+            return ""
+        }
+    }
 }
 
 /**
@@ -108,8 +125,8 @@ extension KeypadInteraction {
             switch(operation) {
                 case .divide: return UIKeypadButtonIcon(icon: UIImage(systemName: "divide", withConfiguration: iconConfiguration)!)
                 case .multiply: return UIKeypadButtonIcon(icon: UIImage(systemName: "multiply", withConfiguration: iconConfiguration)!)
-                case .minus: return UIKeypadButtonIcon(icon: UIImage(systemName: "plus", withConfiguration: iconConfiguration)!)
-                case .plus: return UIKeypadButtonIcon(icon: UIImage(systemName: "minus", withConfiguration: iconConfiguration)!)
+                case .minus: return UIKeypadButtonIcon(icon: UIImage(systemName: "minus", withConfiguration: iconConfiguration)!)
+                case .plus: return UIKeypadButtonIcon(icon: UIImage(systemName: "plus", withConfiguration: iconConfiguration)!)
             }
         case .action(let action):
             switch(action) {

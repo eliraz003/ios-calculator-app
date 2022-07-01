@@ -14,6 +14,7 @@ class UIKeypadButtonLabel: UILabel {
         super.init(frame: CGRect.zero)
         
         self.text = text
+        self.accessibilityIdentifier = nil
         self.translatesAutoresizingMaskIntoConstraints = false
         self.font = Dimensions.keyFontsize
         ColorController.appendToList(key: ColorController.KeypadCharacter, item: self)
@@ -40,15 +41,17 @@ class UIKeypadButton: UIView {
         
     required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
     init(action: KeypadInteraction, onClick: @escaping (KeypadInteraction) -> Void) { //(text: String, action: @escaping (String) -> Void) {
-//        self.text = text
         self.action = action
         self.onClick = onClick
         super.init(frame: CGRect.zero)
         
-        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapped)))
+//        self.addTarget(self, action: #selector(tapped), for: .touchUpInside)
         self.layer.cornerRadius = (Dimensions.keyHeight / 2)
+        self.accessibilityIdentifier = action.accessibilityLabel()
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapped)))
         
         let renderable = action.getRenderer()
+        
         addSubview(renderable)
         renderable.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 0).isActive = true
         renderable.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 0).isActive = true

@@ -79,7 +79,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         
         ViewController.interfaceDelegate = self
         ViewController.controlDelegate = self
-                
+    
         rowsContainer = UICalculationRowsController() //(delegate: self)
         rowsContainer.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(rowsContainer)
