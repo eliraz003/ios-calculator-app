@@ -113,7 +113,7 @@
 		FF48486427F09C36002CD220 /* calcTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = calcTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF48486827F09C36002CD220 /* calcTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calcTests.swift; sourceTree = "<group>"; };
 		FF48486E27F09C36002CD220 /* calcUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = calcUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FF48487227F09C36002CD220 /* calcUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calcUITests.swift; sourceTree = "<group>"; };
+		FF48487227F09C36002CD220 /* calcUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calcUITests.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		FF48487427F09C36002CD220 /* calcUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calcUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		FF48488127F472F3002CD220 /* UIkeypadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIkeypadView.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		FF48488327FF0CF9002CD220 /* Currency-list.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Currency-list.txt"; sourceTree = "<group>"; };

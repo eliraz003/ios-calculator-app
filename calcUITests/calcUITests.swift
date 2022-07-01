@@ -28,34 +28,116 @@ class calcUITests: XCTestCase {
         let app = XCUIApplication()
         app.launch()
         
-        // Simple Integerer Calculation
+        func evaluateResults(expected: String) -> Bool {
+            let res = app.otherElements["total_row"].staticTexts.matching(identifier: "total_label").firstMatch
+            return (res.label == expected)
+        }
         
-        // Clear button
+        func pressClear() {
+            // Tap Clear
+            app.otherElements["clear"].tap()
+            
+            // Assert That It Works
+            XCTAssert(
+                evaluateResults(expected: "0"),
+                "Results should be empty")
+        }
         
-        // Calculation With Decimal
+        /**
+         Test a basic integer value
+         */
+        
+        // Tap Buttons
+        app.otherElements["2"].tap()
+        app.otherElements["1"].tap()
+        
+        // Assert Result
+        XCTAssert(
+            evaluateResults(expected: "21"),
+            "Results should equal 21")
+        
+        // Clear Input
+        pressClear()
+        
+        
+        /**
+         Test a basic decimal value
+         */
+        
+        // Tap Buttons
+        app.staticTexts["1"].tap()
+        app.staticTexts["0"].tap()
+        app.staticTexts["3"].tap()
+        app.staticTexts["."].tap()
+        app.staticTexts["5"].tap()
+        app.staticTexts["2"].tap()
+        
+        // Assert Value
+        XCTAssert(
+            evaluateResults(expected: "103.52"),
+            "Results should be 103.52")
+        
+        // Press Clear
+        pressClear()
+        
+        
+        
+        /**
+         Test a case where the user presses more than the allowed number of characters
+         */
+        
+        
+        
+        /**
+         Test a case where the user presses 3 characters then removes 4
+         */
+        
+        
+        /**
+         Clear and set standard input
+         */
+        
+        /**
+         Press the add operation
+         */
+        
+        /**
+         Type a long input
+         */
+        
+        /**
+         Press the remove operation
+         */
+        
+        /**
+         Press the first input container and change it's value and change to minus operation
+         */
+        
+        /**
+         Swipe keypad over to scientific mode
+         */
+        
+        /**
+         Swipe keypad back to standard mode
+         */
+        
+        /**
+         Swipe back to scientific mode and calculate 4PI
+         */
+        
+        
         
         // Press Add
+        app.otherElements["plus"].tap()
         
-        // Add another value
+        app.staticTexts["1"].tap()
+        app.staticTexts["0"].tap()
         
-        // Calculate value
+        XCTAssert(
+            evaluateResults(expected: "113.52"),
+            "Results should be 103.52")
         
-        // Clear
         
-        // Swipe over to scientific mode
-        
-        // Swipe back
-        
-        // Press 1
-        
-        // Press Pi
-        
-        // Divide for 4
-        
-        let button = app.staticTexts["1"]
-        button.tap()
-        button.tap()
-
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }

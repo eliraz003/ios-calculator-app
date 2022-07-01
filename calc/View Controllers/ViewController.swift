@@ -92,6 +92,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         view.addSubview(mainKeypad)
         
         secondaryKeypad = UIkeypadView(layout: KeypadLayout.Special, delegate: self)
+        secondaryKeypad.isHidden = true
         secondaryKeypad.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(secondaryKeypad)
 
@@ -115,6 +116,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         
         rowsContainer.bringToLife()
         rowsContainer.addRow()
+        
+        rowsContainer.totalRow.accessibilityIdentifier = "total_row"
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(userDidPanKeypad(gesture:)))
         mainKeypad.isUserInteractionEnabled = true

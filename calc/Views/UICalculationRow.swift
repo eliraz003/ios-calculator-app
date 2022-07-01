@@ -24,7 +24,7 @@ class UICalculationRow: UIView {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.setTitle("#", for: .normal)
-        view.titleLabel?.font = Dimensions.unitFont //UIFont.systemFont(ofSize: 28, weight: .light)
+        view.titleLabel?.font = Dimensions.unitFont
         
         view.showsMenuAsPrimaryAction = true
         view.isUserInteractionEnabled = true
@@ -101,6 +101,7 @@ class UICalculationRow: UIView {
         ColorController.appendToList(key: ColorController.RowLabel, item: displayArrowBottom, handler: { return $0.withAlphaComponent(0.1) })
         
         if (!allowUserUnitChanging) {
+            valueLabel.accessibilityIdentifier = "total_label"
             operationIconBackground.removeFromSuperview()
             operationIcon.removeFromSuperview()
             displayArrowTop.removeFromSuperview()
