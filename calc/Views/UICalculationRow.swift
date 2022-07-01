@@ -187,19 +187,19 @@ class UICalculationRow: UIView {
     private func buildMenu(setUnitCallback: @escaping (Unit?) -> Void) -> UIMenu {
         let options: UIMenu.Options = (unit != nil) ? [.displayInline] : []
          
-        let timeMenu = UIMenu.init(title: "Time", image: UIImage(systemName: "clock.fill"), identifier: nil, options: options, children: timeUnits.availiableUnits(forStandardRow: allowUserUnitChanging).map{ arr in //(allowUserUnitChanging ? timeUnits.readAllRowUnits() : timeUnits.readAllTotalRowUnits()).map({ sortedUnit in
+        let timeMenu = UIMenu.init(title: "Time", image: UIImage(systemName: "clock.fill"), identifier: nil, options: options, children: timeUnits.availiableUnits(forStandardRow: allowUserUnitChanging).map{ arr in
             return UIMenu.init(title: "", image: nil, identifier: nil, options: .displayInline, children: arr.map({ sortedUnit in
                 UIAction.init(title: sortedUnit.name, image: nil, identifier: nil, discoverabilityTitle: nil, attributes: [], state: (unit == sortedUnit) ? .on : .off, handler: { action in setUnitCallback(sortedUnit) })
             }))
         })
         
-        let lengthMenu = UIMenu.init(title: "Lengths", image: UIImage(systemName: "ruler.fill"), identifier: nil, options: options, children: lengthUnits.availiableUnits(forStandardRow: allowUserUnitChanging).map{ arr in //(allowUserUnitChanging ? timeUnits.readAllRowUnits() : timeUnits.readAllTotalRowUnits()).map({ sortedUnit in
+        let lengthMenu = UIMenu.init(title: "Lengths", image: UIImage(systemName: "ruler.fill"), identifier: nil, options: options, children: lengthUnits.availiableUnits(forStandardRow: allowUserUnitChanging).map{ arr in
             return UIMenu.init(title: "", image: nil, identifier: nil, options: .displayInline, children: arr.map({ sortedUnit in
                 UIAction.init(title: sortedUnit.name, image: nil, identifier: nil, discoverabilityTitle: nil, attributes: [], state: (unit == sortedUnit) ? .on : .off, handler: { action in setUnitCallback(sortedUnit) })
             }))
         })
         
-        let massMenu = UIMenu.init(title: "Mass / Weights", image: UIImage(systemName: "scalemass.fill"), identifier: nil, options: options, children: massUnits.availiableUnits(forStandardRow: allowUserUnitChanging).map{ arr in //(allowUserUnitChanging ? timeUnits.readAllRowUnits() : timeUnits.readAllTotalRowUnits()).map({ sortedUnit in
+        let massMenu = UIMenu.init(title: "Mass / Weights", image: UIImage(systemName: "scalemass.fill"), identifier: nil, options: options, children: massUnits.availiableUnits(forStandardRow: allowUserUnitChanging).map{ arr in
             return UIMenu.init(title: "", image: nil, identifier: nil, options: .displayInline, children: arr.map({ sortedUnit in
                 UIAction.init(title: sortedUnit.name, image: nil, identifier: nil, discoverabilityTitle: nil, attributes: [], state: (unit == sortedUnit) ? .on : .off, handler: { action in setUnitCallback(sortedUnit) })
             }))
@@ -239,13 +239,13 @@ class UICalculationRow: UIView {
     
     func focus() {
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
-            self.valueLabel.font = Dimensions.focusedCalculationFont//UIFont.systemFont(ofSize: 48, weight: .light)
+            self.valueLabel.font = Dimensions.focusedCalculationFont
         }, completion: nil)
     }
     
     func blur() {
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
-            self.valueLabel.font = Dimensions.blurredCalculationFont// UIFont.systemFont(ofSize: 28, weight: .light)
+            self.valueLabel.font = Dimensions.blurredCalculationFont
         }, completion: nil)
     }
     

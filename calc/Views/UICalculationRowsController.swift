@@ -88,7 +88,7 @@ class UICalculationRowsController: UIView {
         let standardHeight = (rows.count <= 1) ? 0 : ((selectedIndex == 0) ? rows[0].0.frame.height : rows[1].0.frame.height)
         
         let count = CGFloat(rows.count - 1)
-        let preferedHeight = (openHeight + (count * standardHeight))// + (count * rowSpacing)
+        let preferedHeight = (openHeight + (count * standardHeight))
         
         contentView.removeConstraint(contentViewHeightAxis)
         contentViewHeightAxis = contentView.heightAnchor.constraint(equalToConstant: (preferedHeight == 0) ? 16: preferedHeight)
@@ -147,7 +147,7 @@ class UICalculationRowsController: UIView {
     }
 
     func addRow() {
-        let newRow = UICalculationRow(allowUserUnitChanging: true)//, defaultUnit: delegate?.getAutomaticUnit())
+        let newRow = UICalculationRow(allowUserUnitChanging: true)
         contentView.addSubview(newRow)
         newRow.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 0).isActive = true
         newRow.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 0).isActive = true

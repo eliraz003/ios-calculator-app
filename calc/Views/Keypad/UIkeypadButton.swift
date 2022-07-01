@@ -40,12 +40,11 @@ class UIKeypadButton: UIView {
     private var onClick: ((KeypadInteraction) -> Void)!
         
     required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
-    init(action: KeypadInteraction, onClick: @escaping (KeypadInteraction) -> Void) { //(text: String, action: @escaping (String) -> Void) {
+    init(action: KeypadInteraction, onClick: @escaping (KeypadInteraction) -> Void) {
         self.action = action
         self.onClick = onClick
         super.init(frame: CGRect.zero)
         
-//        self.addTarget(self, action: #selector(tapped), for: .touchUpInside)
         self.layer.cornerRadius = (Dimensions.keyHeight / 2)
         self.accessibilityIdentifier = action.accessibilityLabel()
         self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapped)))

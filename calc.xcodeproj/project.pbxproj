@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		6FED536328674A720031E08E /* KeypadLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FED536228674A720031E08E /* KeypadLayout.swift */; };
-		FF1A156428368F8600A763DA /* click-sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FF1A156328368F8500A763DA /* click-sound.mp3 */; };
 		FF1A1567283D410200A763DA /* UIInterfaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A1566283D410200A763DA /* UIInterfaceDelegate.swift */; };
 		FF1A1569283D410C00A763DA /* UIControlDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A1568283D410C00A763DA /* UIControlDelegate.swift */; };
 		FF1A156C283D419A00A763DA /* HeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A156B283D419A00A763DA /* HeaderViewController.swift */; };
@@ -49,10 +48,8 @@
 		FF48488427FF5C76002CD220 /* Currency-list.txt in Resources */ = {isa = PBXBuildFile; fileRef = FF48488327FF0CF9002CD220 /* Currency-list.txt */; };
 		FF930DC228140716000ED6A7 /* SearchUnitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF930DC128140716000ED6A7 /* SearchUnitViewController.swift */; };
 		FF930DC42814073F000ED6A7 /* ThemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF930DC32814073F000ED6A7 /* ThemeViewController.swift */; };
-		FF930DC6282583D3000ED6A7 /* CalculatorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF930DC5282583D3000ED6A7 /* CalculatorHandler.swift */; };
 		FF930DC828258409000ED6A7 /* UICalculationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF930DC728258409000ED6A7 /* UICalculationRow.swift */; };
 		FF930DCA28258414000ED6A7 /* UICalculationRowsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF930DC928258414000ED6A7 /* UICalculationRowsController.swift */; };
-		FF930DCC28258459000ED6A7 /* Units.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF930DCB28258459000ED6A7 /* Units.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,7 +71,6 @@
 
 /* Begin PBXFileReference section */
 		6FED536228674A720031E08E /* KeypadLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeypadLayout.swift; sourceTree = "<group>"; };
-		FF1A156328368F8500A763DA /* click-sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "click-sound.mp3"; sourceTree = "<group>"; };
 		FF1A1566283D410200A763DA /* UIInterfaceDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIInterfaceDelegate.swift; sourceTree = "<group>"; };
 		FF1A1568283D410C00A763DA /* UIControlDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIControlDelegate.swift; sourceTree = "<group>"; };
 		FF1A156B283D419A00A763DA /* HeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderViewController.swift; sourceTree = "<group>"; };
@@ -117,14 +113,10 @@
 		FF48487427F09C36002CD220 /* calcUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calcUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		FF48488127F472F3002CD220 /* UIkeypadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIkeypadView.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		FF48488327FF0CF9002CD220 /* Currency-list.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Currency-list.txt"; sourceTree = "<group>"; };
-		FF930DC0280B70EE000ED6A7 /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 		FF930DC128140716000ED6A7 /* SearchUnitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUnitViewController.swift; sourceTree = "<group>"; };
 		FF930DC32814073F000ED6A7 /* ThemeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeViewController.swift; sourceTree = "<group>"; };
-		FF930DC5282583D3000ED6A7 /* CalculatorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorHandler.swift; sourceTree = "<group>"; };
 		FF930DC728258409000ED6A7 /* UICalculationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICalculationRow.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		FF930DC928258414000ED6A7 /* UICalculationRowsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICalculationRowsController.swift; sourceTree = "<group>"; };
-		FF930DCB28258459000ED6A7 /* Units.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Units.swift; sourceTree = "<group>"; wrapsLines = 0; };
-		FFB487E9282954EC00FF9988 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -288,7 +280,6 @@
 				FF48485F27F09C35002CD220 /* Info.plist */,
 				FF48485A27F09C35002CD220 /* Assets.xcassets */,
 				FF48488327FF0CF9002CD220 /* Currency-list.txt */,
-				FFB487E8282954E700FF9988 /* old */,
 			);
 			path = calc;
 			sourceTree = "<group>";
@@ -308,18 +299,6 @@
 				FF48487427F09C36002CD220 /* calcUITestsLaunchTests.swift */,
 			);
 			path = calcUITests;
-			sourceTree = "<group>";
-		};
-		FFB487E8282954E700FF9988 /* old */ = {
-			isa = PBXGroup;
-			children = (
-				FF930DC0280B70EE000ED6A7 /* TODO.md */,
-				FF930DC5282583D3000ED6A7 /* CalculatorHandler.swift */,
-				FF930DCB28258459000ED6A7 /* Units.swift */,
-				FF1A156328368F8500A763DA /* click-sound.mp3 */,
-				FFB487E9282954EC00FF9988 /* ViewController.swift */,
-			);
-			path = old;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -430,7 +409,6 @@
 				FF48485B27F09C35002CD220 /* Assets.xcassets in Resources */,
 				FF48485927F09C2F002CD220 /* Main.storyboard in Resources */,
 				FF48488427FF5C76002CD220 /* Currency-list.txt in Resources */,
-				FF1A156428368F8600A763DA /* click-sound.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -473,7 +451,6 @@
 				FF1A1584283D4DF300A763DA /* Currency.swift in Sources */,
 				FF1A1576283D422F00A763DA /* Unit.swift in Sources */,
 				FF930DC228140716000ED6A7 /* SearchUnitViewController.swift in Sources */,
-				FF930DCC28258459000ED6A7 /* Units.swift in Sources */,
 				FF930DCA28258414000ED6A7 /* UICalculationRowsController.swift in Sources */,
 				FF48485227F09C2E002CD220 /* AppDelegate.swift in Sources */,
 				FF1A1569283D410C00A763DA /* UIControlDelegate.swift in Sources */,
@@ -492,7 +469,6 @@
 				FF930DC828258409000ED6A7 /* UICalculationRow.swift in Sources */,
 				FF1A1590283D4F7200A763DA /* UICurrencyTableCell.swift in Sources */,
 				FF1A1586283D4E4A00A763DA /* Time.swift in Sources */,
-				FF930DC6282583D3000ED6A7 /* CalculatorHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

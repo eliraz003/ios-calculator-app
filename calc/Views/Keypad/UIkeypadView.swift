@@ -67,47 +67,47 @@ class UIkeypadView: UIView {
     /**
      Called when a keypad button is pressed, check if the operation should do something other than enter a character to the current calculation row
      */
-    func didPressKeyButton(action: String) {
-        guard let number = NumberFormatter().number(from: action)?.intValue else {
-            switch(action) {
-            case "<":
-                ViewController.controlDelegate.backspace()
-                break
-            case "CA":
-                ViewController.controlDelegate.clear()
-                break
-            case "+/-":
-//                ViewController.controlDelegate.setValueForSelected(value: CalculatorEntryController.reverseCalculatorValue(current: ViewController.controlDelegate.selected().getRawValue()))
-                break
-            case "-":
-                ViewController.controlDelegate.setOperationForSelected(operation: .minus)
-                break
-            case "+":
-                ViewController.controlDelegate.setOperationForSelected(operation: .plus)
-                break
-            case "*":
-                ViewController.controlDelegate.setOperationForSelected(operation: .multiply)
-                break
-            case "/":
-                ViewController.controlDelegate.setOperationForSelected(operation: .divide)
-                break
-            case "ANS":
-                ViewController.controlDelegate.setAnswerToResult()
-                break
-            case "THEME":
-                ViewController.interfaceDelegate.openViewModally(MenuViewController())//.openThemeSelector()
-                break
-            case ".":
-                ViewController.controlDelegate.setValueForSelected(value: CalculatorEntryController.appendCharacter(character: ".", to: ViewController.controlDelegate.selected().getRawValue()))
-            default:
-                print("----NO ACTION----")
-                break
-            }
-            
-            return
-        }
-        
-        ViewController.controlDelegate.setValueForSelected(value: CalculatorEntryController.appendCharacter(character: String(number), to: ViewController.controlDelegate.selected().getRawValue()))
-        return
-    }
+//    func didPressKeyButton(action: String) {
+//        guard let number = NumberFormatter().number(from: action)?.intValue else {
+//            switch(action) {
+//            case "<":
+//                ViewController.controlDelegate.backspace()
+//                break
+//            case "CA":
+//                ViewController.controlDelegate.clear()
+//                break
+//            case "+/-":
+////                ViewController.controlDelegate.setValueForSelected(value: CalculatorEntryController.reverseCalculatorValue(current: ViewController.controlDelegate.selected().getRawValue()))
+//                break
+//            case "-":
+//                ViewController.controlDelegate.setOperationForSelected(operation: .minus)
+//                break
+//            case "+":
+//                ViewController.controlDelegate.setOperationForSelected(operation: .plus)
+//                break
+//            case "*":
+//                ViewController.controlDelegate.setOperationForSelected(operation: .multiply)
+//                break
+//            case "/":
+//                ViewController.controlDelegate.setOperationForSelected(operation: .divide)
+//                break
+//            case "ANS":
+//                ViewController.controlDelegate.setAnswerToResult()
+//                break
+//            case "THEME":
+//                ViewController.interfaceDelegate.openViewModally(MenuViewController())//.openThemeSelector()
+//                break
+//            case ".":
+//                ViewController.controlDelegate.setValueForSelected(value: CalculatorEntryController.appendCharacter(character: ".", to: ViewController.controlDelegate.selected().getRawValue()))
+//            default:
+//                print("----NO ACTION----")
+//                break
+//            }
+//
+//            return
+//        }
+//
+//        ViewController.controlDelegate.setValueForSelected(value: CalculatorEntryController.appendCharacter(character: String(number), to: ViewController.controlDelegate.selected().getRawValue()))
+//        return
+//    }
 }

@@ -51,7 +51,6 @@ class UIThemeView: UIView {
         ])
         
         self.translatesAutoresizingMaskIntoConstraints = false
-//        self.heightAnchor.constraint(equalToConstant: (Device.typeOf == .small) ? 46 : 64).isActive = true
         
         if (isCurrent) {
             let tick = UIImageView()

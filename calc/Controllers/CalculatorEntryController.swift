@@ -221,23 +221,4 @@ class CalculatorEntryController {
         }
     }
 
-//    /**
-//     Reverse the value for the current entry
-//     i.e.
-//     4 -> -4
-//     16 -> -16
-//     -42.4 -> 42.4
-//     */
-//    static func reverseCalculatorValue(current: String) -> String {
-//        var numberValue = current
-//        var wasNegative = false
-//        if (current.first == "-") {
-//            wasNegative = true
-//            numberValue = String(numberValue.dropFirst())
-//        }
-//
-//        if (numberValue == "") { numberValue = "0" }
-//
-//        return CalculatorEntryController.prepareForFinalReturn((wasNegative ? "" : "-") + numberValue)
-//    }
 }

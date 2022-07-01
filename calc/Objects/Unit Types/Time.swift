@@ -63,7 +63,7 @@ extension Time {
     static var Hour = "Hour"
     static var Day = "Day"
     
-    static var MillisecondValue: CGFloat = 1 //0.001
+    static var MillisecondValue: CGFloat = 1
     static var SecondValue: CGFloat = 1000
     static var MinuteValue: CGFloat = (1000 * 60)
     static var HourValue: CGFloat = (1000 * 60 * 60)

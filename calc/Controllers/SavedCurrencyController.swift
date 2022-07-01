@@ -7,12 +7,6 @@
 
 import Foundation
 
-//private
-//
-//private
-//
-//private
-
 class SavedCurrencyController {
     static var shared: SavedCurrencyController = SavedCurrencyController()
     

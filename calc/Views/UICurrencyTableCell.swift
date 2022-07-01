@@ -43,7 +43,6 @@ class UICurrencyTableCell: UITableViewCell {
         tickMark.leftAnchor.constraint(equalTo: leftAnchor, constant: 12).isActive = true
         tickMark.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0).isActive = true
         tickMark.image = UIImage(named: "tick")
-//            tickMark.backgroundColor = .orange
         
         isoLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(isoLabel)
