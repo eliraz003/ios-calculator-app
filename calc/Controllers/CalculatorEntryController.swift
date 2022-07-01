@@ -20,50 +20,35 @@ extension RangeReplaceableCollection {
     }
 }
 
-typealias SpecialCharacterPerformer = (Double?, Double?) -> Double
-
-struct SpecialCharacterRule {
-    enum Placement {
-        case anywhere
-        case start
-        case end
-    }
-    
-    var placement: Placement
-    var representable: String
-    var togglable: Bool = true
-    var perform: SpecialCharacterPerformer?
-}
-
 
 
 class CalculatorEntryController {
-    private static var rules: [KeypadSpecial : SpecialCharacterRule] = [
-        .decimal:.init(placement: .anywhere, representable: ".", togglable: false, perform: nil),
-        .plusMinus:.init(placement: .start, representable: "-", togglable: true, perform: nil),
-        
-        .power:.init(placement: .anywhere, representable: "^", togglable: false, perform: {(a,b) in return pow(a ?? 0, b ?? 1) }),
-        .sqrRoot:.init(placement: .anywhere, representable: "√", togglable: true, perform: {(a,b) in return (a ?? 1) * sqrt(b ?? 0)}),
-        .fraction:.init(placement: .anywhere, representable: "/", togglable: false, perform: {(a,b) in return (a ?? 0)/(b ?? 0)}),
-        .pi:.init(placement: .anywhere, representable: "π", togglable: false, perform: {(a,b) in return ((a ?? 1) * Double.pi) }),
-        
-        .tan:.init(placement: .anywhere, representable: "T", togglable: false, perform: {(a,b) in return tan((Double.pi / 180) * (a ?? 1)) }),
-        .cos:.init(placement: .anywhere, representable: "C", togglable: false, perform: {(a,b) in return cos((Double.pi / 180) * (a ?? 1)) }),
-        .sin:.init(placement: .anywhere, representable: "S", togglable: false, perform: {(a,b) in return sin((Double.pi / 180) * (a ?? 1)) }),
-    ]
-    
-    static func getRuleFor(_ character: KeypadSpecial) -> SpecialCharacterRule {
-        return rules[character] ?? .init(placement: .anywhere, representable: "", perform: nil)
-    }
-
-    static func getRuleFor(_ character: String) -> SpecialCharacterRule? {
-        return rules.first(where: { return $0.value.representable == character })?.value
-    }
+//    private static var rules: [KeypadSpecial : SpecialCharacterRule] = [
+//        .decimal:.init(placement: .anywhere, representable: ".", togglable: false, perform: nil),
+//        .plusMinus:.init(placement: .start, representable: "-", togglable: true, perform: nil),
+//
+//        .power:.init(placement: .anywhere, representable: "^", togglable: false, perform: {(a,b) in return pow(a ?? 0, b ?? 1) }),
+//        .sqrRoot:.init(placement: .anywhere, representable: "√", togglable: true, perform: {(a,b) in return (a ?? 1) * sqrt(b ?? 0)}),
+//        .fraction:.init(placement: .anywhere, representable: "/", togglable: false, perform: {(a,b) in return (a ?? 0)/(b ?? 0)}),
+//        .pi:.init(placement: .anywhere, representable: "π", togglable: false, perform: {(a,b) in return ((a ?? 1) * Double.pi) }),
+//
+//        .tan:.init(placement: .anywhere, representable: "T", togglable: false, perform: {(a,b) in return tan((Double.pi / 180) * (a ?? 1)) }),
+//        .cos:.init(placement: .anywhere, representable: "C", togglable: false, perform: {(a,b) in return cos((Double.pi / 180) * (a ?? 1)) }),
+//        .sin:.init(placement: .anywhere, representable: "S", togglable: false, perform: {(a,b) in return sin((Double.pi / 180) * (a ?? 1)) }),
+//    ]
+//
+//    static func getRuleFor(_ character: KeypadSpecial) -> SpecialCharacterRule {
+//        return rules[character] ?? .init(placement: .anywhere, representable: "", perform: nil)
+//    }
+//
+//    static func getRuleFor(_ character: String) -> SpecialCharacterRule? {
+//        return rules.first(where: { return $0.value.representable == character })?.value
+//    }
 
     
     static func shouldAdhereToRule(wholeString: String) -> [String:SpecialCharacterRule.Placement] {
         var current: [String : SpecialCharacterRule.Placement] = [:]
-        rules.forEach({ rule in
+        KeypadSpecial.rules.forEach({ rule in
             if (rule.value.placement == .anywhere) { return }
             if (wholeString.contains(rule.value.representable)) {
                 current[rule.value.representable] = rule.value.placement
@@ -77,21 +62,54 @@ class CalculatorEntryController {
     
     static func getComponentsOfEntry(entry: String) -> [String] {
         var components: [String] = []
-        var isLastEntrySpecial = false
+        var lastComponentNumeric: Bool?
+        var latestComponent: String = ""
+        
         for char in entry {
-            if let rule = getRuleFor(String(char)), rule.perform != nil {
-                components.append(String(char))
-                isLastEntrySpecial = true
-            } else {
-                if (components.count == 0 || isLastEntrySpecial) { components.append("") }
+            let isNumeric = (char == "." || char.isNumber)
+            let isSpecial = (!isNumeric)
+            let ignorePrevious = (lastComponentNumeric == nil)
+            let wasComponentNumberic = (!ignorePrevious) ? lastComponentNumeric! : false
+            
+            print(isNumeric, isSpecial, ignorePrevious, wasComponentNumberic)
+            
+            if (isNumeric) {
+                lastComponentNumeric = true
                 
-                components[components.count - 1].append(String(char))
-                isLastEntrySpecial = false
+                if (components.count == 0 || !wasComponentNumberic) { components.append("") }
+                components[components.count-1] += String(char)
+            } else if (isSpecial) {
+                lastComponentNumeric = false
+                latestComponent += String(char)
+                if (KeypadSpecial.getRuleFor(latestComponent) != nil) {
+                    components.append(latestComponent)
+                    latestComponent = ""
+                }
             }
         }
         
-        if (components.count == 0) { return [""] }
+//        if (latestComponent != "") { components.append(latestComponent) }
+        print("COMPONENTS", components)
+        
+        if (components.count == 0) { components.append("") }
         return components
+        
+//        var components: [String] = []
+//        var isLastEntrySpecial = false
+//        for char in entry {
+//            if let rule = KeypadSpecial.getRuleFor(String(char)), rule.perform != nil {
+//                components.append(String(char))
+//                isLastEntrySpecial = true
+//            } else {
+//                if (components.count == 0 || isLastEntrySpecial) { components.append("") }
+//
+//                components[components.count - 1].append(String(char))
+//                isLastEntrySpecial = false
+//            }
+//        }
+//
+//        if (components.count == 0) { return [""] }
+//        return components
     }
     
     static func renderedValue(entry: String) -> Double {
@@ -105,15 +123,15 @@ class CalculatorEntryController {
         func evaluateOperation(array: [String], holdingValue: Double, callOperation: SpecialCharacterPerformer?) -> Double? {
             if (array.count == 0) { return nil }
             if (array.count == 1) {
-                if let rule0 = getRuleFor(array[0]) { return rule0.perform?(nil, nil) ?? 0 }
+                if let rule0 = KeypadSpecial.getRuleFor(array[0]) { return rule0.perform?(nil, nil) ?? 0 }
                 else { return toNumber(value: array[0]) }
             }
                 
-            if let rule0 = getRuleFor(array[0]) {
+            if let rule0 = KeypadSpecial.getRuleFor(array[0]) {
                 let result = evaluateOperation(array: array.splice(range: 1..<components.count), holdingValue: 0, callOperation: rule0.perform)
                 let handledResult = rule0.perform?(nil, result)
                 return handledResult ?? 0
-            } else if let rule1 = getRuleFor(array[1])  {
+            } else if let rule1 = KeypadSpecial.getRuleFor(array[1])  {
                 let result = evaluateOperation(array: array.splice(range: 2..<components.count), holdingValue: 0, callOperation: rule1.perform)
                 let handledResult = rule1.perform?(toNumber(value: array[0]), result) ?? toNumber(value: array[0])
                 return handledResult
@@ -168,7 +186,7 @@ class CalculatorEntryController {
     static func appendCharacter(character: KeypadSpecial, to current: String) -> String {
         if (current.count >= 8) { return current }
         
-        let char = getRuleFor(character) //specialCharacterList[character] ?? .init(placement: .anywhere, representable: "")
+        let char = character.rule() //specialCharacterList[character] ?? .init(placement: .anywhere, representable: "")
         
         if (current == "0" || current == "") {
             return CalculatorEntryController.prepareForFinalReturn(char.representable)
@@ -208,7 +226,12 @@ class CalculatorEntryController {
      Remove the last character in currency
      (From the backsapce button or from the swipe back gesture)
      */
-    static func removingLastCharacter(current: String) -> String {
+    static func removingLastCharacter(current: String) -> String? {
+        print("IS REMOVING LAST CHARACTER")
+        
+        let components = getComponentsOfEntry(entry: current)
+        print("COMPONENTS IN ENTRY", current, components)
+        
         if (current.count <= 1) {
             return "0"
         } else {

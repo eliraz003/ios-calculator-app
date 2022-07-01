@@ -14,32 +14,32 @@ import UIKit
 
 /**
  The layout of the keypad buttons
- */
-let keypadLabels: [[String]] = [
-    ["0",".","ANS","<"],
-    ["1","2","3","+"],
-    ["4","5","6","-"],
-    ["7","8","9","*"],
-    ["THEME","CA","+/-","/"],
-]
+// */
+//let keypadLabels: [[String]] = [
+//    ["0",".","ANS","<"],
+//    ["1","2","3","+"],
+//    ["4","5","6","-"],
+//    ["7","8","9","*"],
+//    ["THEME","CA","+/-","/"],
+//]
 
 
 let iconConfiguration = UIImage.SymbolConfiguration(pointSize: Dimensions.keyFontsize.pointSize - 4, weight: .light)
 
-/**
- If a key entered in the keypad label should use an icon instead of a UILabel than enter them in this list
- */
-let keypadLabelIcons: [String:UIImage] = [
-    "CA":UIImage(systemName: "scribble", withConfiguration: iconConfiguration)!,
-    "THEME":UIImage(systemName: "ellipsis.circle", withConfiguration: iconConfiguration)!,
-    "<":UIImage(systemName: "delete.backward", withConfiguration: iconConfiguration)!,
-    "+":UIImage(systemName: "plus", withConfiguration: iconConfiguration)!,
-    "-":UIImage(systemName: "minus", withConfiguration: iconConfiguration)!,
-    "*":UIImage(systemName: "multiply", withConfiguration: iconConfiguration)!,
-    "/":UIImage(systemName: "divide", withConfiguration: iconConfiguration)!,
-    "+/-":UIImage(systemName: "plus.forwardslash.minus", withConfiguration: iconConfiguration)!
-]
-
+///**
+// If a key entered in the keypad label should use an icon instead of a UILabel than enter them in this list
+// */
+//let keypadLabelIcons: [String:UIImage] = [
+//    "CA":UIImage(systemName: "scribble", withConfiguration: iconConfiguration)!,
+//    "THEME":UIImage(systemName: "ellipsis.circle", withConfiguration: iconConfiguration)!,
+//    "<":UIImage(systemName: "delete.backward", withConfiguration: iconConfiguration)!,
+//    "+":UIImage(systemName: "plus", withConfiguration: iconConfiguration)!,
+//    "-":UIImage(systemName: "minus", withConfiguration: iconConfiguration)!,
+//    "*":UIImage(systemName: "multiply", withConfiguration: iconConfiguration)!,
+//    "/":UIImage(systemName: "divide", withConfiguration: iconConfiguration)!,
+//    "+/-":UIImage(systemName: "plus.forwardslash.minus", withConfiguration: iconConfiguration)!
+//]
+//
 
 class UIkeypadView: UIView {
     required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}

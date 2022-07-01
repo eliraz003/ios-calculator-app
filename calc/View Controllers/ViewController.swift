@@ -88,11 +88,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         view.addSubview(stepsIndicator)
         
         mainKeypad = UIkeypadView(layout: KeypadLayout.Standard, delegate: self)
+        mainKeypad.accessibilityIdentifier = "main_keypad"
         mainKeypad.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(mainKeypad)
         
         secondaryKeypad = UIkeypadView(layout: KeypadLayout.Special, delegate: self)
-        secondaryKeypad.isHidden = true
+        secondaryKeypad.accessibilityIdentifier = "secondary_keypad"
         secondaryKeypad.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(secondaryKeypad)
 
@@ -394,8 +395,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
      */
     func backspace() {
         print("Value", selected().getValue())
-        if (selected().getValue() == 0) { ViewController.controlDelegate.removeSelected() }
-        else { setValueForSelected(value: CalculatorEntryController.removingLastCharacter(current: ViewController.controlDelegate.selected().getRawValue())) }
+        let newValueRemoved = CalculatorEntryController.removingLastCharacter(current: ViewController.controlDelegate.selected().getRawValue())
+        print("NEW VALUE REMOVED", newValueRemoved)
+//        if (selected().getValue() == 0) { ViewController.controlDelegate.removeSelected() }
+//        else { setValueForSelected(value: CalculatorEntryController.removingLastCharacter(current: ViewController.controlDelegate.selected().getRawValue())) }
     }
     
     /**

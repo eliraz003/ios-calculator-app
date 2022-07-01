@@ -9,6 +9,24 @@ import Foundation
 import UIKit
 
 /**
+ Rules used to determain action by special characters
+ */
+struct SpecialCharacterRule {
+    enum Placement {
+        case anywhere
+        case start
+        case end
+    }
+    
+    var placement: Placement
+    var representable: String
+    var togglable: Bool = true
+    var perform: SpecialCharacterPerformer?
+}
+
+
+
+/**
  Possible actions that can be called using the keypad
  */
 enum KeypadAction: String {
@@ -33,9 +51,35 @@ enum KeypadSpecial: String {
     case power
     case log
     case percentage
-    case sin
-    case cos
-    case tan
+    case trig_sin
+    case trig_cos
+    case trig_tan
+}
+
+typealias SpecialCharacterPerformer = (Double?, Double?) -> Double
+
+extension KeypadSpecial {
+    static var rules: [KeypadSpecial : SpecialCharacterRule] = [
+        .decimal:.init(placement: .anywhere, representable: ".", togglable: false, perform: nil),
+        .plusMinus:.init(placement: .start, representable: "-", togglable: true, perform: nil),
+        
+        .power:.init(placement: .anywhere, representable: "^", togglable: false, perform: {(a,b) in return pow(a ?? 0, b ?? 1) }),
+        .sqrRoot:.init(placement: .anywhere, representable: "√", togglable: true, perform: {(a,b) in return (a ?? 1) * sqrt(b ?? 0)}),
+        .fraction:.init(placement: .anywhere, representable: "/", togglable: false, perform: {(a,b) in return (a ?? 0)/(b ?? 0)}),
+        .pi:.init(placement: .anywhere, representable: "π", togglable: false, perform: {(a,b) in return ((a ?? 1) * Double.pi) }),
+        
+        .trig_tan:.init(placement: .anywhere, representable: "tan", togglable: false, perform: {(a,b) in return tan((Double.pi / 180) * (a ?? 1)) }),
+        .trig_cos:.init(placement: .anywhere, representable: "cos", togglable: false, perform: {(a,b) in return cos((Double.pi / 180) * (a ?? 1)) }),
+        .trig_sin:.init(placement: .anywhere, representable: "sin", togglable: false, perform: {(a,b) in return sin((Double.pi / 180) * (a ?? 1)) }),
+    ]
+    
+    static func getRuleFor(_ character: String) -> SpecialCharacterRule? {
+        return rules.first(where: { return $0.value.representable == character })?.value
+    }
+        
+    func rule() -> SpecialCharacterRule {
+        return KeypadSpecial.rules[self] ?? .init(placement: .anywhere, representable: "", perform: nil)
+    }
 }
 
 /**
@@ -157,9 +201,9 @@ class KeypadLayout {
         .special(special: .pi),
         .empty
     ]).row([
-        .special(special: .sin),
-        .special(special: .cos),
-        .special(special: .tan),
+        .special(special: .trig_tan),
+        .special(special: .trig_cos),
+        .special(special: .trig_tan),
         .empty
     ]).row([
         .special(special: .log),
