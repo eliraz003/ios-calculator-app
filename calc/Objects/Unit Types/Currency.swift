@@ -17,9 +17,9 @@ enum CurrencyFetchError: Error {
  ## CHANGE ME ACCORDING TO YOUR CURRENCY API
  */
 struct CurrencyServerResponse: Decodable {
-    var quote_currency:String
-    var base_currency:String
-    var quote:CGFloat
+    var name:String
+//    var base_currency:String
+    var value:CGFloat
     var date: String
 }
 
@@ -54,7 +54,8 @@ class Currency: RateBasedUnit {
         /**
          CHANGE URL DEPENDING ON THE URL OF YOUR CURRENCY CALLBACK API
          */
-        return "https://sheltered-earth-85165.herokuapp.com/api/currencies/v1?iso=" + iso.uppercased()
+        return "https://calculatooor-ios-default-rtdb.europe-west1.firebasedatabase.app/currencies/" + iso.uppercased() + ".json"
+//        return "https://sheltered-earth-85165.herokuapp.com/api/currencies/v1?iso=" +
     }
     
     func fetchValue(_ completion: @escaping (Unit?, Error?) -> Void, dontAttemptAgain: Bool = false) {
@@ -69,7 +70,8 @@ class Currency: RateBasedUnit {
                 
                 do {
                     let asObject = try JSONDecoder().decode(CurrencyServerResponse.self, from: data!)
-                    let quoteValue = asObject.quote
+                    print("DATA", asObject)
+                    let quoteValue = asObject.value
                     completion(FetchedCurrency(name: self.name, symbol: self.symbol, isoCode: self.isoCode, rate: quoteValue), nil)
                 } catch {
                     if (dontAttemptAgain) {completion(nil, CurrencyFetchError.CannotFetch)}
