@@ -417,6 +417,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
      */
     func clearUnits() {
         mostRecentUnit = nil
+        copiedUnit = nil
         
         rowsContainer.rows.forEach({ $0.0.setUnit(unit: nil, refresh: false) })
         rowsContainer.totalRow.setUnit(unit: nil, refresh: false)

@@ -19,6 +19,16 @@ class Dimensions {
         return 58
     }()
     
+    static var monoKeyFontsize: UIFont = {
+        if (Device.typeOf == .small) {
+            return UIFont.monospacedSystemFont(ofSize: 24, weight: .light)
+        } else if (Device.typeOf == .medium) {
+            return UIFont.monospacedSystemFont(ofSize: 26, weight: .light)
+        }
+        
+        return UIFont.monospacedSystemFont(ofSize: 32, weight: .regular)
+    }()
+    
     static var keyFontsize: UIFont = {
         if (Device.typeOf == .small) {
             return UIFont.systemFont(ofSize: 30, weight: .light)

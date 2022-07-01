@@ -130,6 +130,7 @@ class MenuViewController: UIViewController {
         
         let buttons: [(String, UIImage?)] = [
             ("Manage Currerncies", UIImage(systemName: "creditcard")),
+            ("Disable Ads (Support The App)", UIImage(systemName: "bell.slash")),
             ("Report Bug", UIImage(systemName: "megaphone")),
             ("Visit Webiste", UIImage(systemName: "globe")),
         ]

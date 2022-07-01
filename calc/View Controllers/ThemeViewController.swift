@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 
+
+//TODO: TO REMOVE
 /**
  ThemeViewController is used to show the user the availiable themes in the app
  */

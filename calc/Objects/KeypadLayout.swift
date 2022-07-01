@@ -163,6 +163,10 @@ extension KeypadInteraction {
                 case .percentage: return UIKeypadButtonIcon(icon: UIImage(systemName: "percent", withConfiguration: iconConfiguration)!)
                 case .log: return UIKeypadButtonIcon(icon: UIImage(systemName: "chart.line.uptrend.xyaxis", withConfiguration: iconConfiguration)!)
                 
+                case .trig_tan: return UIKeypadButtonLabel(text: "tan", useMonoFont: true)
+                case .trig_cos: return UIKeypadButtonLabel(text: "cos", useMonoFont: true)
+                case .trig_sin: return UIKeypadButtonLabel(text: "sin", useMonoFont: true)
+                
                 default: return UIKeypadButtonLabel(text: special.rawValue)
             }
         case .operation(let operation):

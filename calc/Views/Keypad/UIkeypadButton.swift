@@ -10,13 +10,13 @@ import UIKit
 
 class UIKeypadButtonLabel: UILabel {
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
-    init(text: String) {
+    init(text: String, useMonoFont: Bool = false) {
         super.init(frame: CGRect.zero)
         
         self.text = text
         self.accessibilityIdentifier = nil
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.font = Dimensions.keyFontsize
+        self.font = (useMonoFont) ? Dimensions.monoKeyFontsize : Dimensions.keyFontsize
         ColorController.appendToList(key: ColorController.KeypadCharacter, item: self)
     }
 }

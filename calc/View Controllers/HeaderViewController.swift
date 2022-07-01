@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 
+
+//TODO: TO REMOVE
 /**
  HeaderViewController is used as a root class for a UIViewController that has a background colour and a title label included
  */
