@@ -23,6 +23,9 @@ protocol UIControlDelegate {
     func clear()
     func clearUnits()
     func removeSelected()
+    
+    func pasteUnit() -> Unit?
+    func copyUnit(_ unit: Unit)
 
     func showCurrencyUnitMenu(selected: String?, handler: @escaping (Unit) -> Void)
     func setUnitFor(row: UICalculationRow, newUnit: Unit?)

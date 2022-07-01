@@ -89,27 +89,10 @@ class CalculatorEntryController {
         }
         
 //        if (latestComponent != "") { components.append(latestComponent) }
-        print("COMPONENTS", components)
+//        print("COMPONE     NTS", components)
         
         if (components.count == 0) { components.append("") }
         return components
-        
-//        var components: [String] = []
-//        var isLastEntrySpecial = false
-//        for char in entry {
-//            if let rule = KeypadSpecial.getRuleFor(String(char)), rule.perform != nil {
-//                components.append(String(char))
-//                isLastEntrySpecial = true
-//            } else {
-//                if (components.count == 0 || isLastEntrySpecial) { components.append("") }
-//
-//                components[components.count - 1].append(String(char))
-//                isLastEntrySpecial = false
-//            }
-//        }
-//
-//        if (components.count == 0) { return [""] }
-//        return components
     }
     
     static func renderedValue(entry: String) -> Double {
@@ -239,24 +222,11 @@ class CalculatorEntryController {
             }
         }
         
-//        print("Final", components, components.count==1, (components[0] == "" || components[0] == "0"))
         let valueIsEmpty: Bool = (components.count == 1)
             ? (components[0] == "" || components[0] == "0")
             : (components.count == 0) ? true :false
         print("is value empty", valueIsEmpty)
         if (valueIsEmpty) { return nil }
         else { return CalculatorEntryController.prepareForFinalReturn(components.joined()) }
-        
-//        if (current.count <= 1) {
-//            return "0"
-//        } else {
-//            var newString = current
-//            if let lastIndex = current.lastIndex(of: current.last!) {
-//                newString.remove(at: lastIndex)
-//            }
-//
-//            return CalculatorEntryController.prepareForFinalReturn(newString)
-//        }
     }
-
 }

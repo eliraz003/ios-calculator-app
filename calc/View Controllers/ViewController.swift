@@ -73,7 +73,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
     private var rowsContainer: UICalculationRowsController!
     
     private var mostRecentUnit: Unit?
-        
+    private var copiedUnit: Unit?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -428,6 +429,21 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
     func removeSelected() {
         rowsContainer.removeCurrent()
         refreshRows()
+    }
+    
+    /**
+     Set the copiedUnit to the passed unit and refresh the rows to reset the rows menus
+     */
+    func copyUnit(_ unit: Unit) {
+        copiedUnit = unit
+        refreshRows()
+    }
+    
+    /**
+     Returns the unit that was most recently copied
+     */
+    func pasteUnit() -> Unit? {
+        return copiedUnit
     }
     
     /**

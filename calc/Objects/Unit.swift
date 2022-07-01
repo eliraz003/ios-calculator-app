@@ -89,11 +89,11 @@ class RateBasedUnit: Unit {
     }
     
     override func convertToBase(value: CGFloat) -> CGFloat {
-        return value * CGFloat(rate)
+        return value / CGFloat(rate)
     }
     
     override func convertFromBase(value: CGFloat) -> CGFloat {
-        return value / CGFloat(rate)
+        return value * CGFloat(rate)
     }
 }
 

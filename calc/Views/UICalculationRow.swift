@@ -215,6 +215,23 @@ class UICalculationRow: UIView {
             ViewController.controlDelegate.clearUnits()
         })
         
+        let pastableUnit = ViewController.controlDelegate.pasteUnit()
+        let copyPasteMenu = UIMenu.init(title: "Copy", image: nil, identifier: nil, options: .displayInline, children: [
+            (unit as? ResultOnlyUnit == nil)
+                ? UIAction(title: "Copy Unit", image: UIImage(systemName: "scissors"), identifier: nil, discoverabilityTitle: nil, attributes: [], state: .off, handler: { _ in
+                    ViewController.controlDelegate.copyUnit(self.unit!)
+                })
+            
+                : UIAction(title: "Copy Unit", image: UIImage(systemName: "scissors"), identifier: nil, discoverabilityTitle: nil, attributes: .disabled, state: .off, handler: { _ in }),
+            
+            ((pastableUnit) != nil)
+                ? UIAction(title: "Paste Unit (" + pastableUnit!.name + ")", image: UIImage(systemName: "pencil.and.outline"), identifier: nil, discoverabilityTitle: nil, attributes: [], state: .off, handler: { _ in
+                    setUnitCallback(ViewController.controlDelegate.pasteUnit())
+                })
+            
+                : UIAction(title: "Paste Unit", image: UIImage(systemName: "pencil.and.outline"), identifier: nil, discoverabilityTitle: nil, attributes: .disabled, state: .off, handler: { _ in })
+        ])
+        
         var menuChildren: [UIMenuElement] = []
         if (unit?.type == .currency) {
             menuChildren = [currencyMenu, clearUnitsButton]
@@ -231,6 +248,10 @@ class UICalculationRow: UIView {
                 lengthMenu,
                 massMenu
             ]
+        }
+        
+        if (unit != nil && unit?.type != .generic) {
+            menuChildren.append(copyPasteMenu)
         }
 
         let menu = UIMenu(title: "Select Unit...", image: nil, identifier: nil, options: [], children: menuChildren)
