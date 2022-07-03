@@ -407,7 +407,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
      Create and present the SearchUnitViewController used to select a currency
      */
     func showCurrencyUnitMenu(selected: String?, handler: @escaping (Unit) -> Void) {
-        let newController = SearchUnitViewController(selected: selected, onSelect: handler)
+//        let newController = SearchUnitViewController(selected: selected, onSelect: handler)
+        let newController = UnitSelectionViewController(selected: selected, onSelect: handler)
         present(newController, animated: true, completion: nil)
     }
 
