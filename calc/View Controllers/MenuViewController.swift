@@ -20,6 +20,7 @@ class MenuThemeSelector: UIView {
         title.topAnchor.constraint(equalTo: self.topAnchor, constant: 16).isActive = true
         title.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 12).isActive = true
         title.text = "Themes"
+        title.textColor = UIColor.white
         title.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         
         let scroller = UIScrollView()
@@ -53,8 +54,11 @@ class MenuThemeSelector: UIView {
 }
 
 class MenuButton: UIView {
+    var action: () -> Void
+    
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     init(label: String, icon: UIImage?, action: @escaping () -> Void) {
+        self.action = action
         super.init(frame: CGRect.zero)
         
         let iconView = UIImageView()
@@ -74,6 +78,7 @@ class MenuButton: UIView {
         title.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 0).isActive = true
         title.leftAnchor.constraint(equalTo: iconView.rightAnchor, constant: 6).isActive = true
         title.text = label
+        title.textColor = UIColor.white
         title.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         
         
@@ -85,6 +90,12 @@ class MenuButton: UIView {
         border.leftAnchor.constraint(equalTo: leftAnchor, constant: 16).isActive = true
         border.rightAnchor.constraint(equalTo: rightAnchor, constant: -16).isActive = true
         border.backgroundColor = .white.withAlphaComponent(0.1)
+        
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapped)))
+    }
+    
+    @objc func tapped() {
+        self.action()
     }
 }
 
@@ -128,18 +139,30 @@ class MenuViewController: UIViewController {
         themeSelector.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
 
         
-        let buttons: [(String, UIImage?)] = [
-            ("Manage Currerncies", UIImage(systemName: "creditcard")),
-            ("Disable Ads (Support The App)", UIImage(systemName: "bell.slash")),
-            ("Report Bug", UIImage(systemName: "megaphone")),
-            ("Visit Webiste", UIImage(systemName: "globe")),
+        let buttons: [(String, UIImage?, () -> Void)] = [
+            ("Manage Currerncies", UIImage(systemName: "creditcard"), {
+                self.present(SearchUnitViewController(selected: nil, onSelect: nil), animated: true)
+            }),
+            
+            ("Disable Ads (Support The App)", UIImage(systemName: "bell.slash"), {
+                guard let donateURL = URL(string: "https://www.apple.com") else { return }
+                UIApplication.shared.open(donateURL)
+            }),
+            
+            ("Report Bug", UIImage(systemName: "megaphone"), {
+                guard let supportURL = URL(string: "https://www.apple.com/support") else { return }
+                UIApplication.shared.open(supportURL)
+            }),
+            
+            ("Visit Webiste", UIImage(systemName: "globe"), {
+                guard let url = URL(string: "https://www.google.com") else { return }
+                UIApplication.shared.open(url)
+            }),
         ]
         
         var previous: UIView?
         buttons.forEach({ button in
-            let newButton = MenuButton(label: button.0, icon: button.1, action: {
-                print("ACTION")
-            })
+            let newButton = MenuButton(label: button.0, icon: button.1, action: button.2)
             newButton.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(newButton)
             newButton.topAnchor.constraint(equalTo: previous?.bottomAnchor ?? themeSelector.bottomAnchor, constant: (previous == nil) ? 16 : 0).isActive = true

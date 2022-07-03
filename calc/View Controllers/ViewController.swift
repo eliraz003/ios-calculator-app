@@ -14,51 +14,6 @@ enum MathematicalOperation: String {
     case divide
 }
 
-class UIDotsIndicator: UIView {
-    private var dots: [UIView] = []
-    
-    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
-    init(count: Int) {
-        super.init(frame: CGRect.zero)
-        
-        let size: CGFloat = 8
-        let gap: CGFloat = 12
-        
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.heightAnchor.constraint(equalToConstant: size).isActive = true
-        
-        var i = 0
-        while (i < count) {
-            let newView = UIView(frame: CGRect(x: (CGFloat(i)*size)+(CGFloat(i)*gap), y: 0, width: size, height: size))
-            addSubview(newView)
-//            newView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
-//            newView.leftAnchor.constraint(equalTo: previous?.rightAnchor ?? leftAnchor, constant: 0).isActive = true
-//            newView.widthAnchor.constraint(equalToConstant: 8).isActive = true
-//            newView.heightAnchor.constraint(equalToConstant: 8).isActive = true
-            
-            newView.backgroundColor = .white
-            newView.layer.cornerRadius = (size / 2)
-//            previous = newView
-            i += 1
-            dots.append(newView)
-        }
-        
-        self.layoutIfNeeded()
-        self.widthAnchor.constraint(equalToConstant: dots.last?.frame.maxX ?? 0).isActive = true
-        
-        setIndex(index: 0)
-        //        self.rightAnchor.constraint(equalTo: previous?.rightAnchor ?? self.rightAnchor, constant: 0).isActive = true
-    }
-    
-    func setIndex(index: Int) {
-        for dot in dots {
-            dot.alpha = 0.3
-        }
-        
-        dots[index].alpha = 1
-    }
-}
-
 /**
  ViewController is the main view of the app
  */

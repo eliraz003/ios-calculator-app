@@ -166,8 +166,6 @@ extension KeypadInteraction {
                 case .trig_tan: return UIKeypadButtonLabel(text: "tan", useMonoFont: true)
                 case .trig_cos: return UIKeypadButtonLabel(text: "cos", useMonoFont: true)
                 case .trig_sin: return UIKeypadButtonLabel(text: "sin", useMonoFont: true)
-                
-                default: return UIKeypadButtonLabel(text: special.rawValue)
             }
         case .operation(let operation):
             switch(operation) {
