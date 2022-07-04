@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		6F4AB5A22871C880000D3E96 /* UIDotsIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F4AB5A12871C880000D3E96 /* UIDotsIndicator.swift */; };
+		6F5B796028738D5000C36554 /* UIScrollableSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5B795F28738D5000C36554 /* UIScrollableSelector.swift */; };
+		6F5B796228738D6C00C36554 /* UIMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5B796128738D6C00C36554 /* UIMenuButton.swift */; };
+		6F5B796428738D8800C36554 /* UIFavouriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5B796328738D8800C36554 /* UIFavouriteButton.swift */; };
+		6F5B796628738DAB00C36554 /* UnitSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5B796528738DAB00C36554 /* UnitSelectionViewController.swift */; };
 		6FED536328674A720031E08E /* KeypadLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FED536228674A720031E08E /* KeypadLayout.swift */; };
 		FF1A1567283D410200A763DA /* UIInterfaceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A1566283D410200A763DA /* UIInterfaceDelegate.swift */; };
 		FF1A1569283D410C00A763DA /* UIControlDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A1568283D410C00A763DA /* UIControlDelegate.swift */; };
@@ -70,6 +74,10 @@
 
 /* Begin PBXFileReference section */
 		6F4AB5A12871C880000D3E96 /* UIDotsIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDotsIndicator.swift; sourceTree = "<group>"; };
+		6F5B795F28738D5000C36554 /* UIScrollableSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollableSelector.swift; sourceTree = "<group>"; };
+		6F5B796128738D6C00C36554 /* UIMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIMenuButton.swift; sourceTree = "<group>"; };
+		6F5B796328738D8800C36554 /* UIFavouriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFavouriteButton.swift; sourceTree = "<group>"; };
+		6F5B796528738DAB00C36554 /* UnitSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitSelectionViewController.swift; sourceTree = "<group>"; };
 		6FED536228674A720031E08E /* KeypadLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeypadLayout.swift; sourceTree = "<group>"; };
 		FF1A1566283D410200A763DA /* UIInterfaceDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIInterfaceDelegate.swift; sourceTree = "<group>"; };
 		FF1A1568283D410C00A763DA /* UIControlDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIControlDelegate.swift; sourceTree = "<group>"; };
@@ -157,6 +165,7 @@
 				FF48485527F09C2E002CD220 /* ViewController.swift */,
 				FF930DC128140716000ED6A7 /* SearchUnitViewController.swift */,
 				FF1A156D283D41BB00A763DA /* MenuViewController.swift */,
+				6F5B796528738DAB00C36554 /* UnitSelectionViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -197,6 +206,9 @@
 				FF1A158F283D4F7200A763DA /* UICurrencyTableCell.swift */,
 				FF930DC728258409000ED6A7 /* UICalculationRow.swift */,
 				6F4AB5A12871C880000D3E96 /* UIDotsIndicator.swift */,
+				6F5B795F28738D5000C36554 /* UIScrollableSelector.swift */,
+				6F5B796128738D6C00C36554 /* UIMenuButton.swift */,
+				6F5B796328738D8800C36554 /* UIFavouriteButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -435,6 +447,7 @@
 				FF1A1580283D441000A763DA /* ColorController.swift in Sources */,
 				FF48488227F472F3002CD220 /* UIkeypadView.swift in Sources */,
 				FF1A1597283D544D00A763DA /* LengthController.swift in Sources */,
+				6F5B796428738D8800C36554 /* UIFavouriteButton.swift in Sources */,
 				6FED536328674A720031E08E /* KeypadLayout.swift in Sources */,
 				FF47808128428638006C28F5 /* Extends_NumberFormatter.swift in Sources */,
 				FF1A158A283D4E7200A763DA /* Mass.swift in Sources */,
@@ -457,12 +470,15 @@
 				FF1A1595283D544700A763DA /* TimeController.swift in Sources */,
 				FF1A157A283D436300A763DA /* Themes.swift in Sources */,
 				FF48485427F09C2E002CD220 /* SceneDelegate.swift in Sources */,
+				6F5B796028738D5000C36554 /* UIScrollableSelector.swift in Sources */,
 				FF1A157E283D438500A763DA /* Dimensions.swift in Sources */,
 				FF1A1570283D41E200A763DA /* Theme.swift in Sources */,
+				6F5B796628738DAB00C36554 /* UnitSelectionViewController.swift in Sources */,
 				FF1A158C283D4F2200A763DA /* UIMenuActionButton.swift in Sources */,
 				FF1A159B283D547E00A763DA /* CalculatorEntryController.swift in Sources */,
 				FF1A159F283D599000A763DA /* UIkeypadButton.swift in Sources */,
 				FF930DC828258409000ED6A7 /* UICalculationRow.swift in Sources */,
+				6F5B796228738D6C00C36554 /* UIMenuButton.swift in Sources */,
 				FF1A1590283D4F7200A763DA /* UICurrencyTableCell.swift in Sources */,
 				FF1A1586283D4E4A00A763DA /* Time.swift in Sources */,
 			);
