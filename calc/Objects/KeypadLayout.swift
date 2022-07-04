@@ -179,7 +179,7 @@ extension KeypadInteraction {
                 case .backspace: return UIKeypadButtonIcon(icon: UIImage(systemName: "delete.backward", withConfiguration: iconConfiguration)!)
                 case .clear: return UIKeypadButtonIcon(icon: UIImage(systemName: "scribble", withConfiguration: iconConfiguration)!)
                 case .openMenu: return UIKeypadButtonIcon(icon: UIImage(systemName: "ellipsis.circle", withConfiguration: iconConfiguration)!)
-                case .answer: return UIKeypadButtonLabel(text: "ANS")
+                case .answer: return UIKeypadButtonLabel(text: "ANS", useMonoFont: true)
             }
         default:
             return UIView()

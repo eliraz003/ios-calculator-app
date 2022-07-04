@@ -24,6 +24,7 @@ class UIDotsIndicator: UIView {
         var i = 0
         while (i < count) {
             let newView = UIView(frame: CGRect(x: (CGFloat(i)*size)+(CGFloat(i)*gap), y: 0, width: size, height: size))
+            newView.translatesAutoresizingMaskIntoConstraints = false
             addSubview(newView)
             
             ColorController.appendToList(key: ColorController.RowLabel, item: newView)

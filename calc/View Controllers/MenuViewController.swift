@@ -8,51 +8,78 @@
 import Foundation
 import UIKit
 
-class UIScrollableSelector: UIView {
+class UIScrollableSelector<T:Any>: UIView {
+    let scroller = UIScrollView()
+    
+    private var scrollerHeightAnchor: NSLayoutConstraint!
+    private var selfBottomAnchor: NSLayoutConstraint!
+    
+    var items: [T]
+    var render: (T) -> UIView
+    
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
-    init<T:Any>(title displayTitle: String, items: [T], render: (T) -> UIView) {
+    init(title displayTitle: String, items: [T], render: @escaping (T) -> UIView) {
+        self.items = items
+        self.render = render
+        
         super.init(frame: CGRect.zero)
         self.backgroundColor = UIColor.white.withAlphaComponent(0.05)
         
         let title = UILabel()
         title.translatesAutoresizingMaskIntoConstraints = false
         addSubview(title)
-        title.topAnchor.constraint(equalTo: self.topAnchor, constant: 16).isActive = true
+        title.topAnchor.constraint(equalTo: self.topAnchor, constant: 8).isActive = true
         title.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 12).isActive = true
         title.text = displayTitle
         title.textColor = UIColor.white
         title.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         
-        let scroller = UIScrollView()
+        let border = UIView()
+        border.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(border)
+        border.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 0).isActive = true
+        border.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 0).isActive = true
+        border.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 6).isActive = true
+        border.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        border.backgroundColor = UIColor.white.withAlphaComponent(0.05)
+        
         scroller.translatesAutoresizingMaskIntoConstraints = false
         addSubview(scroller)
         scroller.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 12).isActive = true
         scroller.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 0).isActive = true
-        scroller.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 6).isActive = true
+        scroller.topAnchor.constraint(equalTo: border.bottomAnchor, constant: 6).isActive = true
         
-//        let active = ViewController.interfaceDelegate.getTheme()
+        refresh()
+    }
+    
+    @discardableResult func refresh() -> UIView? {
+        scroller.subviews.forEach({ $0.removeFromSuperview() })
         
         var previous: UIView?
         items.forEach({ item in
-//            let newView = UIThemeView(theme: theme.value, isCurrent: (active.name == theme.value.name))
-//            newView.translatesAutoresizingMaskIntoConstraints = false
             let newView = render(item)
             newView.translatesAutoresizingMaskIntoConstraints = false
             scroller.addSubview(newView)
             newView.leftAnchor.constraint(equalTo: previous?.rightAnchor ?? scroller.leftAnchor, constant: (previous == nil) ? 0 : 6).isActive = true
-//            newView.heightAnchor.constraint(equalToConstant: 110).isActive = true
-//            newView.widthAnchor.constraint(equalToConstant: 110).isActive = true
             newView.topAnchor.constraint(equalTo: scroller.topAnchor, constant: 0).isActive = true
             
             previous = newView
         })
         
         layoutIfNeeded()
-        scroller.heightAnchor.constraint(equalToConstant: previous?.frame.height ?? 0).isActive = true
         scroller.contentSize = CGSize(width: previous?.frame.maxX ?? 0, height: scroller.contentSize.height)
         
-        self.bottomAnchor.constraint(equalTo: scroller.bottomAnchor, constant: 12).isActive = true
+        if (scrollerHeightAnchor != nil && scrollerHeightAnchor != nil) {
+            scroller.removeConstraint(scrollerHeightAnchor)
+            self.removeConstraint(scrollerHeightAnchor)
+        }
         
+        scrollerHeightAnchor = scroller.heightAnchor.constraint(equalToConstant: previous?.frame.height ?? 0)
+        selfBottomAnchor = self.bottomAnchor.constraint(equalTo: scroller.bottomAnchor, constant: 12)
+        scrollerHeightAnchor.isActive = true
+        selfBottomAnchor.isActive = true
+        
+        return previous
     }
 }
 
@@ -60,7 +87,7 @@ class MenuButton: UIButton {
     var label: String!
     var leftAccessory: UIView?
     var rightAccessory: UIView?
-    var action: (() -> Void)!
+    var action: ((MenuButton) -> Void)!
     
     var configureMenu: () -> UIMenu? = { return nil }
     
@@ -76,12 +103,18 @@ class MenuButton: UIButton {
         leftAccessory?.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 12).isActive = true
         leftAccessory?.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 0).isActive = true
         
+        if (rightAccessory != nil) { addSubview(rightAccessory!) }
+        rightAccessory?.translatesAutoresizingMaskIntoConstraints = false
+        rightAccessory?.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -12).isActive = true
+        rightAccessory?.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 0).isActive = true
+        
         let title = UILabel()
         title.translatesAutoresizingMaskIntoConstraints = false
         addSubview(title)
-        title.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 0).isActive = true
         title.leftAnchor.constraint(equalTo: leftAccessory?.rightAnchor ?? self.leftAnchor, constant: 6).isActive = true
+        title.rightAnchor.constraint(equalTo: self.rightAnchor, constant: (rightAccessory == nil) ? -6 : -24).isActive = true
         title.text = label
+        title.numberOfLines = 0
         title.textColor = UIColor.white
         title.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         
@@ -95,31 +128,34 @@ class MenuButton: UIButton {
         border.rightAnchor.constraint(equalTo: rightAnchor, constant: -16).isActive = true
         border.backgroundColor = .white.withAlphaComponent(0.1)
         
+        self.topAnchor.constraint(equalTo: title.topAnchor, constant: -12).isActive = true
+        self.bottomAnchor.constraint(equalTo: title.bottomAnchor, constant: 12).isActive = true
         self.addTarget(self, action: #selector(tapped), for: .touchUpInside)
+//
+//        self.isUserInteractionEnabled = true
+//        self.isContextMenuInteractionEnabled = true
         
-        self.isUserInteractionEnabled = true
-        self.isContextMenuInteractionEnabled = true
-        
-        self.heightAnchor.constraint(equalToConstant: 46).isActive = true
+//        self.heightAnchor.constraint(equalToConstant: 46).isActive = true
     }
     
-    @discardableResult func configureMenuAs(_ configuration: @escaping () -> UIMenu?) -> MenuButton {
-        self.configureMenu = configuration
-        self.menu = configureMenu()
-        return self
-    }
-    
-    convenience init(label: String, view: UIView, action: @escaping () -> Void) {
+//    @discardableResult func configureMenuAs(_ configuration: @escaping () -> UIMenu?) -> MenuButton {
+//        self.configureMenu = configuration
+//        self.menu = configureMenu()
+//        return self
+//    }
+//
+    convenience init(label: String, leftAccessory: UIView?, rightAccessory: UIView?, action: @escaping (MenuButton) -> Void) {
         self.init()
         
         self.label = label
-        self.leftAccessory = view
+        self.leftAccessory = leftAccessory
+        self.rightAccessory = rightAccessory
         self.action = action
         
         initialize()
     }
     
-    convenience init(label: String, icon: UIImage?, action: @escaping () -> Void) {
+    convenience init(label: String, icon: UIImage?, action: @escaping (MenuButton) -> Void) {
         self.init()
         
         let iconView = UIImageView()
@@ -133,6 +169,31 @@ class MenuButton: UIButton {
         self.action = action
         
         initialize()
+    }
+    
+    @objc func tapped() {
+        self.action(self)
+    }
+}
+
+class FavouriteUnitButton: UIButton {
+    var action: () -> Void
+    var unit: Currency
+    
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+    init(unit: Currency, action: @escaping () -> Void) {
+        self.action = action
+        self.unit = unit
+        
+        super.init(frame: CGRect.zero)
+        
+        self.contentEdgeInsets = .init(top: 6, left: 12, bottom: 6, right: 12)
+        self.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        self.setTitleColor(.white, for: .normal)
+        self.backgroundColor = .white.withAlphaComponent(0.15)
+        self.setTitle(unit.isoCode, for: .normal)
+        self.layer.cornerRadius = 12
+        self.addTarget(self, action: #selector(tapped), for: .touchUpInside)
     }
     
     @objc func tapped() {
@@ -160,8 +221,8 @@ class UnitSelectionViewController: UIViewController {
         return scrollView
     }()
     
-    let favouriteUnitSelector: UIScrollableSelector = {
-        var view: UIScrollableSelector!
+    lazy var favouriteUnitSelector: UIScrollableSelector<String> = {
+        var view: UIScrollableSelector<String>!
         if (SavedCurrencyController.shared.savedCurrencies.count == 0) {
             view = UIScrollableSelector(title: "Favourite Currencies", items: [""], render: { item in
                 let label = UILabel()
@@ -171,11 +232,12 @@ class UnitSelectionViewController: UIViewController {
                 return label
             })
         } else {
-            view = UIScrollableSelector(title: "Favourite Currencies", items: SavedCurrencyController.shared.savedCurrencies.keys.map({ return $0 }), render: { item in
-                let label = UILabel()
-                label.textColor = UIColor.white
-                label.text = item
-                return label
+            let items = SavedCurrencyController.shared.savedCurrencies.keys.map({ return String($0) })
+            view = UIScrollableSelector(title: "Favourite Currencies", items: items, render: { item in
+                let asCurrency = currencyUnits[item] as! Currency
+                return FavouriteUnitButton(unit: asCurrency, action: {
+                    self.onSelect(asCurrency, {})
+                })
             })
         }
         
@@ -183,6 +245,7 @@ class UnitSelectionViewController: UIViewController {
         return view
     }()
     
+    var onSelect: (Currency, @escaping () -> Void) -> Void = {_,_ in}
     var unitButtons: [MenuButton] = []
     
     let unitView: UIView = {
@@ -194,6 +257,18 @@ class UnitSelectionViewController: UIViewController {
     
     convenience init(selected: String?, onSelect: ((Unit) -> Void)?) {
         self.init()
+        
+        self.onSelect = { unit, callback in
+            unit.fetchValue({ (foundUnit, error) in
+                if (error != nil || foundUnit == nil) {
+                    print("DISPLAY ERROR")
+                }
+                
+                onSelect?(foundUnit!)
+                callback()
+                self.dismiss(animated: true)
+            })
+        }
         
         view.backgroundColor = .black
         
@@ -240,21 +315,7 @@ class UnitSelectionViewController: UIViewController {
     }
     
     private func findItemsToShow() -> [Currency] {
-        let units = currencyUnits.sorted(by: { a,b in
-//            let aSaved = SavedCurrencyController.shared.savedCurrencies[(a.value as? Currency)?.isoCode ?? ""] ?? false
-//            let bSaved = SavedCurrencyController.shared.savedCurrencies[(b.value as? Currency)?.isoCode ?? ""] ?? false
-
-            let isGreater = a.value.name < b.value.name
-            return isGreater
-//
-//            if (aSaved && bSaved) {
-//                return isGreater
-//            } else {
-//                if (aSaved) { return true }
-//                else if (bSaved) { return false }
-//                return isGreater
-//            }
-        }).filter({ currency in
+        let units = currencyUnits.sorted(by: { return $0.value.name < $1.value.name }).filter({ currency in
             guard let asCurrency = currency.value as? Currency else { return false }
             
             let filter = (titleLabel.text ?? "").uppercased()
@@ -267,10 +328,9 @@ class UnitSelectionViewController: UIViewController {
         return units.map({ return $0.value as! Currency })
     }
 
-
     private func refreshScrollList() {
         view.layoutIfNeeded()
-        scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: unitView.subviews.last?.frame.maxY ?? 0)
+        scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: unitButtons.last?.frame.maxY ?? 0)
     }
     
     private func refreshCurrencyList() {
@@ -281,38 +341,56 @@ class UnitSelectionViewController: UIViewController {
         var previous: UIView?
         list.forEach(({ item in
             let label = UIButton()
+            label.widthAnchor.constraint(equalToConstant: 40).isActive = true
             label.contentEdgeInsets = .init(top: 2, left: 4, bottom: 2, right: 4)
             label.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .bold)
             label.setTitleColor(.white, for: .normal)
             label.backgroundColor = .white.withAlphaComponent(0.1)
             label.setTitle(item.isoCode, for: .normal)
             label.layer.cornerRadius = 8
-            label.layer.cornerCurve = .continuous
-
-            let button = MenuButton(label: item.name, view: label, action: {
-                print("Pressed", item.isoCode)
-            })
+            label.titleLabel?.numberOfLines = 0
+            
+            
+            let starButton = UIClickableImageView(action: {})
+//            starButton.widthAnchor.constraint(equalToConstant: 26).isActive = true
+//            starButton.heightAnchor.constraint(equalToConstant: 26).isActive = true
+            
+            func refreshStarredState() {
+                let isStarred = (SavedCurrencyController.shared.savedCurrencies.contains(where: { return $0.value == true && $0.key == item.isoCode }))
+                starButton.image = UIImage(systemName: "star.fill")
+                if (isStarred) {
+                    starButton.tintColor = UIColor.blue
+                } else {
+                    starButton.tintColor = UIColor.white
+                }
                 
-            func setConfigurationMenu() {
-                button.configureMenuAs {
-                    return UIMenu(title: item.isoCode, image: nil, identifier: nil, options: [], children: [
-                        (SavedCurrencyController.shared.savedCurrencies.contains(where: { return $0.value == true && $0.key == item.isoCode }))
-                            ? UIAction(title: "Remove " + item.isoCode + " From Favourites", image: nil, identifier: nil, discoverabilityTitle: nil, attributes: [], state: .off, handler: { _ in
-                                SavedCurrencyController.shared.save(currency: item, state: false)
-                                setConfigurationMenu()
-                            })
-                        
-                        : UIAction(title: "Set " + item.isoCode + " As Favourite", image: nil, identifier: nil, discoverabilityTitle: nil, attributes: [], state: .off, handler: { _ in
-                                SavedCurrencyController.shared.save(currency: item, state: true)
-                                setConfigurationMenu()
-                            })
-                    ])
+                starButton.action = {
+                    SavedCurrencyController.shared.save(currency: item, state: !isStarred)
+                    refreshStarredState()
                 }
             }
             
-            setConfigurationMenu()
+            refreshStarredState()
+
+            let button = MenuButton(label: item.name, leftAccessory: label, rightAccessory: starButton, action: { button in
+                button.backgroundColor = .orange
+                self.onSelect(item, {
+                    button.backgroundColor = nil
+                })
+                
+//                item.fetchValue({ (unit, error) in
+//                    button.backgroundColor = nil
+//                    if (error != nil || unit == nil) {
+//                        print("DISPLAY ERROR")
+//                    }
+//
+//                    self.onSelect?(unit!)
+//                    self.dismiss(animated: true)
+//                })
+            })
+            
             button.translatesAutoresizingMaskIntoConstraints = false
-            view.addSubview(button)
+            scrollView.addSubview(button)
             button.topAnchor.constraint(equalTo: previous?.bottomAnchor ?? unitView.topAnchor, constant: (previous == nil) ? 0 : 4).isActive = true
             button.leftAnchor.constraint(equalTo: unitView.leftAnchor, constant: 0).isActive = true
             button.rightAnchor.constraint(equalTo: unitView.rightAnchor, constant: 0).isActive = true
@@ -359,11 +437,9 @@ class MenuViewController: UIViewController {
         description.numberOfLines = 0
         
         
-//        let themeSelector = MenuThemeSelector()
         let activeTheme = ViewController.interfaceDelegate.getTheme()
         let themeSelector = UIScrollableSelector(title: "Theme", items: themes.values.map({ return $0 }), render: { item in
             let newView = UIThemeView(theme: item, isCurrent: (activeTheme.name == item.name))
-//            newView.translatesAutoresizingMaskIntoConstraints = false
             newView.heightAnchor.constraint(equalToConstant: 110).isActive = true
             newView.widthAnchor.constraint(equalToConstant: 110).isActive = true
             return newView
@@ -375,22 +451,22 @@ class MenuViewController: UIViewController {
         themeSelector.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
 
         
-        let buttons: [(String, UIImage?, () -> Void)] = [
-            ("Manage Currerncies", UIImage(systemName: "creditcard"), {
-                self.present(SearchUnitViewController(selected: nil, onSelect: nil), animated: true)
+        let buttons: [(String, UIImage?, (MenuButton) -> Void)] = [
+            ("Manage Currerncies", UIImage(systemName: "creditcard"), { _ in
+                self.present(UnitSelectionViewController(selected: nil, onSelect: nil), animated: true)
             }),
             
-            ("Disable Ads (Support The App)", UIImage(systemName: "bell.slash"), {
+            ("Disable Ads (Support The App)", UIImage(systemName: "bell.slash"), { _ in
                 guard let donateURL = URL(string: "https://www.apple.com") else { return }
                 UIApplication.shared.open(donateURL)
             }),
             
-            ("Report Bug", UIImage(systemName: "megaphone"), {
+            ("Report Bug", UIImage(systemName: "megaphone"), { _ in
                 guard let supportURL = URL(string: "https://www.apple.com/support") else { return }
                 UIApplication.shared.open(supportURL)
             }),
             
-            ("Visit Webiste", UIImage(systemName: "globe"), {
+            ("Visit Webiste", UIImage(systemName: "globe"), { _ in
                 guard let url = URL(string: "https://www.google.com") else { return }
                 UIApplication.shared.open(url)
             }),

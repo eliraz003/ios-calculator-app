@@ -8,6 +8,23 @@
 import Foundation
 import UIKit
 
+class UIClickableImageView: UIImageView {
+    var action: () -> Void
+    
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+    init(action: @escaping () -> Void) {
+        self.action = action
+        super.init(frame: CGRect.zero)
+        
+        self.isUserInteractionEnabled = true
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapped)))
+    }
+    
+    @objc func tapped() {
+        action()
+    }
+}
+
 class UICalculationRow: UIView {
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
@@ -75,7 +92,7 @@ class UICalculationRow: UIView {
         operationIcon.centerYAnchor.constraint(equalTo: operationIconBackground.centerYAnchor).isActive = true
         
         addSubview(valueLabel)
-        valueLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 0).isActive = true
+//        valueLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 0).isActive = true
         valueLabel.rightAnchor.constraint(equalTo: (allowUserUnitChanging) ? operationIconBackground.leftAnchor : self.rightAnchor, constant: (allowUserUnitChanging) ? -6 : -32).isActive = true
         operationIconBackground.centerYAnchor.constraint(equalTo: valueLabel.centerYAnchor, constant: 0).isActive = true
         
@@ -207,6 +224,7 @@ class UICalculationRow: UIView {
         
         let currencyMenu = UIAction(title: (unit == nil) ? "Set Currency" : "Change Currency", image: UIImage(systemName: "dollarsign.circle.fill"), identifier: nil, discoverabilityTitle: nil, attributes: [], state: .off, handler: { action in
             ViewController.controlDelegate.showCurrencyUnitMenu(selected: (self.unit as? Currency)?.isoCode, handler: { action in
+                print("Is calling callback")
                 setUnitCallback(action)
             })
         })

@@ -17,6 +17,7 @@ class UIKeypadRow: UIStackView {
         self.axis = .horizontal
         self.distribution = .equalSpacing
         self.alignment = .center
+        self.translatesAutoresizingMaskIntoConstraints = false
         self.heightAnchor.constraint(equalToConstant: Dimensions.keyHeight).isActive = true
         
         for action in actions {
