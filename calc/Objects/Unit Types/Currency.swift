@@ -58,7 +58,7 @@ class Currency: RateBasedUnit {
 //        return "https://sheltered-earth-85165.herokuapp.com/api/currencies/v1?iso=" +
     }
     
-    func fetchValue(_ completion: @escaping (Unit?, Error?) -> Void, dontAttemptAgain: Bool = false) {
+    func fetchValue(_ completion: @escaping (FetchedCurrency?, Error?) -> Void, dontAttemptAgain: Bool = false) {
         let url = URL(string: Currency.currencyAPIUrl(iso: isoCode))!
         URLSession.shared.dataTask(with: url) { data, response, error in
             DispatchQueue.main.async {
