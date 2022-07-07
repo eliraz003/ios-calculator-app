@@ -97,6 +97,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         return w * offset
     }
     
+    private let panThreshhold: Double = 35
     @objc func userDidPanKeypad(gesture: UIPanGestureRecognizer) {
         var transform = gesture.translation(in: view).x
         if (currentKeypad == 0) { transform = min(0, transform) }
@@ -106,8 +107,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
             self.mainKeypad.transform = CGAffineTransform(translationX:  getOffsetOfKeypadUsingIndex(currentKeypad, target: 0) + transform, y: 0)
             self.secondaryKeypad.transform = CGAffineTransform(translationX: getOffsetOfKeypadUsingIndex(currentKeypad, target: 1) + transform, y: 0)
         } else if (gesture.state == .ended) {
-            if (currentKeypad == 0 && transform < -100) { currentKeypad = 1 }
-            else if (currentKeypad == 1 && transform > 100) { currentKeypad = 0 }
+            if (currentKeypad == 0 && transform < -panThreshhold) { currentKeypad = 1 }
+            else if (currentKeypad == 1 && transform > panThreshhold) { currentKeypad = 0 }
             
             UIView.animate(withDuration: 0.55, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.7, options: .curveEaseOut, animations: {
                 self.mainKeypad.transform = CGAffineTransform(translationX: self.getOffsetOfKeypadUsingIndex(self.currentKeypad, target: 0), y: 0)

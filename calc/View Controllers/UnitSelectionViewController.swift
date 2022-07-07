@@ -22,6 +22,27 @@ class UnitSelectionViewController: UIViewController {
         return view
     }()
     
+    let statusIndicator: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.widthAnchor.constraint(equalToConstant: 86).isActive = true
+        view.heightAnchor.constraint(equalToConstant: 86).isActive = true
+        view.layer.cornerRadius = 12
+        view.backgroundColor = .white.withAlphaComponent(0.35)
+        
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.color = .white
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(indicator)
+        indicator.startAnimating()
+        
+        indicator.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+        indicator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0).isActive = true
+        
+        view.layer.opacity = 0
+        return view
+    }()
+    
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -66,6 +87,8 @@ class UnitSelectionViewController: UIViewController {
         self.init()
         
         self.onSelect = { unit, callback in
+            self.statusIndicator.layer.opacity = 1
+            
             unit.fetchValue({ (foundUnit, error) in
                 if (error != nil || foundUnit == nil) {
                     print("DISPLAY ERROR")
@@ -112,6 +135,10 @@ class UnitSelectionViewController: UIViewController {
         unitView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
         unitView.topAnchor.constraint(equalTo: favouriteUnitSelector.bottomAnchor, constant: 12).isActive = true
         
+        
+        view.addSubview(statusIndicator)
+        statusIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+        statusIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0).isActive = true
         
         refreshCurrencyList()
     }
@@ -177,7 +204,7 @@ class UnitSelectionViewController: UIViewController {
             refreshStarredState()
 
             let button = UIMenuButton(label: item.name, leftAccessory: label, rightAccessory: starButton, action: { button in
-                button.backgroundColor = .orange
+//                button.backgroundColor = .orange
                 self.onSelect(item, { button.backgroundColor = nil })
             })
             

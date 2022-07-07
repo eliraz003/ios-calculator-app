@@ -78,7 +78,7 @@
 		6F5B796128738D6C00C36554 /* UIMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIMenuButton.swift; sourceTree = "<group>"; };
 		6F5B796328738D8800C36554 /* UIFavouriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFavouriteButton.swift; sourceTree = "<group>"; };
 		6F5B796528738DAB00C36554 /* UnitSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitSelectionViewController.swift; sourceTree = "<group>"; };
-		6FED536228674A720031E08E /* KeypadLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeypadLayout.swift; sourceTree = "<group>"; };
+		6FED536228674A720031E08E /* KeypadLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeypadLayout.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		FF1A1566283D410200A763DA /* UIInterfaceDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIInterfaceDelegate.swift; sourceTree = "<group>"; };
 		FF1A1568283D410C00A763DA /* UIControlDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIControlDelegate.swift; sourceTree = "<group>"; };
 		FF1A156D283D41BB00A763DA /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; wrapsLines = 0; };

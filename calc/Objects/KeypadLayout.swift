@@ -56,21 +56,45 @@ enum KeypadSpecial: String {
     case trig_tan
 }
 
-typealias SpecialCharacterPerformer = (Double?, Double?) -> Double
+typealias SpecialCharacterPerformer = (Double?, Double?) -> (Double?, Error?)
+
+private func ksR(_ val: Double? , err: Error?) -> (Double?, Error?) { return (val, err) }
+
+enum KeypadError: Error {
+    case MissingValueA
+    case MissingValueB
+    case ValueANotAllowed
+    case ValueBNotAllowed
+}
 
 extension KeypadSpecial {
     static var rules: [KeypadSpecial : SpecialCharacterRule] = [
         .decimal:.init(placement: .anywhere, representable: ".", togglable: false, perform: nil),
-        .plusMinus:.init(placement: .start, representable: "-", togglable: true, perform: nil),
-        
-        .power:.init(placement: .anywhere, representable: "^", togglable: false, perform: {(a,b) in return pow(a ?? 0, b ?? 1) }),
-        .sqrRoot:.init(placement: .anywhere, representable: "√", togglable: true, perform: {(a,b) in return (a ?? 1) * sqrt(b ?? 0)}),
-        .fraction:.init(placement: .anywhere, representable: "/", togglable: false, perform: {(a,b) in return (a ?? 0)/(b ?? 0)}),
-        .pi:.init(placement: .anywhere, representable: "π", togglable: false, perform: {(a,b) in return ((a ?? 1) * Double.pi) }),
-        
-        .trig_tan:.init(placement: .anywhere, representable: "tan", togglable: false, perform: {(a,b) in return tan((Double.pi / 180) * (a ?? 1)) }),
-        .trig_cos:.init(placement: .anywhere, representable: "cos", togglable: false, perform: {(a,b) in return cos((Double.pi / 180) * (a ?? 1)) }),
-        .trig_sin:.init(placement: .anywhere, representable: "sin", togglable: false, perform: {(a,b) in return sin((Double.pi / 180) * (a ?? 1)) }),
+        .plusMinus:.init(placement: .start, representable: "-", togglable: true, perform: {(a,b) in
+            return ksR(-(b ?? 0), err: nil)
+        }),
+        .power:.init(placement: .anywhere, representable: "^", togglable: false, perform: {(a,b) in
+            return ksR(pow(a ?? 0, b ?? 1), err: nil)
+        }),
+        .sqrRoot:.init(placement: .anywhere, representable: "√", togglable: true, perform: {(a,b) in
+            return ksR((a ?? 1) * sqrt(b ?? 0), err: nil)
+        }),
+        .fraction:.init(placement: .anywhere, representable: "/", togglable: false, perform: {(a,b) in
+            return ksR((a ?? 0) / (b ?? 0), err: nil)
+        }),
+        .pi:.init(placement: .anywhere, representable: "π", togglable: false, perform: {(a,b) in
+            if (b != nil) { return ksR(nil, err: KeypadError.ValueBNotAllowed) }
+            return ksR(((a ?? 1) * Double.pi), err: nil)
+        }),
+        .trig_tan:.init(placement: .anywhere, representable: "tan", togglable: false, perform: {(a,b) in
+            return ksR(tan((Double.pi / 180) * (a ?? 1)), err: nil)
+        }),
+        .trig_cos:.init(placement: .anywhere, representable: "cos", togglable: false, perform: {(a,b) in
+            return ksR(cos((Double.pi / 180) * (a ?? 1)), err: nil)
+        }),
+        .trig_sin:.init(placement: .anywhere, representable: "sin", togglable: false, perform: {(a,b) in
+            return ksR(sin((Double.pi / 180) * (a ?? 1)), err: nil)
+        }),
     ]
     
     static func getRuleFor(_ character: String) -> SpecialCharacterRule? {

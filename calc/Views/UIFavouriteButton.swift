@@ -39,7 +39,7 @@ class UIFavouriteButton: UIView {
     
     let titleLabel = UILabel()
     let valueLabel = UILabel()
-    let statusIndicator = UIActivityIndicatorView(style: .medium)
+//    let statusIndicator = UIActivityIndicatorView(style: .medium)
     
     private let verticalEdgeInset: CGFloat = 8
     private let horizontalEdgeInset: CGFloat = 12
@@ -69,7 +69,7 @@ class UIFavouriteButton: UIView {
         valueLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -horizontalEdgeInset).isActive = true
         valueLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -verticalEdgeInset).isActive = true
         
-        statusIndicator.isHidden = true
+//        statusIndicator.isHidden = true
         
         
         unit.fetchValue({ result, err in
@@ -97,18 +97,18 @@ class UIFavouriteButton: UIView {
     }
     
     @objc func tapped() {
-        addSubview(statusIndicator)
-        layoutIfNeeded()
-        statusIndicator.frame.origin = CGPoint(
-            x: (self.frame.width / 2) - (statusIndicator.frame.width / 2),
-            y: (self.frame.height / 2) - (statusIndicator.frame.height / 2))
-        
-        statusIndicator.isHidden = false
-        statusIndicator.startAnimating()
-        
-        titleLabel.layer.opacity = 0
-        valueLabel.layer.opacity = 0
-        
+//        addSubview(statusIndicator)
+//        layoutIfNeeded()
+//        statusIndicator.frame.origin = CGPoint(
+//            x: (self.frame.width / 2) - (statusIndicator.frame.width / 2),
+//            y: (self.frame.height / 2) - (statusIndicator.frame.height / 2))
+//
+//        statusIndicator.isHidden = false
+//        statusIndicator.startAnimating()
+//
+//        titleLabel.layer.opacity = 0
+//        valueLabel.layer.opacity = 0
+//
         self.action()
     }
 }

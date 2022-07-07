@@ -98,6 +98,11 @@ class CalculatorEntryController {
     static func renderedValue(entry: String) -> Double {
         let components = getComponentsOfEntry(entry: entry)
         
+        func performAndEvaluateRule(_ rule: SpecialCharacterRule, a: Double?, b: Double?, _ defaultValue: Double?) -> Double? {
+            return rule.perform?(a,b).0 ?? defaultValue
+//            rule0.perform?(nil, nil) ?? 0
+        }
+        
         func toNumber(value: String) -> Double {
             let formatter = NumberFormatter()
             return Double(truncating: formatter.number(from: value) ?? 0)
@@ -106,17 +111,17 @@ class CalculatorEntryController {
         func evaluateOperation(array: [String], holdingValue: Double, callOperation: SpecialCharacterPerformer?) -> Double? {
             if (array.count == 0) { return nil }
             if (array.count == 1) {
-                if let rule0 = KeypadSpecial.getRuleFor(array[0]) { return rule0.perform?(nil, nil) ?? 0 }
+                if let rule0 = KeypadSpecial.getRuleFor(array[0]) { return performAndEvaluateRule(rule0, a: nil, b: nil, 0) }// rule0.perform?(nil, nil) ?? 0 }
                 else { return toNumber(value: array[0]) }
             }
                 
             if let rule0 = KeypadSpecial.getRuleFor(array[0]) {
                 let result = evaluateOperation(array: array.splice(range: 1..<components.count), holdingValue: 0, callOperation: rule0.perform)
-                let handledResult = rule0.perform?(nil, result)
+                let handledResult = performAndEvaluateRule(rule0, a: nil, b: result, nil) // rule0.perform?(nil, result)
                 return handledResult ?? 0
             } else if let rule1 = KeypadSpecial.getRuleFor(array[1])  {
                 let result = evaluateOperation(array: array.splice(range: 2..<components.count), holdingValue: 0, callOperation: rule1.perform)
-                let handledResult = rule1.perform?(toNumber(value: array[0]), result) ?? toNumber(value: array[0])
+                let handledResult = performAndEvaluateRule(rule1, a: toNumber(value: array[0]), b: result, toNumber(value: array[0])) //rule1.perform?(toNumber(value: array[0]), result) ?? toNumber(value: array[0])
                 return handledResult
             }
 
@@ -124,7 +129,7 @@ class CalculatorEntryController {
         }
         
         let result = evaluateOperation(array: components, holdingValue: 0, callOperation: { (a,b) in
-            return a ?? 0
+            return (a ?? 0, nil)
         }) ?? 0
         
         if (Double.infinity == result) { return 0 }
