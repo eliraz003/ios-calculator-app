@@ -12,6 +12,8 @@ enum CurrencyFetchError: Error {
     case CannotFetch
 }
 
+private var cachedCurrencies: [String : Currency.FetchedCurrency] = [:]
+
 /**
  Decodable object response from server
  ## CHANGE ME ACCORDING TO YOUR CURRENCY API
@@ -59,6 +61,10 @@ class Currency: RateBasedUnit {
     }
     
     func fetchValue(_ completion: @escaping (FetchedCurrency?, Error?) -> Void, dontAttemptAgain: Bool = false) {
+        if let cached = cachedCurrencies[isoCode] {
+            return completion(cached, nil)
+        }
+        
         let url = URL(string: Currency.currencyAPIUrl(iso: isoCode))!
         URLSession.shared.dataTask(with: url) { data, response, error in
             DispatchQueue.main.async {
@@ -70,9 +76,11 @@ class Currency: RateBasedUnit {
                 
                 do {
                     let asObject = try JSONDecoder().decode(CurrencyServerResponse.self, from: data!)
-                    print("DATA", asObject)
+//                    print("DATA", asObject)
                     let quoteValue = asObject.value
-                    completion(FetchedCurrency(name: self.name, symbol: self.symbol, isoCode: self.isoCode, rate: quoteValue), nil)
+                    let object = FetchedCurrency(name: self.name, symbol: self.symbol, isoCode: self.isoCode, rate: quoteValue)
+                    cachedCurrencies[object.isoCode] = object
+                    completion(object, nil)
                 } catch {
                     if (dontAttemptAgain) {completion(nil, CurrencyFetchError.CannotFetch)}
                     else {self.fetchValue(completion, dontAttemptAgain: true)}
