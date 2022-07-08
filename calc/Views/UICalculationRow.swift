@@ -92,7 +92,6 @@ class UICalculationRow: UIView {
         operationIcon.centerYAnchor.constraint(equalTo: operationIconBackground.centerYAnchor).isActive = true
         
         addSubview(valueLabel)
-//        valueLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 0).isActive = true
         valueLabel.rightAnchor.constraint(equalTo: (allowUserUnitChanging) ? operationIconBackground.leftAnchor : self.rightAnchor, constant: (allowUserUnitChanging) ? -6 : -32).isActive = true
         operationIconBackground.centerYAnchor.constraint(equalTo: valueLabel.centerYAnchor, constant: 0).isActive = true
         
@@ -236,18 +235,27 @@ class UICalculationRow: UIView {
         let pastableUnit = ViewController.controlDelegate.pasteUnit()
         let copyPasteMenu = UIMenu.init(title: "Copy", image: nil, identifier: nil, options: .displayInline, children: [
             (unit as? ResultOnlyUnit == nil)
-                ? UIAction(title: "Copy Unit", image: UIImage(systemName: "scissors"), identifier: nil, discoverabilityTitle: nil, attributes: [], state: .off, handler: { _ in
+                ? UIAction(title: "Copy", image: UIImage(systemName: "scissors"), identifier: nil, discoverabilityTitle: nil, attributes: [], state: .off, handler: { _ in
                     ViewController.controlDelegate.copyUnit(self.unit!)
                 })
             
-                : UIAction(title: "Copy Unit", image: UIImage(systemName: "scissors"), identifier: nil, discoverabilityTitle: nil, attributes: .disabled, state: .off, handler: { _ in }),
+                : UIAction(title: "Copy", image: UIImage(systemName: "scissors"), identifier: nil, discoverabilityTitle: nil, attributes: .disabled, state: .off, handler: { _ in }),
             
             ((pastableUnit) != nil)
-                ? UIAction(title: "Paste Unit (" + pastableUnit!.name + ")", image: UIImage(systemName: "pencil.and.outline"), identifier: nil, discoverabilityTitle: nil, attributes: [], state: .off, handler: { _ in
+                ? UIAction(title: "Paste", image: UIImage(systemName: "pencil.and.outline"), identifier: nil, discoverabilityTitle: nil, attributes: [], state: .off, handler: { _ in
                     setUnitCallback(ViewController.controlDelegate.pasteUnit())
                 })
             
-                : UIAction(title: "Paste Unit", image: UIImage(systemName: "pencil.and.outline"), identifier: nil, discoverabilityTitle: nil, attributes: .disabled, state: .off, handler: { _ in })
+                : UIAction(title: "Paste", image: UIImage(systemName: "pencil.and.outline"), identifier: nil, discoverabilityTitle: nil, attributes: .disabled, state: .off, handler: { _ in }),
+            
+            (unit as? ResultOnlyUnit == nil && (pastableUnit) != nil)
+                ? UIAction(title: "Paste & Copy", image: UIImage(systemName: "scissors"), identifier: nil, discoverabilityTitle: nil, attributes: [], state: .off, handler: { _ in
+                    let toPaste = ViewController.controlDelegate.pasteUnit()
+                    ViewController.controlDelegate.copyUnit(self.unit!)
+                    setUnitCallback(toPaste)
+                })
+            
+                : UIAction(title: "Paste & Copy", image: UIImage(systemName: "scissors"), identifier: nil, discoverabilityTitle: nil, attributes: .disabled, state: .off, handler: { _ in }),
         ])
         
         var menuChildren: [UIMenuElement] = []

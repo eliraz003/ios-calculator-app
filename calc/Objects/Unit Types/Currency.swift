@@ -76,7 +76,6 @@ class Currency: RateBasedUnit {
                 
                 do {
                     let asObject = try JSONDecoder().decode(CurrencyServerResponse.self, from: data!)
-//                    print("DATA", asObject)
                     let quoteValue = asObject.value
                     let object = FetchedCurrency(name: self.name, symbol: self.symbol, isoCode: self.isoCode, rate: quoteValue)
                     cachedCurrencies[object.isoCode] = object
@@ -93,6 +92,14 @@ class Currency: RateBasedUnit {
         convenience init(name: String, symbol: String, isoCode: String, rate: CGFloat) {
             self.init(name: name, symbol: symbol, rate: rate)
             self.isoCode = isoCode
+        }
+        
+        override func convertToBase(value: CGFloat) -> CGFloat {
+            return value / CGFloat(rate)
+        }
+        
+        override func convertFromBase(value: CGFloat) -> CGFloat {
+            return value * CGFloat(rate)
         }
     }
 }

@@ -215,7 +215,8 @@ class CalculatorEntryController {
      (From the backsapce button or from the swipe back gesture)
      */
     static func removingLastCharacter(current: String) -> String? {
-        print("IS REMOVING LAST CHARACTER")
+//        print("IS REMOVING LAST CHARACTER")
+        if (current == "0") { return nil }
         
         var components = getComponentsOfEntry(entry: current)
         if (KeypadSpecial.getRuleFor(components.last!) != nil) {
@@ -230,8 +231,8 @@ class CalculatorEntryController {
         let valueIsEmpty: Bool = (components.count == 1)
             ? (components[0] == "" || components[0] == "0")
             : (components.count == 0) ? true :false
-        print("is value empty", valueIsEmpty)
-        if (valueIsEmpty) { return nil }
+//        print("is value empty", valueIsEmpty)
+        if (valueIsEmpty) { return "0" }
         else { return CalculatorEntryController.prepareForFinalReturn(components.joined()) }
     }
 }

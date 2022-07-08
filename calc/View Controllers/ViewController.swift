@@ -109,13 +109,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         } else if (gesture.state == .ended) {
             if (currentKeypad == 0 && transform < -panThreshhold) { currentKeypad = 1 }
             else if (currentKeypad == 1 && transform > panThreshhold) { currentKeypad = 0 }
-            
-            UIView.animate(withDuration: 0.55, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.7, options: .curveEaseOut, animations: {
+
+            self.stepsIndicator.setIndex(index: self.currentKeypad)
+            UIView.animate(withDuration: 0.55, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.7, options: [.curveEaseOut, .allowUserInteraction], animations: {
                 self.mainKeypad.transform = CGAffineTransform(translationX: self.getOffsetOfKeypadUsingIndex(self.currentKeypad, target: 0), y: 0)
                 self.secondaryKeypad.transform = CGAffineTransform(translationX: self.getOffsetOfKeypadUsingIndex(self.currentKeypad, target: 1), y: 0)
-            }, completion: { _ in
-                self.stepsIndicator.setIndex(index: self.currentKeypad)
-            })
+            }, completion: { _ in })
         }
     }
     
