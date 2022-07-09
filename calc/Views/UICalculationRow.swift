@@ -35,6 +35,8 @@ class UICalculationRow: UIView {
     private var operation: MathematicalOperation?
     private var unit: Unit?
     
+    private var error: Error?
+    
     private var allowUserUnitChanging: Bool = true
     
     private let unitLabel: UIButton = {
@@ -151,17 +153,25 @@ class UICalculationRow: UIView {
         valueLabel.text = String(value)
                 
         let configuration = UIImage.SymbolConfiguration(pointSize: 16, weight: .semibold)
-        switch(operation) {
-        case .plus:
-            setOperationIcon(to: UIImage(systemName: "plus", withConfiguration: configuration)); break
-        case .minus:
-            setOperationIcon(to: UIImage(systemName: "minus", withConfiguration: configuration)); break
-        case .divide:
-            setOperationIcon(to: UIImage(systemName: "divide", withConfiguration: configuration)); break
-        case .multiply:
-            setOperationIcon(to: UIImage(systemName: "multiply", withConfiguration: configuration)); break
-        default:
-            setOperationIcon(to: nil); break
+        if (error != nil) {
+            // If error then set label as red and add a warning icon
+            ColorController.appendToList(key: ColorController.RowLabelError, item: valueLabel)
+            setOperationIcon(to: UIImage(systemName: "exclamationmark.triangle.fill", withConfiguration: configuration))
+        } else {
+            ColorController.appendToList(key: ColorController.RowLabel, item: valueLabel)
+            
+            switch(operation) {
+            case .plus:
+                setOperationIcon(to: UIImage(systemName: "plus", withConfiguration: configuration)); break
+            case .minus:
+                setOperationIcon(to: UIImage(systemName: "minus", withConfiguration: configuration)); break
+            case .divide:
+                setOperationIcon(to: UIImage(systemName: "divide", withConfiguration: configuration)); break
+            case .multiply:
+                setOperationIcon(to: UIImage(systemName: "multiply", withConfiguration: configuration)); break
+            default:
+                setOperationIcon(to: nil); break
+            }
         }
         
         let isFirst = ViewController.interfaceDelegate.isRowFirst(row: self)
@@ -309,10 +319,10 @@ class UICalculationRow: UIView {
     func getRawValue() -> String {return value}
     func getValue() -> Double {
         let result = CalculatorEntryController.renderedValue(entry: value)
-        if (result.1 != nil) { ColorController.appendToList(key: ColorController.RowLabelError, item: valueLabel) }
-        else { ColorController.appendToList(key: ColorController.RowLabel, item: valueLabel) }
+        error = result.1
         
-        print("Result error", result.1)
+        refresh()
+        
         return result.0 ?? 0
     }
     
