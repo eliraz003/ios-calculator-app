@@ -18,6 +18,8 @@ class ColorController {
         if (shared.list[key] == nil) {
             shared.list[key] = []
         }
+
+        shared.list[key] = shared.list[key]?.filter({ return $0.0 != item })
         
         shared.list[key]!.append((item, handler))
         update(key: key, view: item, toColor: colorFor(key: key, trouple: (item, handler)))
@@ -46,6 +48,8 @@ class ColorController {
     
     static func dispatchChange(colours: [String : UIColor]) {
         shared.currentColours = colours
+        shared.currentColours[ColorController.RowLabelError] = UIColor.fromHex(hex: "8B0E0E")
+        
         shared.list.forEach({ item in
             item.value.forEach({ view in update(key: item.key, view: view.0, toColor: colorFor(key: item.key, trouple: view)) }) //(view.1 == nil) ? newColor : view.1!(newColor)})
         })
@@ -55,6 +59,7 @@ class ColorController {
 extension ColorController {
     static var KeypadCharacter: String = "KeypadCharacter"
     static var RowLabel: String = "RowLabel"
+    static var RowLabelError: String = "RowLabelError"
     
     static var MainBackground: String = "MainBackground"
     

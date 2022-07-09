@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class UnitSelectionViewController: UIViewController {
+class UnitSelectionViewController: UIViewController, UIScrollViewDelegate {
     let titleLabel: UITextField = {
         let view = UITextField()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -43,8 +43,9 @@ class UnitSelectionViewController: UIViewController {
         return view
     }()
     
-    let scrollView: UIScrollView = {
+    lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
+        scrollView.delegate = self
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
@@ -64,7 +65,7 @@ class UnitSelectionViewController: UIViewController {
             view = UIScrollableSelector(title: "Favourite Currencies", items: items, render: { item in
                 let asCurrency = currencyUnits[item] as! Currency
                 return UIFavouriteButton(unit: asCurrency, action: {
-                    self.onSelect(asCurrency, {})
+                    self.onSelect?(asCurrency, {})
                 })
             })
         }
@@ -73,7 +74,7 @@ class UnitSelectionViewController: UIViewController {
         return view
     }()
     
-    var onSelect: (Currency, @escaping () -> Void) -> Void = {_,_ in}
+    var onSelect: ((Currency, @escaping () -> Void) -> Void)?
     var unitButtons: [UIMenuButton] = []
     
     let unitView: UIView = {
@@ -86,18 +87,20 @@ class UnitSelectionViewController: UIViewController {
     convenience init(selected: String?, onSelect: ((Unit) -> Void)?) {
         self.init()
         
-        self.onSelect = { unit, callback in
-            self.statusIndicator.layer.opacity = 1
-            
-            unit.fetchValue({ (foundUnit, error) in
-                if (error != nil || foundUnit == nil) {
-                    print("DISPLAY ERROR")
-                }
+        if (onSelect != nil) {
+            self.onSelect = { unit, callback in
+                self.statusIndicator.layer.opacity = 1
                 
-                onSelect?(foundUnit!)
-                callback()
-                self.dismiss(animated: true)
-            })
+                unit.fetchValue({ (foundUnit, error) in
+                    if (error != nil || foundUnit == nil) {
+                        print("DISPLAY ERROR")
+                    }
+                    
+                    onSelect?(foundUnit!)
+                    callback()
+                    self.dismiss(animated: true)
+                })
+            }
         }
         
         view.backgroundColor = .black
@@ -143,10 +146,9 @@ class UnitSelectionViewController: UIViewController {
         refreshCurrencyList()
     }
     
-    @objc func onInputChange() {
-        print("input has changed")
-        refreshCurrencyList()
-    }
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) { titleLabel.endEditing(true) }
+    
+    @objc func onInputChange() { refreshCurrencyList() }
     
     private func findItemsToShow() -> [Currency] {
         let units = currencyUnits.sorted(by: { return $0.value.name < $1.value.name }).filter({ currency in
@@ -204,8 +206,7 @@ class UnitSelectionViewController: UIViewController {
             refreshStarredState()
 
             let button = UIMenuButton(label: item.name, leftAccessory: label, rightAccessory: starButton, action: { button in
-//                button.backgroundColor = .orange
-                self.onSelect(item, { button.backgroundColor = nil })
+                self.onSelect?(item, { button.backgroundColor = nil })
             })
             
             button.translatesAutoresizingMaskIntoConstraints = false

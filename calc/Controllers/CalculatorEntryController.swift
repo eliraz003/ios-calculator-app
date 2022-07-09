@@ -71,7 +71,7 @@ class CalculatorEntryController {
             let ignorePrevious = (lastComponentNumeric == nil)
             let wasComponentNumberic = (!ignorePrevious) ? lastComponentNumeric! : false
             
-            print(isNumeric, isSpecial, ignorePrevious, wasComponentNumberic)
+//            print(isNumeric, isSpecial, ignorePrevious, wasComponentNumberic)
             
             if (isNumeric) {
                 lastComponentNumeric = true
@@ -94,13 +94,15 @@ class CalculatorEntryController {
         if (components.count == 0) { components.append("") }
         return components
     }
-    
-    static func renderedValue(entry: String) -> Double {
+        
+    static func renderedValue(entry: String) -> (Double?, Error?) {
         let components = getComponentsOfEntry(entry: entry)
+        var foundIssue: Error?
         
         func performAndEvaluateRule(_ rule: SpecialCharacterRule, a: Double?, b: Double?, _ defaultValue: Double?) -> Double? {
-            return rule.perform?(a,b).0 ?? defaultValue
-//            rule0.perform?(nil, nil) ?? 0
+            let val = rule.perform?(a,b)
+            if (val != nil && val?.0 != nil) { return val!.0 }
+            else { foundIssue = val?.1; return nil }
         }
         
         func toNumber(value: String) -> Double {
@@ -111,7 +113,7 @@ class CalculatorEntryController {
         func evaluateOperation(array: [String], holdingValue: Double, callOperation: SpecialCharacterPerformer?) -> Double? {
             if (array.count == 0) { return nil }
             if (array.count == 1) {
-                if let rule0 = KeypadSpecial.getRuleFor(array[0]) { return performAndEvaluateRule(rule0, a: nil, b: nil, 0) }// rule0.perform?(nil, nil) ?? 0 }
+                if let rule0 = KeypadSpecial.getRuleFor(array[0]) { return performAndEvaluateRule(rule0, a: nil, b: nil, 0) }
                 else { return toNumber(value: array[0]) }
             }
                 
@@ -132,8 +134,10 @@ class CalculatorEntryController {
             return (a ?? 0, nil)
         }) ?? 0
         
-        if (Double.infinity == result) { return 0 }
-        return result
+        if (foundIssue != nil) { return (nil, foundIssue) }
+        if (Double.infinity == result) { return (nil, UserEntryError.InfiniteResult) }
+        
+        return (result, nil)
     }
     
     /**

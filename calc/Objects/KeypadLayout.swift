@@ -60,11 +60,13 @@ typealias SpecialCharacterPerformer = (Double?, Double?) -> (Double?, Error?)
 
 private func ksR(_ val: Double? , err: Error?) -> (Double?, Error?) { return (val, err) }
 
-enum KeypadError: Error {
+enum UserEntryError: Error {
     case MissingValueA
     case MissingValueB
     case ValueANotAllowed
     case ValueBNotAllowed
+    
+    case InfiniteResult
 }
 
 extension KeypadSpecial {
@@ -83,7 +85,8 @@ extension KeypadSpecial {
             return ksR((a ?? 0) / (b ?? 0), err: nil)
         }),
         .pi:.init(placement: .anywhere, representable: "π", togglable: false, perform: {(a,b) in
-            if (b != nil) { return ksR(nil, err: KeypadError.ValueBNotAllowed) }
+            print("a", "b", a, b)
+            if (b != nil) { return ksR(nil, err: UserEntryError.ValueBNotAllowed) }
             return ksR(((a ?? 1) * Double.pi), err: nil)
         }),
         .trig_tan:.init(placement: .anywhere, representable: "tan", togglable: false, perform: {(a,b) in

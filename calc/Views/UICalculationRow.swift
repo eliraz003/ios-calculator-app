@@ -149,7 +149,7 @@ class UICalculationRow: UIView {
     
     func refresh() {
         valueLabel.text = String(value)
-        
+                
         let configuration = UIImage.SymbolConfiguration(pointSize: 16, weight: .semibold)
         switch(operation) {
         case .plus:
@@ -308,9 +308,12 @@ class UICalculationRow: UIView {
     
     func getRawValue() -> String {return value}
     func getValue() -> Double {
-        print("FIX CALCULATION TO SUPPOERT SPECIAL CHARACTERS")
-        let numberValue = Double(truncating: NSNumber(value: CalculatorEntryController.renderedValue(entry: value)))
-        return numberValue
+        let result = CalculatorEntryController.renderedValue(entry: value)
+        if (result.1 != nil) { ColorController.appendToList(key: ColorController.RowLabelError, item: valueLabel) }
+        else { ColorController.appendToList(key: ColorController.RowLabel, item: valueLabel) }
+        
+        print("Result error", result.1)
+        return result.0 ?? 0
     }
     
     func getOperation() -> MathematicalOperation? { return operation }
