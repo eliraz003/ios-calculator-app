@@ -23,28 +23,7 @@ extension RangeReplaceableCollection {
 
 
 class CalculatorEntryController {
-//    private static var rules: [KeypadSpecial : SpecialCharacterRule] = [
-//        .decimal:.init(placement: .anywhere, representable: ".", togglable: false, perform: nil),
-//        .plusMinus:.init(placement: .start, representable: "-", togglable: true, perform: nil),
-//
-//        .power:.init(placement: .anywhere, representable: "^", togglable: false, perform: {(a,b) in return pow(a ?? 0, b ?? 1) }),
-//        .sqrRoot:.init(placement: .anywhere, representable: "√", togglable: true, perform: {(a,b) in return (a ?? 1) * sqrt(b ?? 0)}),
-//        .fraction:.init(placement: .anywhere, representable: "/", togglable: false, perform: {(a,b) in return (a ?? 0)/(b ?? 0)}),
-//        .pi:.init(placement: .anywhere, representable: "π", togglable: false, perform: {(a,b) in return ((a ?? 1) * Double.pi) }),
-//
-//        .tan:.init(placement: .anywhere, representable: "T", togglable: false, perform: {(a,b) in return tan((Double.pi / 180) * (a ?? 1)) }),
-//        .cos:.init(placement: .anywhere, representable: "C", togglable: false, perform: {(a,b) in return cos((Double.pi / 180) * (a ?? 1)) }),
-//        .sin:.init(placement: .anywhere, representable: "S", togglable: false, perform: {(a,b) in return sin((Double.pi / 180) * (a ?? 1)) }),
-//    ]
-//
-//    static func getRuleFor(_ character: KeypadSpecial) -> SpecialCharacterRule {
-//        return rules[character] ?? .init(placement: .anywhere, representable: "", perform: nil)
-//    }
-//
-//    static func getRuleFor(_ character: String) -> SpecialCharacterRule? {
-//        return rules.first(where: { return $0.value.representable == character })?.value
-//    }
-
+    
     
     static func shouldAdhereToRule(wholeString: String) -> [String:SpecialCharacterRule.Placement] {
         var current: [String : SpecialCharacterRule.Placement] = [:]
@@ -70,9 +49,7 @@ class CalculatorEntryController {
             let isSpecial = (!isNumeric)
             let ignorePrevious = (lastComponentNumeric == nil)
             let wasComponentNumberic = (!ignorePrevious) ? lastComponentNumeric! : false
-            
-//            print(isNumeric, isSpecial, ignorePrevious, wasComponentNumberic)
-            
+        
             if (isNumeric) {
                 lastComponentNumeric = true
                 
@@ -88,21 +65,20 @@ class CalculatorEntryController {
             }
         }
         
-//        if (latestComponent != "") { components.append(latestComponent) }
-//        print("COMPONE     NTS", components)
-        
         if (components.count == 0) { components.append("") }
         return components
     }
         
-    static func renderedValue(entry: String) -> (Double?, Error?) {
+    static func renderedValue(entry: String) -> (Double?, [SpecialCharacterRule.CalculationApplicableRule], Error?) {
         let components = getComponentsOfEntry(entry: entry)
         var foundIssue: Error?
+        var rules: [SpecialCharacterRule.CalculationApplicableRule] = []
         
         func performAndEvaluateRule(_ rule: SpecialCharacterRule, a: Double?, b: Double?, _ defaultValue: Double?) -> Double? {
-            let val = rule.perform?(a,b)
-            if (val != nil && val?.0 != nil) { return val!.0 }
-            else { foundIssue = val?.1; return nil }
+            let val = rule.dispatchPerform(a: a, b: b) //rule.perform?(a,b)
+            rules.append(contentsOf: rule.calculationRules)
+            if (val.0 != nil) { return val.0 }
+            else { foundIssue = val.1; return nil }
         }
         
         func toNumber(value: String) -> Double {
@@ -134,10 +110,10 @@ class CalculatorEntryController {
             return (a ?? 0, nil)
         }) ?? 0
         
-        if (foundIssue != nil) { return (nil, foundIssue) }
-        if (Double.infinity == result) { return (nil, UserEntryError.InfiniteResult) }
+        if (foundIssue != nil) { return (nil, [], foundIssue) }
+        if (Double.infinity == result) { return (nil, [], UserEntryError.InfiniteResult) }
         
-        return (result, nil)
+        return (result, rules, nil)
     }
     
     /**
@@ -189,7 +165,7 @@ class CalculatorEntryController {
                 : current.contains(char.representable)
             
             if (doesContainCharacter) {
-                if (char.togglable) {
+                if (char.rules.contains(.Togglable)) {
                     if (char.placement == .anywhere) {
                         components[components.count-1] = components[components.count-1].replacingOccurrences(of: char.representable, with: "")
                         return CalculatorEntryController.prepareForFinalReturn(components.joined(separator: ""))
@@ -219,8 +195,7 @@ class CalculatorEntryController {
      (From the backsapce button or from the swipe back gesture)
      */
     static func removingLastCharacter(current: String) -> String? {
-//        print("IS REMOVING LAST CHARACTER")
-        if (current == "0") { return nil }
+        if (current == "0" || current == "-0") { return nil }
         
         var components = getComponentsOfEntry(entry: current)
         if (KeypadSpecial.getRuleFor(components.last!) != nil) {

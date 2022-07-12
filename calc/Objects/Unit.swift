@@ -61,7 +61,7 @@ protocol ResultOnlyUnit: Unit {
 }
 
 extension ResultOnlyUnit {
-    func asWholeNumber(_ v: CGFloat) -> String {
+    func asWholeNumber(_ v: CGFloat, showCommas: Bool = true) -> String {
         let nubmerFormatter = NumberFormatter()
         nubmerFormatter.numberStyle = .decimal
         nubmerFormatter.alwaysShowsDecimalSeparator = false
@@ -69,8 +69,9 @@ extension ResultOnlyUnit {
         
         let stringRepresentation = nubmerFormatter.string(from: NSNumber(value: v))!
         
-        print("STRING REPRESENTATION", stringRepresentation)
-        return String(stringRepresentation.split(separator: ".")[0]) // String(v.description.split(separator: ".")[0])
+        let representation = String(stringRepresentation.split(separator: ".")[0])
+        if (!showCommas) { return representation.replacingOccurrences(of: ",", with: "") }
+        return representation
     }
     
     func fallbackUnit() -> Unit? { return fallback }

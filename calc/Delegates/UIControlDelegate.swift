@@ -13,6 +13,7 @@ import UIKit
  */
 protocol UIControlDelegate {
     func selected() -> UICalculationRow
+    var totalRow: UICalculationRow { get }
     
     func select(row: UICalculationRow)
     func setOperationForSelected(operation: MathematicalOperation)
@@ -28,7 +29,7 @@ protocol UIControlDelegate {
     func copyUnit(_ unit: Unit)
 
     func showCurrencyUnitMenu(selected: String?, handler: @escaping (Unit) -> Void)
-    func setUnitFor(row: UICalculationRow, newUnit: Unit?)
+    @discardableResult func setUnitFor(row: UICalculationRow, newUnit: Unit?, dontForceRefresh: Bool) -> Bool
     func canRowHaveUnit(row: UICalculationRow) -> Bool
     func unitForRow(row: UICalculationRow) -> Unit?
 }

@@ -20,6 +20,16 @@ var themes: [String:Theme] = [
         ColorController.RowLabel:UIColor.white
     ]),
     
+    "Pure White":.init(name: "Pure White", colors: [
+        ColorController.MainBackground:UIColor(displayP3Red: 0.97, green: 0.97, blue: 0.95, alpha: 1),
+        
+        ColorController.StandardKeyBackground:UIColor.fromHex(hex: "DCDCCA").withAlphaComponent(0.25),
+        ColorController.OperationKeyBackground:UIColor.fromHex(hex: "D9D9CB").withAlphaComponent(0.25),
+        
+        ColorController.KeypadCharacter:UIColor.black,
+        ColorController.RowLabel:UIColor.black
+    ]),
+    
     "White":.init(name: "White", colors: [
         ColorController.MainBackground:UIColor(displayP3Red: 0.9, green: 0.9, blue: 0.85, alpha: 1),
         

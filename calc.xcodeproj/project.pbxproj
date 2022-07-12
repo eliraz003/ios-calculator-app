@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F1C9F71287C4FBC00970911 /* UIToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1C9F70287C4FBC00970911 /* UIToast.swift */; };
+		6F1C9F73287D851900970911 /* EntryMemoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1C9F72287D851900970911 /* EntryMemoryController.swift */; };
 		6F4AB5A22871C880000D3E96 /* UIDotsIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F4AB5A12871C880000D3E96 /* UIDotsIndicator.swift */; };
 		6F5B796028738D5000C36554 /* UIScrollableSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5B795F28738D5000C36554 /* UIScrollableSelector.swift */; };
 		6F5B796228738D6C00C36554 /* UIMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5B796128738D6C00C36554 /* UIMenuButton.swift */; };
@@ -73,6 +75,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6F1C9F70287C4FBC00970911 /* UIToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIToast.swift; sourceTree = "<group>"; };
+		6F1C9F72287D851900970911 /* EntryMemoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryMemoryController.swift; sourceTree = "<group>"; };
 		6F4AB5A12871C880000D3E96 /* UIDotsIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDotsIndicator.swift; sourceTree = "<group>"; };
 		6F5B795F28738D5000C36554 /* UIScrollableSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollableSelector.swift; sourceTree = "<group>"; };
 		6F5B796128738D6C00C36554 /* UIMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIMenuButton.swift; sourceTree = "<group>"; };
@@ -83,7 +87,7 @@
 		FF1A1568283D410C00A763DA /* UIControlDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIControlDelegate.swift; sourceTree = "<group>"; };
 		FF1A156D283D41BB00A763DA /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		FF1A156F283D41E200A763DA /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
-		FF1A1575283D422F00A763DA /* Unit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unit.swift; sourceTree = "<group>"; };
+		FF1A1575283D422F00A763DA /* Unit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unit.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		FF1A1577283D42AB00A763DA /* UnitContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitContainer.swift; sourceTree = "<group>"; };
 		FF1A1579283D436300A763DA /* Themes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
 		FF1A157B283D437E00A763DA /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
@@ -192,6 +196,7 @@
 				FF1A157F283D441000A763DA /* ColorController.swift */,
 				FF1A159A283D547E00A763DA /* CalculatorEntryController.swift */,
 				FF1A159C283D571E00A763DA /* SavedCurrencyController.swift */,
+				6F1C9F72287D851900970911 /* EntryMemoryController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -209,6 +214,7 @@
 				6F5B795F28738D5000C36554 /* UIScrollableSelector.swift */,
 				6F5B796128738D6C00C36554 /* UIMenuButton.swift */,
 				6F5B796328738D8800C36554 /* UIFavouriteButton.swift */,
+				6F1C9F70287C4FBC00970911 /* UIToast.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -467,9 +473,11 @@
 				FF1A1578283D42AB00A763DA /* UnitContainer.swift in Sources */,
 				FF1A159D283D571E00A763DA /* SavedCurrencyController.swift in Sources */,
 				FF1A157C283D437E00A763DA /* Device.swift in Sources */,
+				6F1C9F71287C4FBC00970911 /* UIToast.swift in Sources */,
 				FF1A1595283D544700A763DA /* TimeController.swift in Sources */,
 				FF1A157A283D436300A763DA /* Themes.swift in Sources */,
 				FF48485427F09C2E002CD220 /* SceneDelegate.swift in Sources */,
+				6F1C9F73287D851900970911 /* EntryMemoryController.swift in Sources */,
 				6F5B796028738D5000C36554 /* UIScrollableSelector.swift in Sources */,
 				FF1A157E283D438500A763DA /* Dimensions.swift in Sources */,
 				FF1A1570283D41E200A763DA /* Theme.swift in Sources */,

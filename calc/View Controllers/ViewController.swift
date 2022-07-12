@@ -32,7 +32,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        Device.rootViewController = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         ViewController.interfaceDelegate = self
         ViewController.controlDelegate = self
     
@@ -54,7 +57,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
         view.addSubview(secondaryKeypad)
 
         stepsIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-        stepsIndicator.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Dimensions.keypadBottomOffset).isActive = true
+        stepsIndicator.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Dimensions.stepsIndicatorBottomSpacing).isActive = true
         
         mainKeypad.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
         mainKeypad.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
@@ -148,6 +151,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
                 return openViewModally(MenuViewController())
             case .answer:
                 return setAnswerToResult()
+            case .memoryAdd:
+                EntryMemoryController.add(totalRow.getValue())
+                return
+            case .memoryReduce:
+                EntryMemoryController.reduce(totalRow.getValue())
+                return
             }
         default:
             break
@@ -204,6 +213,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
     
     
     //* UTILITY FUNCTIONS *//
+    
+    var totalRow: UICalculationRow {
+        get { return rowsContainer.totalRow }
+    }
     
     /**
      Call when a rows value or operation has been changed
@@ -415,11 +428,18 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
     /**
      Set a unit for a given row
      */
-    func setUnitFor(row: UICalculationRow, newUnit: Unit?) {
-        row.setUnit(unit: newUnit)
-        mostRecentUnit = newUnit ?? mostRecentUnit
+    func setUnitFor(row: UICalculationRow, newUnit: Unit?, dontForceRefresh: Bool = false) -> Bool {
+        if (row.getUnit() != nil && row.getUnit()?.type != .generic && row.getUnit()?.type != newUnit?.type) {
+            return false
+        }
         
-        refreshRows()
+        if (!dontForceRefresh) {
+            row.setUnit(unit: newUnit)
+            mostRecentUnit = newUnit ?? mostRecentUnit
+            refreshRows()
+        }
+        
+        return true
     }
     
     /**
@@ -444,19 +464,55 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
      If the value above it has a multiply or divide operation than return a nil unit
      */
     func unitForRow(row: UICalculationRow) -> Unit? {
+        // Find the preferred unit by starting with the most recently used unit
+        // If that is empty than find it by finding the last unit in the calculation
+        // If still empty then find total row unit
+            // if renderable unit than use fallback
+            // if still empty return no unit
+        // If row has a unit assigned then return itself,
+            // else, return the preffered unit
+        
+        var prefferedUnit: Unit?
+        
+        if (mostRecentUnit != nil) { prefferedUnit = mostRecentUnit }
+        else {
+            var index: Int = 0
+            while (prefferedUnit == nil && index < rowsContainer.rows.count) {
+                if let found = rowsContainer.rows[index].0.getUnit() { prefferedUnit = found }
+                index += 1
+            }
+            
+            if (prefferedUnit == nil) {
+                if let totalUnit = rowsContainer.totalRow.getUnit() { prefferedUnit = totalUnit }
+            }
+        }
+        
+        if let asRendered = prefferedUnit as? ResultOnlyUnit { prefferedUnit = asRendered.fallbackUnit() }
+        
+        if (row.getUnit() == nil) { return prefferedUnit }
+        
+        return row.getUnit()
+        
+        
+        // Return the rows own unit if total row
         let isTotalRow = (rowsContainer.totalRow == row)
         if (row.getUnit() != nil) { return row.getUnit() }
         
         var foundUnit: Unit? = mostRecentUnit
         var index: Int = 0
         while (foundUnit == nil && index < rowsContainer.rows.count) {
-            foundUnit = rowsContainer.rows[index].0.getUnit()
+            foundUnit = rowsContainer.rows[index].0.getUnit() ?? foundUnit
             index += 1
         }
         
         let foundUnitAsResults = foundUnit as? ResultOnlyUnit
         if (!isTotalRow && foundUnitAsResults != nil) {
+//            if (foundUnit == nil && rowsContainer.totalRow.getUnit() != nil) {
             foundUnit = foundUnitAsResults?.fallbackUnit()
+        }
+        
+        if (foundUnit == nil && rowsContainer.totalRow.getUnit() != nil) {
+            return rowsContainer.totalRow.getUnit()
         }
         
         mostRecentUnit = foundUnit

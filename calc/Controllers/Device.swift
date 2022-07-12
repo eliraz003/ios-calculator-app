@@ -31,24 +31,34 @@ class Device {
         return .ipad
     }()
     
-    static var hasSafeAreaInset: Bool = {
-//        if #available(iOS 11.0, tvOS 11.0, *) {
-//            return UIApplication.shared.delegate?.window??.safeAreaInsets.top ?? 0 > 20 }
-        
-//        return false
-
-        /**
-          ## TODO: THIS PART OF THE CODE DOES NOT WORK AND ALWAYS RETURNS FALSE
-         */
-        
-        let window: UIWindow? = {
-            return UIApplication.shared.connectedScenes
-                .filter({ $0.activationState == .foregroundActive })
-                .first(where: { $0 is UIWindowScene })
-                .flatMap({ $0 as? UIWindowScene })?.windows
-                .first(where: { return $0.isKeyWindow })
-        }()
-        
-        return (window?.safeAreaInsets.top ?? 0) >= 44
-    }()
+    static var rootViewController: UIViewController?
+    
+    static var hasSafeAreaInset: () -> Bool = {
+        if let window = Device.rootViewController {
+            print("Safe Area", window.view.safeAreaInsets)
+            return (window.view.safeAreaInsets.top >= 1)
+        }
+        return false
+    }
+    
+//    static var hasSafeAreaInset: Bool = {
+////        if #available(iOS 11.0, tvOS 11.0, *) {
+////            return UIApplication.shared.delegate?.window??.safeAreaInsets.top ?? 0 > 20 }
+//
+////        return false
+//
+//        /**
+//          ## TODO: THIS PART OF THE CODE DOES NOT WORK AND ALWAYS RETURNS FALSE
+//         */
+//
+//        let window: UIWindow? = {
+//            return UIApplication.shared.connectedScenes
+//                .filter({ $0.activationState == .foregroundActive })
+//                .first(where: { $0 is UIWindowScene })
+//                .flatMap({ $0 as? UIWindowScene })?.windows
+//                .first(where: { return $0.isKeyWindow })
+//        }()
+//
+//        return (window?.safeAreaInsets.top ?? 0) >= 44
+//    }()
 }

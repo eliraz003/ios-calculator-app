@@ -31,19 +31,31 @@ class Time: RateBasedUnit {
             var startingString = syntax
             var remainingTime = value
             
-            let hours = (startingString.contains("HH")) ? floor(remainingTime / (Time.HourValue)) : 0
+            print("REMAINING VALUE", remainingTime, Time.YearValue)
+            let years = (startingString.contains("YEAR")) ? floor(remainingTime / (Time.YearValue)) : 0
+            remainingTime -= (years * Time.YearValue)
+            let months = (startingString.contains("MONTH")) ? floor(remainingTime / (Time.MonthValue)) : 0
+            remainingTime -= (months * Time.MonthValue)
+            let days = (startingString.contains("DAY")) ? floor(remainingTime / (Time.DayValue)) : 0
+            remainingTime -= (days * Time.DayValue)
+            
+            let hours = (startingString.contains("HOUR")) ? floor(remainingTime / (Time.HourValue)) : 0
             remainingTime -= (hours * Time.HourValue)
-            let minutes = (startingString.contains("MM")) ? floor(remainingTime / (Time.MinuteValue)) : 0
+            let minutes = (startingString.contains("MINUTE")) ? floor(remainingTime / (Time.MinuteValue)) : 0
             remainingTime -= (minutes * Time.MinuteValue)
-            let seconds = (startingString.contains("SS")) ? floor(remainingTime / (Time.SecondValue)) : 0
+            let seconds = (startingString.contains("SECOND")) ? floor(remainingTime / (Time.SecondValue)) : 0
             remainingTime -= (seconds * Time.SecondValue)
             
             let milliseconds = (remainingTime * Time.MillisecondValue)
             
-            startingString = startingString.replacingOccurrences(of: "HH", with: asWholeNumber(hours))
-            startingString = startingString.replacingOccurrences(of: "MM", with: asWholeNumber(minutes))
-            startingString = startingString.replacingOccurrences(of: "SS", with: asWholeNumber(seconds))
-            startingString = startingString.replacingOccurrences(of: "MS", with: asWholeNumber(milliseconds))
+            startingString = startingString.replacingOccurrences(of: "YEAR", with: asWholeNumber(years+1970, showCommas: false))
+            startingString = startingString.replacingOccurrences(of: "MONTH", with: asWholeNumber(months))
+            startingString = startingString.replacingOccurrences(of: "DAY", with: asWholeNumber(days))
+            
+            startingString = startingString.replacingOccurrences(of: "HOUR", with: asWholeNumber(hours))
+            startingString = startingString.replacingOccurrences(of: "MINUTE", with: asWholeNumber(minutes))
+            startingString = startingString.replacingOccurrences(of: "SECOND", with: asWholeNumber(seconds))
+            startingString = startingString.replacingOccurrences(of: "MILLISECOND", with: asWholeNumber(milliseconds))
             
             print(hours, minutes, seconds, milliseconds)
             
@@ -61,11 +73,18 @@ extension Time {
     static var Second = "Second"
     static var Minute = "Minute"
     static var Hour = "Hour"
+    
     static var Day = "Day"
+    static var Month = "Month"
+    static var Year = "Year"
+    
     
     static var MillisecondValue: CGFloat = 1
     static var SecondValue: CGFloat = 1000
     static var MinuteValue: CGFloat = (1000 * 60)
     static var HourValue: CGFloat = (1000 * 60 * 60)
+    
     static var DayValue: CGFloat = (1000 * 60 * 60 * 24)
+    static var MonthValue: CGFloat = (1000 * 60 * 60 * 24 * 365) / 12
+    static var YearValue: CGFloat = (1000 * 60 * 60 * 24 * 365)
 }

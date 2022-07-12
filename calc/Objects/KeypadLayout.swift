@@ -18,10 +18,38 @@ struct SpecialCharacterRule {
         case end
     }
     
+    enum CalculationApplicableRule {
+//        case ThisValueOnly
+        case ForceSetUnit(unit: Unit?)
+    }
+    
+    enum Rule {
+        case Togglable
+        
+        case RequiresValueA
+        case RequiresValueB
+        case NoValueA
+        case NoValueB
+    }
+    
     var placement: Placement
     var representable: String
-    var togglable: Bool = true
+    var rules: [Rule]
+    var calculationRules: [CalculationApplicableRule]
+//    var togglable: Bool = true
+    
     var perform: SpecialCharacterPerformer?
+    
+    func dispatchPerform(a: Double?, b: Double?) -> (Double?, Error?) {
+        if (a != nil && rules.contains(Rule.NoValueA)) { return ksR(nil, err: UserEntryError.ValueANotAllowed) }
+        else if (a == nil && rules.contains(Rule.RequiresValueA)) { return ksR(nil, err: UserEntryError.MissingValueB) }
+                    
+        if (b != nil && rules.contains(Rule.NoValueB)) { return ksR(nil, err: UserEntryError.ValueBNotAllowed) }
+        else if (b == nil && rules.contains(Rule.RequiresValueB)) { return ksR(nil, err: UserEntryError.MissingValueB) }
+        
+        let result = perform?(a,b)
+        return ksR(result?.0, err: result?.1)
+    }
 }
 
 
@@ -34,6 +62,8 @@ enum KeypadAction: String {
     case answer
     case backspace
     case clear
+    case memoryAdd
+    case memoryReduce
 }
 
 /**
@@ -42,18 +72,18 @@ enum KeypadAction: String {
 enum KeypadSpecial: String {
     case decimal
     case plusMinus
-    
     case fraction
-    
-    // POTENTIAL
+    case date_now
     case pi
     case sqrRoot
     case power
-    case log
-    case percentage
+    case func_log
     case trig_sin
     case trig_cos
     case trig_tan
+    case memory
+    
+    case percentage
 }
 
 typealias SpecialCharacterPerformer = (Double?, Double?) -> (Double?, Error?)
@@ -71,33 +101,62 @@ enum UserEntryError: Error {
 
 extension KeypadSpecial {
     static var rules: [KeypadSpecial : SpecialCharacterRule] = [
-        .decimal:.init(placement: .anywhere, representable: ".", togglable: false, perform: nil),
-        .plusMinus:.init(placement: .start, representable: "-", togglable: true, perform: {(a,b) in
-            return ksR(-(b ?? 0), err: nil)
-        }),
-        .power:.init(placement: .anywhere, representable: "^", togglable: false, perform: {(a,b) in
-            return ksR(pow(a ?? 0, b ?? 1), err: nil)
-        }),
-        .sqrRoot:.init(placement: .anywhere, representable: "√", togglable: true, perform: {(a,b) in
-            return ksR((a ?? 1) * sqrt(b ?? 0), err: nil)
-        }),
-        .fraction:.init(placement: .anywhere, representable: "/", togglable: false, perform: {(a,b) in
-            return ksR((a ?? 0) / (b ?? 0), err: nil)
-        }),
-        .pi:.init(placement: .anywhere, representable: "π", togglable: false, perform: {(a,b) in
-            print("a", "b", a, b)
-            if (b != nil) { return ksR(nil, err: UserEntryError.ValueBNotAllowed) }
-            return ksR(((a ?? 1) * Double.pi), err: nil)
-        }),
-        .trig_tan:.init(placement: .anywhere, representable: "tan", togglable: false, perform: {(a,b) in
-            return ksR(tan((Double.pi / 180) * (a ?? 1)), err: nil)
-        }),
-        .trig_cos:.init(placement: .anywhere, representable: "cos", togglable: false, perform: {(a,b) in
-            return ksR(cos((Double.pi / 180) * (a ?? 1)), err: nil)
-        }),
-        .trig_sin:.init(placement: .anywhere, representable: "sin", togglable: false, perform: {(a,b) in
-            return ksR(sin((Double.pi / 180) * (a ?? 1)), err: nil)
-        }),
+        .decimal: .init(placement: .anywhere, representable: ".", rules: [], calculationRules: [], perform: nil),
+        
+        .plusMinus: .init(placement: .start, representable: "-", rules: [
+            .Togglable, .NoValueA, .RequiresValueB
+        ], calculationRules: [], perform: { return ksR(-($1 ?? 0), err: nil) }),
+        
+        
+        .date_now: .init(placement: .anywhere, representable: "now", rules: [
+            .NoValueA, .NoValueB
+        ], calculationRules: [
+            .ForceSetUnit(unit: timeUnits.getWithName(Time.Second)!),
+        ], perform: {(a, _) in return ksR(Date().timeIntervalSince1970, err: nil) }),
+        
+        
+        .memory: .init(placement: .anywhere, representable: "mr", rules: [
+            .NoValueB
+        ], calculationRules: [], perform: {(a, _) in return ksR(EntryMemoryController.getValue(), err: nil) }),
+        
+        .func_log: .init(placement: .anywhere, representable: "log", rules: [
+            .NoValueA, .RequiresValueB
+        ], calculationRules: [], perform: {(_, b) in return ksR(log(b ?? 0), err: nil) }),
+        
+        .percentage: .init(placement: .anywhere, representable: "%", rules: [
+            .RequiresValueA ,.NoValueB
+        ], calculationRules: [], perform: {(a, _) in return ksR((a ?? 0) / 100, err: nil) }),
+
+
+        
+        .power: .init(placement: .anywhere, representable: "^", rules: [
+            .RequiresValueA, .RequiresValueB
+        ], calculationRules: [], perform: { return ksR(pow($0 ?? 0, $1 ?? 1), err: nil) }),
+        
+        .sqrRoot: .init(placement: .anywhere, representable: "√", rules: [
+            .RequiresValueB
+        ], calculationRules: [], perform: { return ksR(($0 ?? 1) * sqrt($1 ?? 0), err: nil) }),
+        
+        .fraction: .init(placement: .anywhere, representable: "/", rules: [
+            .RequiresValueA, .RequiresValueB
+        ], calculationRules: [], perform: { return ksR(($0 ?? 0) / ($1 ?? 0), err: nil) }),
+
+        .pi: .init(placement: .anywhere, representable: "π", rules: [
+            .NoValueB
+        ], calculationRules: [], perform: {(a, _) in return ksR(((a ?? 1) * Double.pi), err: nil) }),
+        
+        
+        .trig_tan: .init(placement: .anywhere, representable: "tan", rules: [
+            .NoValueB
+        ], calculationRules: [], perform: {(a, _) in return ksR(tan((Double.pi / 180) * (a ?? 1)), err: nil) }),
+        
+        .trig_cos: .init(placement: .anywhere, representable: "tan", rules: [
+            .NoValueB
+        ], calculationRules: [], perform: {(a, _) in return ksR(cos((Double.pi / 180) * (a ?? 1)), err: nil) }),
+        
+        .trig_sin: .init(placement: .anywhere, representable: "tan", rules: [
+            .NoValueB
+        ], calculationRules: [], perform: {(a, _) in return ksR(sin((Double.pi / 180) * (a ?? 1)), err: nil) }),
     ]
     
     static func getRuleFor(_ character: String) -> SpecialCharacterRule? {
@@ -105,7 +164,8 @@ extension KeypadSpecial {
     }
         
     func rule() -> SpecialCharacterRule {
-        return KeypadSpecial.rules[self] ?? .init(placement: .anywhere, representable: "", perform: nil)
+        return KeypadSpecial.rules[self] ?? .init(placement: .anywhere, representable: "", rules: [], calculationRules: [])
+        //?? .init(placement: .anywhere, representable: "", perform: nil)
     }
 }
 
@@ -180,19 +240,23 @@ extension KeypadInteraction {
         case .special(let special):
             switch(special) {
                 case .decimal: return UIKeypadButtonLabel(text: ".")
-                case .plusMinus: return UIKeypadButtonIcon(icon: UIImage(systemName: "plus.forwardslash.minus", withConfiguration: iconConfiguration)!)
+                case .plusMinus: return UIKeypadButtonIcon(icon: UIImage(systemName: "plusminus", withConfiguration: iconConfiguration)!)
+                
+                case .date_now: return UIKeypadButtonLabel(text: "now", useMonoFont: true)
+                case .percentage: return UIKeypadButtonLabel(text: "%")
                 
                 case .pi: return UIKeypadButtonLabel(text: "π")
                 case .sqrRoot: return UIKeypadButtonIcon(icon: UIImage(systemName: "x.squareroot", withConfiguration: iconConfiguration)!)
                 case .power: return UIKeypadButtonIcon(icon: UIImage(systemName: "textformat.superscript", withConfiguration: iconConfiguration)!)
                 
                 case .fraction: return UIKeypadButtonIcon(icon: UIImage(systemName: "line.diagonal", withConfiguration: iconConfiguration)!)
-                case .percentage: return UIKeypadButtonIcon(icon: UIImage(systemName: "percent", withConfiguration: iconConfiguration)!)
-                case .log: return UIKeypadButtonIcon(icon: UIImage(systemName: "chart.line.uptrend.xyaxis", withConfiguration: iconConfiguration)!)
+//                case .percentage: return UIKeypadButtonIcon(icon: UIImage(systemName: "percent", withConfiguration: iconConfiguration)!)
+                case .func_log: return UIKeypadButtonIcon(icon: UIImage(systemName: "chart.line.uptrend.xyaxis", withConfiguration: iconConfiguration)!)
                 
                 case .trig_tan: return UIKeypadButtonLabel(text: "tan", useMonoFont: true)
                 case .trig_cos: return UIKeypadButtonLabel(text: "cos", useMonoFont: true)
                 case .trig_sin: return UIKeypadButtonLabel(text: "sin", useMonoFont: true)
+                case .memory: return UIKeypadButtonLabel(text: "MR", useMonoFont: true)
             }
         case .operation(let operation):
             switch(operation) {
@@ -204,9 +268,12 @@ extension KeypadInteraction {
         case .action(let action):
             switch(action) {
                 case .backspace: return UIKeypadButtonIcon(icon: UIImage(systemName: "delete.backward", withConfiguration: iconConfiguration)!)
-                case .clear: return UIKeypadButtonIcon(icon: UIImage(systemName: "scribble", withConfiguration: iconConfiguration)!)
+//                case .clear: return UIKeypadButtonIcon(icon: UIImage(systemName: "scribble", withConfiguration: iconConfiguration)!)
+                case .clear: return UIKeypadButtonLabel(text: "C", useMonoFont: true)
                 case .openMenu: return UIKeypadButtonIcon(icon: UIImage(systemName: "ellipsis.circle", withConfiguration: iconConfiguration)!)
                 case .answer: return UIKeypadButtonLabel(text: "ANS", useMonoFont: true)
+                case .memoryAdd: return UIKeypadButtonLabel(text: "MR+", useMonoFont: true)
+                case .memoryReduce: return UIKeypadButtonLabel(text: "MR-", useMonoFont: true)
             }
         default:
             return UIView()
@@ -220,25 +287,30 @@ class KeypadLayout {
      A keypad the provides advanced actions
      */
     static var Special: KeypadLayout = KeypadLayout().row([
+        .special(special: .date_now),
         .empty,
         .empty,
-        .empty,
-        .empty
+//        .empty
+        .action(action: .backspace)
     ]).row([
         .special(special: .sqrRoot),
         .special(special: .power),
         .special(special: .pi),
-        .empty
+        .action(action: .memoryAdd)
+//        .empty
     ]).row([
         .special(special: .trig_tan),
         .special(special: .trig_cos),
         .special(special: .trig_tan),
-        .empty
+        .action(action: .memoryReduce)
+//        .empty
     ]).row([
-        .special(special: .log),
+//        .empty,
         .special(special: .percentage),
+        .special(special: .func_log),
         .special(special: .fraction),
-        .empty
+        .special(special: .memory)
+//        .empty
     ]).row([
         .action(action: .openMenu),
         .action(action: .clear),

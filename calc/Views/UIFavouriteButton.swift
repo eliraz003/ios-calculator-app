@@ -37,6 +37,7 @@ class UIFavouriteButton: UIView {
     var action: () -> Void
     var unit: Currency
     
+    let symbolLabel = UILabel()
     let titleLabel = UILabel()
     let valueLabel = UILabel()
 //    let statusIndicator = UIActivityIndicatorView(style: .medium)
@@ -51,13 +52,26 @@ class UIFavouriteButton: UIView {
         super.init(frame: CGRect.zero)
         self.translatesAutoresizingMaskIntoConstraints = false
         
+        
+        
+        symbolLabel.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(symbolLabel)
+        symbolLabel.text = (unit.getSymbol().count == 3) ? "" : unit.getSymbol()
+        symbolLabel.font = .monospacedSystemFont(ofSize: 18, weight: .semibold)
+        symbolLabel.textColor = .white
+        symbolLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -horizontalEdgeInset).isActive = true
+        symbolLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: verticalEdgeInset).isActive = true
+        
+        
+        
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(titleLabel)
-        titleLabel.text = ((unit.getSymbol().count == 3) ? "" : (unit.getSymbol() + " ")) + unit.isoCode
+        titleLabel.text = unit.isoCode
         titleLabel.font = .monospacedSystemFont(ofSize: 18, weight: .semibold)
         titleLabel.textColor = .white
         titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: horizontalEdgeInset).isActive = true
         titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: verticalEdgeInset).isActive = true
+
         
     
         valueLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -68,9 +82,6 @@ class UIFavouriteButton: UIView {
         valueLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2).isActive = true
         valueLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -horizontalEdgeInset).isActive = true
         valueLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -verticalEdgeInset).isActive = true
-        
-//        statusIndicator.isHidden = true
-        
         
         unit.fetchValue({ result, err in
             if (err != nil) {

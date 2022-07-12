@@ -36,6 +36,7 @@ class UICalculationRow: UIView {
     private var unit: Unit?
     
     private var error: Error?
+    private var rules: [SpecialCharacterRule.CalculationApplicableRule] = []
     
     private var allowUserUnitChanging: Bool = true
     
@@ -93,6 +94,8 @@ class UICalculationRow: UIView {
         operationIcon.centerXAnchor.constraint(equalTo: operationIconBackground.centerXAnchor).isActive = true
         operationIcon.centerYAnchor.constraint(equalTo: operationIconBackground.centerYAnchor).isActive = true
         
+        operationIconBackground.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pressOperationIcon)))
+        
         addSubview(valueLabel)
         valueLabel.rightAnchor.constraint(equalTo: (allowUserUnitChanging) ? operationIconBackground.leftAnchor : self.rightAnchor, constant: (allowUserUnitChanging) ? -6 : -32).isActive = true
         operationIconBackground.centerYAnchor.constraint(equalTo: valueLabel.centerYAnchor, constant: 0).isActive = true
@@ -140,17 +143,28 @@ class UICalculationRow: UIView {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 10), execute: { self.refresh() })
     }
     
+    @objc func pressOperationIcon() {
+        if (error != nil) {
+            UIToast(label: error?.localizedDescription ?? "Generic Error")
+        }
+    }
+    
     func setOperationIcon(to: UIImage?) {
         operationIcon.image = to
-        if (to == nil) {
-            operationIconBackground.transform = CGAffineTransform(scaleX: 0.4, y: 0.4)
-        } else {
-            operationIconBackground.transform = CGAffineTransform.identity
-        }
+        if (to == nil) { operationIconBackground.transform = CGAffineTransform(scaleX: 0.4, y: 0.4) }
+        else { operationIconBackground.transform = CGAffineTransform.identity }
     }
     
     func refresh() {
         valueLabel.text = String(value)
+        
+        rules.forEach({ rule in
+            switch(rule) {
+            case .ForceSetUnit(let forceUnit):
+                if (unit == forceUnit) { return }
+                ViewController.controlDelegate.setUnitFor(row: self, newUnit: forceUnit, dontForceRefresh: false)
+            }
+        })
                 
         let configuration = UIImage.SymbolConfiguration(pointSize: 16, weight: .semibold)
         if (error != nil) {
@@ -191,9 +205,13 @@ class UICalculationRow: UIView {
             displayArrowBottom.alpha = 0
         }
         
+        print("Can have unit?",
+              ViewController.controlDelegate.canRowHaveUnit(row: self),
+              ViewController.controlDelegate.unitForRow(row: self))
+        
         if (ViewController.controlDelegate.canRowHaveUnit(row: self)) {
             let assignUnit: (Unit?) -> Void = { newUnit in
-                ViewController.controlDelegate.setUnitFor(row: self, newUnit: newUnit)
+                ViewController.controlDelegate.setUnitFor(row: self, newUnit: newUnit, dontForceRefresh: false)
             }
             
             unit = ViewController.controlDelegate.unitForRow(row: self)
@@ -319,7 +337,8 @@ class UICalculationRow: UIView {
     func getRawValue() -> String {return value}
     func getValue() -> Double {
         let result = CalculatorEntryController.renderedValue(entry: value)
-        error = result.1
+        error = result.2
+        rules = result.1
         
         refresh()
         
