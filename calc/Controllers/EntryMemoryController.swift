@@ -21,6 +21,11 @@ class EntryMemoryController {
         return value
     }
     
+    static func clear() {
+        value = 0
+        save()
+    }
+    
     static func add(_ newValue: Double) {
         value += newValue
         save()

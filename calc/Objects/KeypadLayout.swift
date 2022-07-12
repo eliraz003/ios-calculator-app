@@ -62,6 +62,7 @@ enum KeypadAction: String {
     case answer
     case backspace
     case clear
+    case memoryClear
     case memoryAdd
     case memoryReduce
 }
@@ -165,7 +166,6 @@ extension KeypadSpecial {
         
     func rule() -> SpecialCharacterRule {
         return KeypadSpecial.rules[self] ?? .init(placement: .anywhere, representable: "", rules: [], calculationRules: [])
-        //?? .init(placement: .anywhere, representable: "", perform: nil)
     }
 }
 
@@ -214,20 +214,26 @@ extension KeypadInteraction {
     /**
     Get the ColorController name for the given interaction to properly style the keypad
      */
-    func colorControllerPattern() -> (String, (UIColor) -> UIColor) {
+    func colorControllerPattern(x: Int, y: Int) -> (String, (UIColor) -> UIColor) {
         func returnEmptyPatternHandler(_ val: String) -> (String, (UIColor) -> UIColor) { return (val, { return $0 }) }
         
-        switch(self) {
-        case .number(_):
-            return returnEmptyPatternHandler(ColorController.StandardKeyBackground)
-        case .special(let special):
-            if (special == .plusMinus) { return returnEmptyPatternHandler(ColorController.OperationKeyBackground) }
-            return returnEmptyPatternHandler(ColorController.StandardKeyBackground)
-        case .empty:
-            return (ColorController.StandardKeyBackground, { return $0.withAlphaComponent(0.3) })
-        default:
-            return returnEmptyPatternHandler(ColorController.OperationKeyBackground)
-        }
+        func patternHandler(_ val: String) -> (String, (UIColor) -> UIColor) { return (val, { return $0 }) }
+
+        
+        if (y == 4 || x == 3 || (x == 2 && y == 0)) { return patternHandler(ColorController.OperationKeyBackground) }
+        return patternHandler(ColorController.StandardKeyBackground)
+        
+//        switch(self) {
+//        case .number(_):
+//            return returnEmptyPatternHandler(ColorController.StandardKeyBackground)
+//        case .special(let special):
+//            if (special == .plusMinus) { return returnEmptyPatternHandler(ColorController.OperationKeyBackground) }
+//            return returnEmptyPatternHandler(ColorController.StandardKeyBackground)
+//        case .empty:
+//            return (ColorController.StandardKeyBackground, { return $0.withAlphaComponent(0.3) })
+//        default:
+//            return returnEmptyPatternHandler(ColorController.OperationKeyBackground)
+//        }
     }
     
     /**
@@ -250,8 +256,7 @@ extension KeypadInteraction {
                 case .power: return UIKeypadButtonIcon(icon: UIImage(systemName: "textformat.superscript", withConfiguration: iconConfiguration)!)
                 
                 case .fraction: return UIKeypadButtonIcon(icon: UIImage(systemName: "line.diagonal", withConfiguration: iconConfiguration)!)
-//                case .percentage: return UIKeypadButtonIcon(icon: UIImage(systemName: "percent", withConfiguration: iconConfiguration)!)
-                case .func_log: return UIKeypadButtonIcon(icon: UIImage(systemName: "chart.line.uptrend.xyaxis", withConfiguration: iconConfiguration)!)
+                case .func_log: return UIKeypadButtonLabel(text: "log", useMonoFont: true)
                 
                 case .trig_tan: return UIKeypadButtonLabel(text: "tan", useMonoFont: true)
                 case .trig_cos: return UIKeypadButtonLabel(text: "cos", useMonoFont: true)
@@ -268,10 +273,10 @@ extension KeypadInteraction {
         case .action(let action):
             switch(action) {
                 case .backspace: return UIKeypadButtonIcon(icon: UIImage(systemName: "delete.backward", withConfiguration: iconConfiguration)!)
-//                case .clear: return UIKeypadButtonIcon(icon: UIImage(systemName: "scribble", withConfiguration: iconConfiguration)!)
                 case .clear: return UIKeypadButtonLabel(text: "C", useMonoFont: true)
                 case .openMenu: return UIKeypadButtonIcon(icon: UIImage(systemName: "ellipsis.circle", withConfiguration: iconConfiguration)!)
                 case .answer: return UIKeypadButtonLabel(text: "ANS", useMonoFont: true)
+                case .memoryClear: return UIKeypadButtonLabel(text: "MC", useMonoFont: true)
                 case .memoryAdd: return UIKeypadButtonLabel(text: "MR+", useMonoFont: true)
                 case .memoryReduce: return UIKeypadButtonLabel(text: "MR-", useMonoFont: true)
             }
@@ -288,34 +293,30 @@ class KeypadLayout {
      */
     static var Special: KeypadLayout = KeypadLayout().row([
         .special(special: .date_now),
-        .empty,
-        .empty,
-//        .empty
+        .special(special: .decimal),
+        .action(action: .answer),
         .action(action: .backspace)
     ]).row([
         .special(special: .sqrRoot),
         .special(special: .power),
         .special(special: .pi),
         .action(action: .memoryAdd)
-//        .empty
     ]).row([
         .special(special: .trig_tan),
         .special(special: .trig_cos),
         .special(special: .trig_tan),
         .action(action: .memoryReduce)
-//        .empty
     ]).row([
 //        .empty,
         .special(special: .percentage),
         .special(special: .func_log),
         .special(special: .fraction),
         .special(special: .memory)
-//        .empty
     ]).row([
         .action(action: .openMenu),
         .action(action: .clear),
         .special(special: .plusMinus),
-        .empty
+        .action(action: .memoryClear)
     ])
     
     /**

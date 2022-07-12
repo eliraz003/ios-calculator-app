@@ -12,7 +12,7 @@ class UIKeypadRow: UIStackView {
     var existingButtons: [UIKeypadButton] = []
     
     required init(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
-    init(actions: [KeypadInteraction], _ onAction: @escaping (KeypadInteraction) -> Void) {
+    init(actions: [KeypadInteraction], rowY: Int, _ onAction: @escaping (KeypadInteraction) -> Void) {
         super.init(frame: CGRect.zero)
         self.axis = .horizontal
         self.distribution = .equalSpacing
@@ -20,9 +20,10 @@ class UIKeypadRow: UIStackView {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.heightAnchor.constraint(equalToConstant: Dimensions.keyHeight).isActive = true
         
+        var index = 0
         for action in actions {
             let button = UIKeypadButton(action: action, onClick: { onAction($0) })
-            let colorControllerPattern = action.colorControllerPattern()
+            let colorControllerPattern = action.colorControllerPattern(x: index , y: rowY)
             ColorController.appendToList(key: colorControllerPattern.0, item: button, handler: colorControllerPattern.1)
             
             button.translatesAutoresizingMaskIntoConstraints = false
@@ -30,6 +31,7 @@ class UIKeypadRow: UIStackView {
         
             button.heightAnchor.constraint(equalToConstant: Dimensions.keyHeight).isActive = true
             existingButtons.append(button)
+            index += 1
         }
     }
     

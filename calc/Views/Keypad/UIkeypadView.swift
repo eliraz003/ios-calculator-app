@@ -50,7 +50,7 @@ class UIkeypadView: UIView {
             
         var index = 0
         while (index < layout.numberOfRows()) {
-            let row = UIKeypadRow(actions: layout.row(at: index), { delegate.didInteract(interaction: $0) })
+            let row = UIKeypadRow(actions: layout.row(at: index), rowY: index, { delegate.didInteract(interaction: $0) })
             addSubview(row)
             row.translatesAutoresizingMaskIntoConstraints = false
             row.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -Dimensions.keypadPadding).isActive = true

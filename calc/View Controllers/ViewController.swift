@@ -151,11 +151,19 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
                 return openViewModally(MenuViewController())
             case .answer:
                 return setAnswerToResult()
+            case .memoryClear:
+                EntryMemoryController.clear()
+                UIToast(label: "Cleared Memory!")
+                return
             case .memoryAdd:
-                EntryMemoryController.add(totalRow.getValue())
+                let value = totalRow.getValue()
+                EntryMemoryController.add(value)
+                UIToast(label: "Added " + value.description + " To Memory!")
                 return
             case .memoryReduce:
-                EntryMemoryController.reduce(totalRow.getValue())
+                let value = totalRow.getValue()
+                EntryMemoryController.reduce(value)
+                UIToast(label: "Reduced " + value.description + " To Memory!")
                 return
             }
         default:
