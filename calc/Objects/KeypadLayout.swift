@@ -42,7 +42,7 @@ struct SpecialCharacterRule {
     
     func dispatchPerform(a: Double?, b: Double?) -> (Double?, Error?) {
         if (a != nil && rules.contains(Rule.NoValueA)) { return ksR(nil, err: UserEntryError.ValueANotAllowed) }
-        else if (a == nil && rules.contains(Rule.RequiresValueA)) { return ksR(nil, err: UserEntryError.MissingValueB) }
+        else if (a == nil && rules.contains(Rule.RequiresValueA)) { return ksR(nil, err: UserEntryError.MissingValueA) }
                     
         if (b != nil && rules.contains(Rule.NoValueB)) { return ksR(nil, err: UserEntryError.ValueBNotAllowed) }
         else if (b == nil && rules.contains(Rule.RequiresValueB)) { return ksR(nil, err: UserEntryError.MissingValueB) }

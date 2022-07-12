@@ -145,7 +145,26 @@ class UICalculationRow: UIView {
     
     @objc func pressOperationIcon() {
         if (error != nil) {
-            UIToast(label: error?.localizedDescription ?? "Generic Error")
+            var message = ""
+            switch(error!) {
+            case UserEntryError.MissingValueA:
+                message = "Missing value before operation"
+                break
+            case UserEntryError.MissingValueB:
+                message = "Missing value after operation"
+                break
+            case UserEntryError.ValueANotAllowed:
+                message = "Cannot have value before operation"
+                break
+            case UserEntryError.ValueBNotAllowed:
+                message = "Cannot have value after operation"
+                break
+            default:
+                message = "Generic error!"
+                break
+            }
+            
+            UIToast(label: message)
         }
     }
     
@@ -205,9 +224,9 @@ class UICalculationRow: UIView {
             displayArrowBottom.alpha = 0
         }
         
-        print("Can have unit?",
-              ViewController.controlDelegate.canRowHaveUnit(row: self),
-              ViewController.controlDelegate.unitForRow(row: self))
+//        print("Can have unit?",
+//              ViewController.controlDelegate.canRowHaveUnit(row: self),
+//              ViewController.controlDelegate.unitForRow(row: self))
         
         if (ViewController.controlDelegate.canRowHaveUnit(row: self)) {
             let assignUnit: (Unit?) -> Void = { newUnit in

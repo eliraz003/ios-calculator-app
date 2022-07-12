@@ -8,28 +8,50 @@
 import Foundation
 import UIKit
 
-class UIToast: UIButton {
+class UIToast: UIView {
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     @discardableResult init(label: String) {
         super.init(frame: CGRect.zero)
         if let key = UIApplication.shared.keyWindow {
-            print(key.safeAreaInsets)
             self.translatesAutoresizingMaskIntoConstraints = false
             key.addSubview(self)
-            self.leftAnchor.constraint(equalTo: key.leftAnchor, constant: Dimensions.keypadPadding).isActive = true
-            self.rightAnchor.constraint(equalTo: key.rightAnchor, constant: -Dimensions.keypadPadding).isActive = true
-            self.bottomAnchor.constraint(equalTo: key.bottomAnchor, constant: -32).isActive = true
+            let xAnchor = self.centerXAnchor.constraint(equalTo: key.centerXAnchor, constant: 0)
+            let rAnchor = self.rightAnchor.constraint(equalTo: key.rightAnchor, constant: -Dimensions.keypadPadding)
+            let lAnchor = self.leftAnchor.constraint(equalTo: key.leftAnchor, constant: Dimensions.keypadPadding)
+            xAnchor.isActive = true
             
-            self.titleLabel?.numberOfLines = 0
-            self.setTitle(label, for: .normal)
-            self.setTitleColor(.white, for: .normal)
-            self.backgroundColor = .systemBlue
-            self.layer.borderWidth = 1
-            self.layer.borderColor = UIColor.black.withAlphaComponent(0.1).cgColor
-            self.contentEdgeInsets = UIEdgeInsets(top: 16, left: 36, bottom: 16, right: 36)
+            self.bottomAnchor.constraint(equalTo: key.bottomAnchor, constant: -48).isActive = true
             
+            
+            let titleLabel = UILabel()
+            titleLabel.translatesAutoresizingMaskIntoConstraints = false
+            addSubview(titleLabel)
+            titleLabel.numberOfLines = 0
+            titleLabel.font = Dimensions.toastFontsize
+            titleLabel.text = label
+            
+            
+            titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 0).isActive = true
+            self.leftAnchor.constraint(equalTo: titleLabel.leftAnchor, constant: -22).isActive = true
+            self.rightAnchor.constraint(equalTo: titleLabel.rightAnchor, constant: 22).isActive = true
+            self.heightAnchor.constraint(equalToConstant: 56).isActive = true
+            self.layer.cornerRadius = (56 / 2)
             self.layoutIfNeeded()
-            self.layer.cornerRadius = 22
+            
+            if (self.frame.width >= UIScreen.main.bounds.width) {
+                xAnchor.isActive = false
+                rAnchor.isActive = true
+                lAnchor.isActive = true
+            }
+            
+            
+            ColorController.appendToList(key: ColorController.StandardKeyBackground, item: self, handler: { return $0.adjust(hueBy: 0.16, saturationBy: 0, brightnessBy: 0).withAlphaComponent(0.95) })
+            ColorController.appendToList(key: ColorController.RowLabel, item: titleLabel)
+            
+            self.layer.shadowOffset = CGSize(width: 0, height: 12)
+            self.layer.shadowRadius = 16
+//            self.layer.shadowOpacity = 1
+            self.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
             
             self.transform = CGAffineTransform(translationX: 0, y: 100)
             

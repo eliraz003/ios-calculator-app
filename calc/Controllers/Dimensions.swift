@@ -39,6 +39,10 @@ class Dimensions {
         return UIFont.systemFont(ofSize: 36, weight: .regular)
     }()
     
+    static var toastFontsize: UIFont = {
+        return UIFont.monospacedSystemFont(ofSize: 18, weight: .light)
+    }()
+    
     static var stepsIndicatorBottomSpacing: CGFloat = {
         var bottomSafeAreaInset: CGFloat = (Device.hasSafeAreaInset()) ? 0 : 0 //(Device.hasSafeAreaInset) ? 12 : 0
         print("Device bottom safe area inset", bottomSafeAreaInset)
