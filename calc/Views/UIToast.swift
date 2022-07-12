@@ -9,6 +9,8 @@ import Foundation
 import UIKit
 
 class UIToast: UIView {
+    var hasManuallyDismissed = false
+    
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     @discardableResult init(label: String) {
         super.init(frame: CGRect.zero)
@@ -53,6 +55,10 @@ class UIToast: UIView {
 //            self.layer.shadowOpacity = 1
             self.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
             
+            self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(click)))
+            titleLabel.isUserInteractionEnabled = false
+            self.isUserInteractionEnabled = true
+            
             self.transform = CGAffineTransform(translationX: 0, y: 100)
             
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
@@ -60,10 +66,25 @@ class UIToast: UIView {
             }, completion: nil)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
-                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
-                    self.transform = CGAffineTransform(translationX: 0, y: 100)
-                }, completion: { _ in self.removeFromSuperview() })
+                if (!self.hasManuallyDismissed) { self.dismiss() }
             })
         }
+    }
+    
+    @objc func click() {
+        print("CLICKED")
+        if (!hasManuallyDismissed) {
+            hasManuallyDismissed = true
+            dismiss()
+        }
+    }
+    
+    func dismiss(force: Bool = false) {
+        if (force) { hasManuallyDismissed = true }
+        
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
+            self.transform = CGAffineTransform(translationX: 0, y: 100)
+        }, completion: { _ in self.removeFromSuperview() })
+
     }
 }
