@@ -32,16 +32,18 @@ class Length: RateBasedUnit {
             var remainingValue = value
             
             let mile = (startingString.contains("MILE")) ? floor(remainingValue / 1609344) : 0
-            remainingValue -= (mile * 1609344)
+            remainingValue -= floor(mile * 1609344)
             
             let yard = (startingString.contains("YRD")) ? floor(remainingValue / 914.4) : 0
-            remainingValue -= (yard * 914.4)
+            remainingValue -= floor(yard * 914.4)
             
             let feet = (startingString.contains("FT")) ? floor(remainingValue / 304.8) : 0
-            remainingValue -= (feet * 304.8)
+            remainingValue -= floor(feet * 304.8)
             
+            print("feet value", feet, remainingValue)
             let inch = (startingString.contains("IN")) ? floor(remainingValue / 25.4) : 0
-            remainingValue -= (inch * 304.8)
+            print("Inch value", inch)
+            remainingValue -= floor(inch * 304.8)
             
             startingString = startingString.replacingOccurrences(of: "MILE", with: asWholeNumber(mile))
             startingString = startingString.replacingOccurrences(of: "YRD", with: asWholeNumber(yard))

@@ -114,7 +114,7 @@ extension KeypadSpecial {
         .date_now: .init(placement: .anywhere, representable: "now", rules: [
             .NoValueA, .NoValueB
         ], calculationRules: [
-            .ForceSetUnit(unit: timeUnits.getWithName(Time.Second)!),
+            .ForceSetUnit(unit: timeUnits.getWithName(Time.Millisecond)!),
             .ForceSetResultUnit(unit: timeUnits.getWithName(Time.Minute)!)
         ], perform: {(a, _) in return ksR(Date().timeIntervalSince1970, err: nil) }),
         

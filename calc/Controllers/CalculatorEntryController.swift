@@ -82,7 +82,6 @@ class CalculatorEntryController {
         }
         
         func evaluateOperation(array: [String], holdingValue: Double, callOperation: SpecialCharacterPerformer?) -> Double? {
-            print("ARRAY INPUT", array)
             if (array.count == 0) { return nil }
             if (array.count == 1) {
                 if let rule0 = KeypadSpecial.getRuleFor(array[0]) { return performAndEvaluateRule(rule0, a: nil, b: nil, 0) }
