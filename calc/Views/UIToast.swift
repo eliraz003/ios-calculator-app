@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 
+private var activeToast: UIToast?
+
 class UIToast: UIView {
     var hasManuallyDismissed = false
     
@@ -15,6 +17,9 @@ class UIToast: UIView {
     @discardableResult init(label: String) {
         super.init(frame: CGRect.zero)
         if let key = UIApplication.shared.keyWindow {
+            if (activeToast != nil) { activeToast?.dismiss(force: true) }
+            
+            activeToast = self
             self.translatesAutoresizingMaskIntoConstraints = false
             key.addSubview(self)
             let xAnchor = self.centerXAnchor.constraint(equalTo: key.centerXAnchor, constant: 0)
@@ -72,11 +77,7 @@ class UIToast: UIView {
     }
     
     @objc func click() {
-        print("CLICKED")
-        if (!hasManuallyDismissed) {
-            hasManuallyDismissed = true
-            dismiss()
-        }
+        if (!hasManuallyDismissed) { dismiss(force: true) }
     }
     
     func dismiss(force: Bool = false) {

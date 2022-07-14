@@ -192,9 +192,9 @@ class UnitSelectionViewController: UIViewController, UIScrollViewDelegate {
                 let isStarred = (SavedCurrencyController.shared.savedCurrencies.contains(where: { return $0.value == true && $0.key == item.isoCode }))
                 starButton.image = UIImage(systemName: "star.fill")
                 if (isStarred) {
-                    starButton.tintColor = UIColor.blue
+                    starButton.tintColor = UIColor.systemBlue
                 } else {
-                    starButton.tintColor = UIColor.white
+                    starButton.tintColor = UIColor.white.withAlphaComponent(0.3)
                 }
                 
                 starButton.action = {

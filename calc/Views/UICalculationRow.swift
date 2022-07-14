@@ -37,6 +37,7 @@ class UICalculationRow: UIView {
     
     private var error: Error?
     private var rules: [SpecialCharacterRule.CalculationApplicableRule] = []
+    func getRules() -> [SpecialCharacterRule.CalculationApplicableRule] { return rules }
     
     private var allowUserUnitChanging: Bool = true
     
@@ -182,6 +183,8 @@ class UICalculationRow: UIView {
             case .ForceSetUnit(let forceUnit):
                 if (unit == forceUnit) { return }
                 ViewController.controlDelegate.setUnitFor(row: self, newUnit: forceUnit, dontForceRefresh: false)
+            default:
+                break
             }
         })
                 
@@ -223,11 +226,7 @@ class UICalculationRow: UIView {
             displayArrowTop.alpha = 0
             displayArrowBottom.alpha = 0
         }
-        
-//        print("Can have unit?",
-//              ViewController.controlDelegate.canRowHaveUnit(row: self),
-//              ViewController.controlDelegate.unitForRow(row: self))
-        
+                
         if (ViewController.controlDelegate.canRowHaveUnit(row: self)) {
             let assignUnit: (Unit?) -> Void = { newUnit in
                 ViewController.controlDelegate.setUnitFor(row: self, newUnit: newUnit, dontForceRefresh: false)

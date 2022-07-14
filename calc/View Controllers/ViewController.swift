@@ -188,6 +188,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
     func setTheme(theme: Theme) {
         UserDefaults.standard.set(theme.name, forKey: "@theme")
         ColorController.dispatchChange(colours: theme.colors)
+        refreshRows()
     }
     
     /**
@@ -481,49 +482,60 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
             // else, return the preffered unit
         
         var prefferedUnit: Unit?
-        
+        var prefferedTotalUnit: Unit?
+
         if (mostRecentUnit != nil) { prefferedUnit = mostRecentUnit }
-        else {
-            var index: Int = 0
-            while (prefferedUnit == nil && index < rowsContainer.rows.count) {
-                if let found = rowsContainer.rows[index].0.getUnit() { prefferedUnit = found }
-                index += 1
-            }
-            
-            if (prefferedUnit == nil) {
-                if let totalUnit = rowsContainer.totalRow.getUnit() { prefferedUnit = totalUnit }
-            }
-        }
-        
-        if let asRendered = prefferedUnit as? ResultOnlyUnit { prefferedUnit = asRendered.fallbackUnit() }
-        
-        if (row.getUnit() == nil) { return prefferedUnit }
-        
-        return row.getUnit()
-        
-        
-        // Return the rows own unit if total row
-        let isTotalRow = (rowsContainer.totalRow == row)
-        if (row.getUnit() != nil) { return row.getUnit() }
-        
-        var foundUnit: Unit? = mostRecentUnit
+
         var index: Int = 0
-        while (foundUnit == nil && index < rowsContainer.rows.count) {
-            foundUnit = rowsContainer.rows[index].0.getUnit() ?? foundUnit
+        while ((prefferedUnit == nil || rowsContainer.totalRow == row) && index < rowsContainer.rows.count) {
+            if let found = rowsContainer.rows[index].0.getUnit() { prefferedUnit = found }
+            
+            rowsContainer.rows[index].0.getRules().forEach({ rule in
+                switch(rule) {
+                case .ForceSetResultUnit(let resultUnit):
+                    prefferedTotalUnit = resultUnit
+                    break
+                default: break
+                }
+            })
+            
             index += 1
         }
         
-        let foundUnitAsResults = foundUnit as? ResultOnlyUnit
-        if (!isTotalRow && foundUnitAsResults != nil) {
-//            if (foundUnit == nil && rowsContainer.totalRow.getUnit() != nil) {
-            foundUnit = foundUnitAsResults?.fallbackUnit()
+        if (prefferedUnit == nil) {
+            if let totalUnit = rowsContainer.totalRow.getUnit() { prefferedUnit = totalUnit }
         }
         
-        if (foundUnit == nil && rowsContainer.totalRow.getUnit() != nil) {
-            return rowsContainer.totalRow.getUnit()
+        if (rowsContainer.totalRow == row) {
+            return rowsContainer.totalRow.getUnit() ?? prefferedTotalUnit ?? prefferedUnit
+        } else {
+            if let asRendered = prefferedUnit as? ResultOnlyUnit { prefferedUnit = asRendered.fallbackUnit() }
+            return row.getUnit() ?? prefferedUnit
         }
         
-        mostRecentUnit = foundUnit
-        return foundUnit
+        
+//        // Return the rows own unit if total row
+//        let isTotalRow = (rowsContainer.totalRow == row)
+//        if (row.getUnit() != nil) { return row.getUnit() }
+//
+//        var foundUnit: Unit? = mostRecentUnit
+////        var index: Int = 0
+//        while (foundUnit == nil && index < rowsContainer.rows.count) {
+//            foundUnit = rowsContainer.rows[index].0.getUnit() ?? foundUnit
+//            index += 1
+//        }
+//
+//        let foundUnitAsResults = foundUnit as? ResultOnlyUnit
+//        if (!isTotalRow && foundUnitAsResults != nil) {
+////            if (foundUnit == nil && rowsContainer.totalRow.getUnit() != nil) {
+//            foundUnit = foundUnitAsResults?.fallbackUnit()
+//        }
+//
+//        if (foundUnit == nil && rowsContainer.totalRow.getUnit() != nil) {
+//            return rowsContainer.totalRow.getUnit()
+//        }
+//
+//        mostRecentUnit = foundUnit
+//        return foundUnit
     }
 }

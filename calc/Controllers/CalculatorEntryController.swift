@@ -23,8 +23,6 @@ extension RangeReplaceableCollection {
 
 
 class CalculatorEntryController {
-    
-    
     static func shouldAdhereToRule(wholeString: String) -> [String:SpecialCharacterRule.Placement] {
         var current: [String : SpecialCharacterRule.Placement] = [:]
         KeypadSpecial.rules.forEach({ rule in
@@ -36,8 +34,6 @@ class CalculatorEntryController {
         
         return current
     }
-    
-    
     
     static func getComponentsOfEntry(entry: String) -> [String] {
         var components: [String] = []
@@ -70,7 +66,6 @@ class CalculatorEntryController {
     }
         
     static func renderedValue(entry: String) -> (Double?, [SpecialCharacterRule.CalculationApplicableRule], Error?) {
-        let components = getComponentsOfEntry(entry: entry)
         var foundIssue: Error?
         var rules: [SpecialCharacterRule.CalculationApplicableRule] = []
         
@@ -87,6 +82,7 @@ class CalculatorEntryController {
         }
         
         func evaluateOperation(array: [String], holdingValue: Double, callOperation: SpecialCharacterPerformer?) -> Double? {
+            print("ARRAY INPUT", array)
             if (array.count == 0) { return nil }
             if (array.count == 1) {
                 if let rule0 = KeypadSpecial.getRuleFor(array[0]) { return performAndEvaluateRule(rule0, a: nil, b: nil, 0) }
@@ -95,16 +91,46 @@ class CalculatorEntryController {
                 
             if let rule0 = KeypadSpecial.getRuleFor(array[0]) {
                 let result = evaluateOperation(array: array.splice(range: 1..<components.count), holdingValue: 0, callOperation: rule0.perform)
-                let handledResult = performAndEvaluateRule(rule0, a: nil, b: result, nil) // rule0.perform?(nil, result)
+                let handledResult = performAndEvaluateRule(rule0, a: nil, b: result, nil)
                 return handledResult ?? 0
             } else if let rule1 = KeypadSpecial.getRuleFor(array[1])  {
                 let result = evaluateOperation(array: array.splice(range: 2..<components.count), holdingValue: 0, callOperation: rule1.perform)
-                let handledResult = performAndEvaluateRule(rule1, a: toNumber(value: array[0]), b: result, toNumber(value: array[0])) //rule1.perform?(toNumber(value: array[0]), result) ?? toNumber(value: array[0])
+                let handledResult = performAndEvaluateRule(rule1, a: toNumber(value: array[0]), b: result, toNumber(value: array[0]))
                 return handledResult
             }
 
             return 0
         }
+        
+        func mergeValueComponents(entry: [String]) -> [String] {
+            var index = 0
+            var components: [String] = []
+            while (index < entry.count) {
+                let current = entry[index]
+                let next: String? = (index < (entry.count - 1)) ? entry[index + 1] : nil
+                var didHandle = false
+                if let rule = KeypadSpecial.getRuleFor(next ?? ""), current.isNumber {
+                    if (rule.rules.contains(.ValueOnly)) {
+                        // Add another one to index to skip next since it is a flat value operator
+                        let handledResult = performAndEvaluateRule(rule, a: NumberFormatter.simple(value: current), b: nil, nil)
+                        components.append(NumberFormatter.simple(value: handledResult ?? 0))
+                        didHandle = true
+                    }
+                }
+                
+                if (didHandle) {
+                    index = index + 2
+                } else {
+                    components.append(current)
+                    index = index + 1
+                }
+            }
+            
+            return components
+        }
+        
+        let components = mergeValueComponents(entry:
+                            getComponentsOfEntry(entry: entry))
         
         let result = evaluateOperation(array: components, holdingValue: 0, callOperation: { (a,b) in
             return (a ?? 0, nil)

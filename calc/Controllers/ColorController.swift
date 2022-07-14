@@ -19,7 +19,9 @@ class ColorController {
             shared.list[key] = []
         }
 
+        print("List before change", shared.list.count)
         shared.list[key] = shared.list[key]?.filter({ return $0.0 != item })
+        print("List after change", shared.list.count)
         
         shared.list[key]!.append((item, handler))
         update(key: key, view: item, toColor: colorFor(key: key, trouple: (item, handler)))

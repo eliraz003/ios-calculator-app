@@ -21,10 +21,12 @@ struct SpecialCharacterRule {
     enum CalculationApplicableRule {
 //        case ThisValueOnly
         case ForceSetUnit(unit: Unit?)
+        case ForceSetResultUnit(unit: Unit?)
     }
     
     enum Rule {
         case Togglable
+        case ValueOnly
         
         case RequiresValueA
         case RequiresValueB
@@ -113,11 +115,13 @@ extension KeypadSpecial {
             .NoValueA, .NoValueB
         ], calculationRules: [
             .ForceSetUnit(unit: timeUnits.getWithName(Time.Second)!),
+            .ForceSetResultUnit(unit: timeUnits.getWithName(Time.Minute)!)
         ], perform: {(a, _) in return ksR(Date().timeIntervalSince1970, err: nil) }),
         
         
         .memory: .init(placement: .anywhere, representable: "mr", rules: [
-            .NoValueB
+//            .NoValueB
+            .ValueOnly
         ], calculationRules: [], perform: {(a, _) in return ksR(EntryMemoryController.getValue(), err: nil) }),
         
         .func_log: .init(placement: .anywhere, representable: "log", rules: [
@@ -125,7 +129,7 @@ extension KeypadSpecial {
         ], calculationRules: [], perform: {(_, b) in return ksR(log(b ?? 0), err: nil) }),
         
         .percentage: .init(placement: .anywhere, representable: "%", rules: [
-            .RequiresValueA ,.NoValueB
+            .ValueOnly, .RequiresValueA
         ], calculationRules: [], perform: {(a, _) in return ksR((a ?? 0) / 100, err: nil) }),
 
 
@@ -143,20 +147,20 @@ extension KeypadSpecial {
         ], calculationRules: [], perform: { return ksR(($0 ?? 0) / ($1 ?? 0), err: nil) }),
 
         .pi: .init(placement: .anywhere, representable: "π", rules: [
-            .NoValueB
+            .ValueOnly
         ], calculationRules: [], perform: {(a, _) in return ksR(((a ?? 1) * Double.pi), err: nil) }),
         
         
         .trig_tan: .init(placement: .anywhere, representable: "tan", rules: [
-            .NoValueB
+            .ValueOnly
         ], calculationRules: [], perform: {(a, _) in return ksR(tan((Double.pi / 180) * (a ?? 1)), err: nil) }),
         
-        .trig_cos: .init(placement: .anywhere, representable: "tan", rules: [
-            .NoValueB
+        .trig_cos: .init(placement: .anywhere, representable: "cos", rules: [
+            .ValueOnly, .RequiresValueA
         ], calculationRules: [], perform: {(a, _) in return ksR(cos((Double.pi / 180) * (a ?? 1)), err: nil) }),
         
-        .trig_sin: .init(placement: .anywhere, representable: "tan", rules: [
-            .NoValueB
+        .trig_sin: .init(placement: .anywhere, representable: "sin", rules: [
+            .ValueOnly, .RequiresValueA
         ], calculationRules: [], perform: {(a, _) in return ksR(sin((Double.pi / 180) * (a ?? 1)), err: nil) }),
     ]
     
@@ -255,7 +259,8 @@ extension KeypadInteraction {
                 case .sqrRoot: return UIKeypadButtonIcon(icon: UIImage(systemName: "x.squareroot", withConfiguration: iconConfiguration)!)
                 case .power: return UIKeypadButtonIcon(icon: UIImage(systemName: "textformat.superscript", withConfiguration: iconConfiguration)!)
                 
-                case .fraction: return UIKeypadButtonIcon(icon: UIImage(systemName: "line.diagonal", withConfiguration: iconConfiguration)!)
+//                case .fraction: return UIKeypadButtonIcon(icon: UIImage(systemName: "line.diagonal", withConfiguration: iconConfiguration)!)
+                case .fraction: return UIKeypadButtonLabel(text: "½", useMonoFont: true)
                 case .func_log: return UIKeypadButtonLabel(text: "log", useMonoFont: true)
                 
                 case .trig_tan: return UIKeypadButtonLabel(text: "tan", useMonoFont: true)
@@ -304,7 +309,7 @@ class KeypadLayout {
     ]).row([
         .special(special: .trig_tan),
         .special(special: .trig_cos),
-        .special(special: .trig_tan),
+        .special(special: .trig_sin),
         .action(action: .memoryReduce)
     ]).row([
 //        .empty,

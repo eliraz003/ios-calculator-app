@@ -67,3 +67,57 @@ extension UIColor {
     }
 }
 
+extension String {
+    var isNumber: Bool {
+        get {
+            var foundNoneNumber = false
+            self.forEach({
+                if (!$0.isNumber) { foundNoneNumber = true }
+            })
+            
+            if (self.count == 0) { return false }
+            return !foundNoneNumber
+        }
+    }
+}
+
+extension NumberFormatter {
+    static func usingOverallCharacterCount(value: CGFloat, min: Int, max: Int, dontUseSeperators: Bool = false) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.alwaysShowsDecimalSeparator = true
+        
+        let finalValueAsString = numberFormatter.string(from: NSNumber(value: value))!
+        let beforeDecimalCharacterCount = finalValueAsString.split(separator: ".").map({ i in return String(i) })[0].count
+        
+        var numberOfDecimalsAllowed = (max - beforeDecimalCharacterCount)
+        if (numberOfDecimalsAllowed <= min) { numberOfDecimalsAllowed = min }
+        numberFormatter.maximumFractionDigits = numberOfDecimalsAllowed
+        
+        var absoluteFinalValue = numberFormatter.string(from: NSNumber(value: value))!
+        if (absoluteFinalValue.last == ".") {
+            absoluteFinalValue = absoluteFinalValue.replacingOccurrences(of: ".", with: "")
+        }
+        
+        if (dontUseSeperators && absoluteFinalValue.contains(",")) {
+            absoluteFinalValue = absoluteFinalValue.replacingOccurrences(of: ",", with: "")
+        }
+        
+        return absoluteFinalValue
+    }
+    
+    static func simple(value: Double) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.alwaysShowsDecimalSeparator = false
+        return numberFormatter.string(from: NSNumber(value: value)) ?? "0"
+    }
+    
+    static func simple(value: String) -> Double {
+        return Double(value) ?? 0
+//        let numberFormatter = NumberFormatter()
+//        numberFormatter.numberStyle = .decimal
+//        numberFormatter.alwaysShowsDecimalSeparator = false
+//        return numberFormatter.string(from: NSNumber(value: value)) ?? "0"
+    }
+}
