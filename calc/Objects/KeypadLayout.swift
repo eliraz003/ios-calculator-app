@@ -100,6 +100,7 @@ enum UserEntryError: Error {
     case ValueBNotAllowed
     
     case InfiniteResult
+    case InvalidUnit
 }
 
 extension KeypadSpecial {
@@ -114,8 +115,8 @@ extension KeypadSpecial {
         .date_now: .init(placement: .anywhere, representable: "now", rules: [
             .NoValueA, .NoValueB
         ], calculationRules: [
-            .ForceSetUnit(unit: timeUnits.getWithName(Time.Millisecond)!),
-            .ForceSetResultUnit(unit: timeUnits.getWithName(Time.Minute)!)
+            .ForceSetUnit(unit: timeUnits.getWithName(Time.Second)!),
+            .ForceSetResultUnit(unit: timeUnits.getWithName("DD/MM/YYYY HH:MM")!)
         ], perform: {(a, _) in return ksR(Date().timeIntervalSince1970, err: nil) }),
         
         
@@ -129,7 +130,7 @@ extension KeypadSpecial {
         ], calculationRules: [], perform: {(_, b) in return ksR(log(b ?? 0), err: nil) }),
         
         .percentage: .init(placement: .anywhere, representable: "%", rules: [
-            .ValueOnly, .RequiresValueA
+            .ValueOnly, .RequiresValueA, .NoValueB
         ], calculationRules: [], perform: {(a, _) in return ksR((a ?? 0) / 100, err: nil) }),
 
 

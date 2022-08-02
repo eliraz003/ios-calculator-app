@@ -66,6 +66,7 @@ class CalculatorEntryController {
     }
         
     static func renderedValue(entry: String) -> (Double?, [SpecialCharacterRule.CalculationApplicableRule], Error?) {
+        print("Is rendering value")
         var foundIssue: Error?
         var rules: [SpecialCharacterRule.CalculationApplicableRule] = []
         

@@ -37,7 +37,7 @@
       "size" : "40x40"
     },
     {
-      "filename" : "App Logo_120.jpg",
+      "filename" : "App Logo_120-2.jpg",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
@@ -79,6 +79,7 @@
       "size" : "40x40"
     },
     {
+      "filename" : "App Logo_87-2.jpg",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "76x76"
@@ -98,6 +99,53 @@
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
+    },
+    {
+      "filename" : "App Logo_120-1.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "App Logo_40-1.jpg",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "40x40"
+    },
+    {
+      "filename" : "App Logo_60-1.jpg",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "60x60"
+    },
+    {
+      "filename" : "App Logo_1024-1.jpg",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "size" : "1024x1024"
+    },
+    {
+      "filename" : "App Logo_58-1.jpg",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "unassigned" : true
+    },
+    {
+      "filename" : "App Logo_80-1.jpg",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "unassigned" : true
+    },
+    {
+      "filename" : "App Logo_87-1.jpg",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "unassigned" : true
+    },
+    {
+      "filename" : "App Logo_180-1.jpg",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "unassigned" : true
     }
   ],
   "info" : {

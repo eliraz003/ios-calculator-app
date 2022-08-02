@@ -160,6 +160,9 @@ class UICalculationRow: UIView {
             case UserEntryError.ValueBNotAllowed:
                 message = "Cannot have value after operation"
                 break
+            case UserEntryError.InvalidUnit:
+                message = "Cannot use value with the assigned unit"
+                break
             default:
                 message = "Generic error!"
                 break
@@ -178,11 +181,17 @@ class UICalculationRow: UIView {
     func refresh() {
         valueLabel.text = String(value)
         
+        print(error)
+        if let currentError = error, case UserEntryError.InvalidUnit = currentError {
+            error = nil
+        }
+        
         rules.forEach({ rule in
             switch(rule) {
             case .ForceSetUnit(let forceUnit):
                 if (unit == forceUnit) { return }
-                ViewController.controlDelegate.setUnitFor(row: self, newUnit: forceUnit, dontForceRefresh: false)
+                let didSet = ViewController.controlDelegate.setUnitFor(row: self, newUnit: forceUnit, dontForceRefresh: false)
+                if (!didSet) { error = UserEntryError.InvalidUnit }
             default:
                 break
             }
@@ -360,6 +369,7 @@ class UICalculationRow: UIView {
         
         refresh()
         
+        if (error != nil) { return 0 }
         return result.0 ?? 0
     }
     

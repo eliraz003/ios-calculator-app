@@ -35,10 +35,10 @@ class Time: RateBasedUnit {
             var startingString = syntax
             
             if (isAbsoluteTime) {
-//                let remainingTime = value * Time.MillisecondValue
-//                print("reminaing time", value, remainingTime)
+                let remainingTime = value / Time.SecondValue
+                print("before", Date().timeIntervalSince1970, remainingTime)
                 
-                let dateObject = Date(timeIntervalSince1970: value)
+                let dateObject = Date(timeIntervalSince1970: remainingTime)
                 let calendar = Calendar.current
                 let obj = calendar.dateComponents([
                     .year,

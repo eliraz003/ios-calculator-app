@@ -156,11 +156,19 @@ class ViewController: UIViewController, UITextFieldDelegate, UIControlDelegate, 
                 UIToast(label: "Cleared Memory!")
                 return
             case .memoryAdd:
+                if (totalRow.getUnit() as? ResultOnlyUnit != nil) {
+                    UIToast(label: "Cannot Add Current Value To Memory!")
+                    return }
+                
                 let value = totalRow.getValue()
                 EntryMemoryController.add(value)
                 UIToast(label: "Added " + value.description + " To Memory!")
                 return
             case .memoryReduce:
+                if (totalRow.getUnit() as? ResultOnlyUnit != nil) {
+                    UIToast(label: "Cannot Add Current Value To Memory!")
+                    return }
+                
                 let value = totalRow.getValue()
                 EntryMemoryController.reduce(value)
                 UIToast(label: "Reduced " + value.description + " To Memory!")
