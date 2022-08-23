@@ -116,7 +116,7 @@ extension KeypadSpecial {
             .NoValueA, .NoValueB
         ], calculationRules: [
             .ForceSetUnit(unit: timeUnits.getWithName(Time.Second)!),
-            .ForceSetResultUnit(unit: timeUnits.getWithName("DD/MM/YYYY HH:MM")!)
+            .ForceSetResultUnit(unit: timeUnits.getWithName(Time.Date)!)
         ], perform: {(a, _) in return ksR(Date().timeIntervalSince1970, err: nil) }),
         
         

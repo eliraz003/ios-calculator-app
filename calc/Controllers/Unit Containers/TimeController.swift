@@ -16,8 +16,8 @@ var timeUnits = UnitContainer({ add, reference in
     add([.ShowInResultRendering], Time(name: Time.Hour, symbol: "Hr", rate: Time.HourValue))
     add([.ShowInResultRendering], Time(name: Time.Day, symbol: "Day", rate: Time.DayValue))
     
-    add([.ShowInResultRendering], Time.TimeRendered(name: "HH:MM:SS MS", syntax: "HOUR:MINUTE:SECOND MILLISECOND", symbol: "H:M:S Ms", absolute: false, fallback: secondUnit ))
-    add([.ShowInResultRendering], Time.TimeRendered(name: "HH:MM:SS", syntax: "HOUR:MINUTE:SECOND", symbol: "H:M:S", absolute: false, fallback: secondUnit))
-    add([.ShowInResultRendering], Time.TimeRendered(name: "DD/MM/YYYY", syntax: "DAY/MONTH/YEAR", symbol: "Date", absolute: true, fallback: secondUnit))
-    add([.ShowInResultRendering], Time.TimeRendered(name: "DD/MM/YYYY HH:MM", syntax: "DAY/MONTH/YEAR HOUR:MINUTE", symbol: "Date", absolute: true, fallback: secondUnit))
+    add([.ShowInResultRendering], Time.TimeRendered(name: Time.HMSM, syntax: "HOUR:MINUTE:SECOND MILLISECOND", symbol: "H:M:S Ms", absolute: false, fallback: secondUnit ))
+    add([.ShowInResultRendering], Time.TimeRendered(name: Time.HMS, syntax: "HOUR:MINUTE:SECOND", symbol: "H:M:S", absolute: false, fallback: secondUnit))
+    add([.ShowInResultRendering], Time.TimeRendered(name: Time.Date, syntax: "DAY/MONTH/YEAR", symbol: "Date", absolute: true, fallback: secondUnit))
+    add([.ShowInResultRendering], Time.TimeRendered(name: Time.DateTime, syntax: "DAY/MONTH/YEAR HOUR:MINUTE", symbol: "Date", absolute: true, fallback: secondUnit))
 })

@@ -17,7 +17,7 @@ class Time: RateBasedUnit {
         var syntax: String = ""
         var fallback: Unit?
         
-        // Is the time based of seconds from 1970
+        // Is the time based of seconds from 1970?
         var isAbsoluteTime: Bool = false
         
         override var type: UnitType {
@@ -36,9 +36,9 @@ class Time: RateBasedUnit {
             
             if (isAbsoluteTime) {
                 let remainingTime = value / Time.SecondValue
-                print("before", Date().timeIntervalSince1970, remainingTime)
+                print("before", Foundation.Date().timeIntervalSince1970, remainingTime)
                 
-                let dateObject = Date(timeIntervalSince1970: remainingTime)
+                let dateObject = Foundation.Date(timeIntervalSince1970: remainingTime)
                 let calendar = Calendar.current
                 let obj = calendar.dateComponents([
                     .year,
@@ -81,9 +81,7 @@ class Time: RateBasedUnit {
                 startingString = startingString.replacingOccurrences(of: "SECOND", with: asWholeNumber(seconds))
                 startingString = startingString.replacingOccurrences(of: "MILLISECOND", with: asWholeNumber(milliseconds))
             }
-            
-//            print(hours, minutes, seconds, milliseconds)
-            
+                        
             return startingString
         }
         
@@ -102,6 +100,12 @@ extension Time {
     static var Day = "Day"
     static var Month = "Month"
     static var Year = "Year"
+    
+    static var Date = "Date (Since 1970)"
+    static var DateTime = "Date & Time (Since 1970)"
+    
+    static var HMS = "HH:MM:SS"
+    static var HMSM = "HH:MM:SS MS"
     
     
     static var MillisecondValue: CGFloat = 1
